@@ -4,6 +4,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import galleryRoutes from "./routers/galleryRoutes.js";
+import courseRoutes from "./routers/courseRoutes.js"
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ app.get("/", (req, res) => {
 
 connectDB();
 app.use("/api/gallery", galleryRoutes);
+app.use("/api/courses", courseRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on PORT ${PORT}`);
