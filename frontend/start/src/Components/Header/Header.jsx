@@ -1,85 +1,144 @@
-import React, { useState } from 'react';
-import Logo from "../../assets/images/logoremove.png";
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { Menu, X, MapPin, Phone, Mail, Clock } from "lucide-react";
+import { Link } from "react-router-dom";
+import logo from "../../assets/images/logoremove.png"
 
-export default function Header() {
-  const [menuOpen, setMenuOpen] = useState(false);
+// Nav items
+const navItems = [
+  { name: "Home", path: "/" },
+  { name: "Courses Offered", path: "/courses" },
+  { name: "About Us", path: "/about" },
+  { name: "Contact Us", path: "/contact" },
+  { name: "Gallery", path: "/gallery" },
+  { name: "Verify Certificate", path: "/verifyCertificate" },
+  { name: "Terms and Condition", path: "/termsandCondition" },
+];
 
-  const menuItems = [
-    { name: "Home", path: "/" },
-    { name: "Courses offered", path: "/products" },
-    { name: "About Us", path: "/articles" },
-    { name: "Gallery", path: "/random" },
-    { name: "Verify Certificate", path: "/about" },
-    { name: "Terms and Conditions", path: "/termsandCondition" },
-  ];
+// Contact info
+const contactInfo = [
+  { icon: MapPin, value: "48, Lawspet Main Road, Pudhucherry", isLink: false },
+  { icon: Phone, value: "9360962810", isLink: true, type: "tel" },
+  { icon: Mail, value: "technovahubcareer@gmail.com", isLink: true, type: "mailto" },
+  { icon: Clock, value: "Mon-Sat: 9:00 AM - 9:00 PM", isLink: false },
+];
+
+// Top bar item
+const TopBarItem = ({ Icon, value, isLink, type }) => {
+  const Element = isLink ? "a" : "div";
+  const linkProps = isLink
+    ? { href: `${type}:${value}`, target: type === "tel" ? "_self" : "_blank", rel: "noopener noreferrer" }
+    : {};
 
   return (
-    <header className="p-5 md:p-0 shadow-md">
-      <div className="container mx-auto flex justify-between items-center">
-        <div className='flex justify-center items-center gap-3'>
-          <Link
-            className="block box-border h-16 w-16 md:h-20 md:w-20 overflow-hidden rounded-full transform hover:scale-110"
-            to="/"
-          >
-            <img
-              className="h-full w-full object-cover"
-              src={Logo}
-              alt="Logo"
-            />
-          </Link>
-          <span>TechnovaHub</span>
-        </div>
+    <Element
+      className="flex items-center text-xs sm:text-sm font-medium space-x-1.5 mx-4 shrink-0"
+      {...linkProps}
+    >
+      <Icon className="w-4 h-4 sm:w-3.5 sm:h-3.5 flex-shrink-0" />
+      <span className="truncate">{value}</span>
+    </Element>
+  );
+};
 
-        <div>
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="z-50 md:hidden relative"
-          >
-            <span className="sr-only">Toggle Menu</span>
-            { !menuOpen ? (
-              <div className="h-7 flex flex-col items-end justify-between">
-                <span className="block h-0.5 w-8 bg-red-900 rounded-full"></span>
-                <span className="block h-0.5 w-6 bg-red-900 rounded-full"></span>
-                <span className="block h-0.5 w-8 bg-red-900 rounded-full"></span>
-              </div>
-            ) : (
-              <div className="h-7 flex flex-col items-end justify-between">
-                <span className="block h-0.5 w-8 bg-red-100 rounded-full origin-left transform rotate-45 translate-y-0.5"></span>
-                <span className="block h-0.5 w-8 bg-red-100 rounded-full origin-left transform -rotate-45 -translate-y-0.5"></span>
-              </div>
-            )}
-          </button>
+// Navbar
+const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
 
-          {/* Navigation Menu */}
-          <div
-            className={`${
-              menuOpen ? '' : 'hidden'
-            } md:block font-bold text-red-100 text-right text-3xl bg-gray-800 fixed top-0 left-0 h-screen w-screen flex flex-col items-center justify-center md:text-lg md:relative md:text-red-900 md:bg-transparent md:w-auto md:h-auto md:text-left`}
-          >
-            <ul className="flex flex-col gap-y-7 md:flex-row md:gap-2">
-              {menuItems.map((item, index) => (
-                <li
-                  key={index}
-                  className={`md:px-4 ${
-                    index !== menuItems.length - 1 ? "md:border-r md:border-red-200" : ""
-                  }`}
-                >
-                  <Link
-                    to={item.path}
-                    title={`Go to ${item.name}`}
-                    className="transition ease-in-out duration-150 hover:line-through"
-                    onClick={() => setMenuOpen(false)} // close menu on click
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+  const getLinkClasses = (isCurrent) =>
+    `text-sm font-semibold transition duration-200 ease-in-out px-1 pt-1 ${
+      isCurrent
+        ? "text-blue-700 border-b-2 border-blue-700"
+        : "text-gray-700 hover:text-blue-600 hover:border-b-2 hover:border-blue-400"
+    }`;
+
+  const toggleMenu = () => setIsOpen(!isOpen);
+
+  return (
+    <nav className="fixed w-full  z-30 top-0">
+      {/* TOP BAR */}
+      <div className="bg-[#3B82F6] text-white overflow-hidden">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-1">
+          {/* Marquee wrapper */}
+          <div className="overflow-x-auto whitespace-nowrap flex animate-marquee">
+            {contactInfo.map((item, i) => (
+              <TopBarItem key={i} {...item} Icon={item.icon} />
+            ))}
           </div>
         </div>
       </div>
-    </header>
+
+      {/* MAIN NAVBAR */}
+      <div className="bg-white  shadow-xl">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            {/* Logo */}
+            <div className="flex-shrink-0 flex items-center">
+              <Link to="/">
+               <span className="text-2xl font-extrabold text-blue-800 flex items-center">
+                <div className="w-10 h-10 mr-2  rounded-lg flex items-center justify-center shadow-inner">
+                 <img src={logo} alt="" />
+                </div>
+                <span className="text-blue-900 text-sm md:text-xl">TechnovaHub</span> 
+              </span>
+              </Link>
+             
+            </div>
+
+            {/* Desktop nav */}
+            <div className="hidden lg:flex h-full items-stretch space-x-6">
+              {navItems.map((item) => (
+                <Link key={item.name} to={item.path} className={`flex items-center ${getLinkClasses(item.current)}`}>
+                  {item.name}
+                </Link>
+              ))}
+            </div>
+
+            {/* Mobile toggle */}
+            <div className="lg:hidden">
+              <button
+                onClick={toggleMenu}
+                className="p-2 rounded-md text-gray-700 hover:text-blue-600 hover:bg-gray-100 focus:ring-2 focus:ring-blue-300  "
+              >
+                {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile menu */}
+        <div className={`transition-all duration-300 ease-in-out overflow-hidden ${isOpen ? "max-h-96" : "max-h-0"}`}>
+          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            {navItems.map((item) => (
+              <Link
+                key={item.name}
+                to={item.path}
+                className={`block px-3 py-2 rounded-md text-base font-medium ${
+                  item.current ? "bg-blue-50 text-blue-700" : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+                }`}
+                onClick={toggleMenu}
+              >
+                {item.name}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Tailwind marquee animation */}
+      <style>
+        {`
+          @keyframes marquee {
+            0% { transform: translateX(50%); }
+            100% { transform: translateX(-50%); }
+          }
+          .animate-marquee {
+            display: inline-flex;
+            animation: marquee 20s linear infinite;
+          }
+        `}
+      </style>
+    </nav>
   );
-}
+};
+
+export default Navbar;

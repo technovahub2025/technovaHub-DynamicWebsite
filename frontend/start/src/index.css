@@ -2,7 +2,11 @@
 
 
 
-
+body{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      scroll-behavior: smooth;
+      background-color: #f8fafc;
+}
 
 
 
