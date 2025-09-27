@@ -6,17 +6,25 @@ import TermsAndCondition from "./pages/TermsAndCondition";
 import Footer from "./Components/Footer/Footer";
 import AdminLogin from "./pages/admin/adminlogin/AdminLogin";
 import Contact from "./pages/Contact";
+import About from "./pages/Aboutpage/About";
+import LayoutDashboard from "./Components/admin/layout/LayoutDashboard";
+import VerifyCertificate from "./pages/verifyCertificate/VerifyCertificate";
+
+import Courses from "./pages/Courses/Courses";
+import BackToTop from "./Components/backtotop/backtotop";
+import GalleryPages from "./pages/Gallery/GalleryPages";
 
 // Wrapper to use location
 const Layout = ({ children }) => {
   const location = useLocation();
-  const hideHeaderFooter = location.pathname === "/adminlogin"; 
+const hideHeaderFooter = location.pathname.startsWith("/admin");
 
   return (
-    <div>
+   <div>
       {!hideHeaderFooter && <Navbar />}
       {children}
       {!hideHeaderFooter && <Footer />}
+      {!hideHeaderFooter && <BackToTop />} 
     </div>
   );
 };
@@ -27,11 +35,21 @@ const App = () => {
       <Layout>
         <Routes>
           <Route path="/" element={<LandingPage />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/verifyCertificate" element={<VerifyCertificate />} />
+          <Route path="/gallery" element={<GalleryPages />} />
+          <Route path="/courses" element={<Courses />} />
+
+
+
+
           <Route path="/termsandCondition" element={<TermsAndCondition />} />
           <Route path="/contact" element={<Contact />} />
 
 
           <Route path="/adminlogin" element={<AdminLogin />} />
+          <Route path="/admin/*" element={<LayoutDashboard />} />
+           
         </Routes>
       </Layout>
     </BrowserRouter>
