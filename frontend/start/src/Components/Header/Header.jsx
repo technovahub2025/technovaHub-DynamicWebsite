@@ -7,6 +7,7 @@ import logo from "../../assets/images/logoremove.png";
 const navItems = [
   { name: "Home", path: "/" },
   { name: "Courses Offered", path: "/courses" },
+  { name: "Software Solutions", path: "/softwaresolutions" },
   { name: "About Us", path: "/about" },
   { name: "Contact Us", path: "/contact" },
   { name: "Gallery", path: "/gallery" },
@@ -14,31 +15,7 @@ const navItems = [
   { name: "Terms and Condition", path: "/termsandCondition" },
 ];
 
-// Contact info
-const contactInfo = [
-  { icon: MapPin, value: "48, Lawspet Main Road, Pudhucherry", isLink: false },
-  { icon: Phone, value: "9360962810", isLink: true, type: "tel" },
-  { icon: Mail, value: "technovahubcareer@gmail.com", isLink: true, type: "mailto" },
-  { icon: Clock, value: "Mon-Sat: 9:00 AM - 9:00 PM", isLink: false },
-];
 
-// Top bar item
-const TopBarItem = ({ Icon, value, isLink, type }) => {
-  const Element = isLink ? "a" : "div";
-  const linkProps = isLink
-    ? { href: `${type}:${value}`, target: type === "tel" ? "_self" : "_blank", rel: "noopener noreferrer" }
-    : {};
-
-  return (
-    <Element
-      className="flex items-center text-xs sm:text-sm font-medium space-x-1.5 mx-4 shrink-0"
-      {...linkProps}
-    >
-      <Icon className="w-4 h-4 sm:w-3.5 sm:h-3.5 flex-shrink-0" />
-      <span className="truncate">{value}</span>
-    </Element>
-  );
-};
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -64,33 +41,25 @@ const Navbar = () => {
 
   return (
     <nav className="fixed w-full z-50 top-0">
-      {/* TOP BAR */}
-      <div className="bg-[#3B82F6] text-white overflow-hidden">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-1">
-          <div className="overflow-x-auto whitespace-nowrap flex animate-marquee">
-            {contactInfo.map((item, i) => (
-              <TopBarItem key={i} {...item} Icon={item.icon} />
-            ))}
-          </div>
-        </div>
-      </div>
+     
 
       {/* MAIN NAVBAR */}
       <div
-        className={`transition-all duration-300 ${
-          isScrolled ? "bg-white shadow-md" : "bg-transparent"
+        className={` md:p-5   transition-all duration-300 ${
+          isScrolled ? "backdrop-blur-md bg-white/30 shadow-md" : "bg-transparent"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+        <div className="max-w-9xl mx-auto px-1 sm:px-5 lg:px-10">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <div className="flex-shrink-0 flex items-center">
               <Link to="/">
                 <span className="text-2xl font-extrabold text-blue-800 flex items-center">
-                  <div className="w-10 h-10 mr-2 rounded-lg flex items-center justify-center shadow-inner">
+                  <div className="w-[140px] h-10 md:w-[200px] mt-10 md:mt-5 md:h-[60px] mr-2 rounded-lg flex items-center justify-center shadow-inner">
                     <img src={logo} alt="logo" />
                   </div>
-                  <span className="text-blue-900 text-[20px] md:text-xl">TechnovaHub</span>
+                
+                 
                 </span>
               </Link>
             </div>
@@ -109,7 +78,7 @@ const Navbar = () => {
             </div>
 
             {/* Mobile toggle */}
-            <div className="lg:hidden  ">
+            <div className="lg:hidden  mt-7 px-3 ">
               <button
                 onClick={toggleMenu}
                 className="p-2 rounded-md text-gray-700 hover:text-blue-600 bg-white border-gray-400  hover:bg-gray-100 focus:ring-2 focus:ring-blue-300"
@@ -122,11 +91,11 @@ const Navbar = () => {
 
         {/* Mobile menu */}
         <div
-          className={`transition-all duration-300 bg-white  shadow-lg ease-in-out overflow-hidden ${
+          className={`transition-all duration-300 bg-white mt-9   shadow-lg ease-in-out overflow-hidden ${
             isOpen ? "max-h-96" : "max-h-0"
           }`}
         >
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+          <div className="px-2 pt-2 pb-3  space-y-1 sm:px-3">
             {navItems.map((item) => (
               <Link
                 key={item.name}

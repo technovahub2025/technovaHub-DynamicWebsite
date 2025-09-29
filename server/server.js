@@ -8,6 +8,7 @@ import galleryRoutes from "./routers/galleryRoutes.js";
 import courseRoutes from "./routers/courseRoutes.js"
 import auth from "./routers/authRoutes.js"
 import certificateRoutes from "./routers/certificateRoutes.js";
+import softwareSolution from "./routers/softwareRoutes.js";
 
 dotenv.config();
 
@@ -27,6 +28,8 @@ app.use("/api/gallery", galleryRoutes);
 app.use("/api/courses", courseRoutes);
 app.use("/api/auth", auth);
 app.use("/api/certificate", certificateRoutes);
+app.use("/api/softwareSolution", softwareSolution);
+
 
 
 

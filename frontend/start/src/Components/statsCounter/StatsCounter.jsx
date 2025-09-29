@@ -25,8 +25,8 @@ const useCounter = (end, duration = 2000) => {
 };
 
 const stats = [
-  { number: 300, label: "Students Trained" },
-  { number: 150, label: "Entrepreneurs Trained" },
+  { number: 1300, label: "Students Trained" },
+  { number: 800, label: "Entrepreneurs Trained" },
   { number: 10, label: "Awards Won" },
   { number: 15, label: "Courses Offered" },
   { number: 25, label: "Projects Achieved" },
@@ -34,7 +34,7 @@ const stats = [
 
 export default function StatsCounter() {
   return (
-    <section className="w-full py-12  mt-10">
+    <section className="w-full py-20 px-7   mt-10 mb-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
           {stats.map((item, index) => {
@@ -47,7 +47,7 @@ export default function StatsCounter() {
                 <h2 className="text-3xl md:text-4xl font-bold text-blue-600">
                   {count}+
                 </h2>
-                <p className="mt-2 text-gray-700 font-medium">
+                <p className="mt-2 text-gray-700 text-sm">
                   {item.label}
                 </p>
               </div>

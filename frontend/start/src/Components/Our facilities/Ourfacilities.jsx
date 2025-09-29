@@ -3,6 +3,7 @@ import { FaBookReader } from "react-icons/fa";
 import { GrWorkshop } from "react-icons/gr";
 import { SiGoogleclassroom } from "react-icons/si";
 import { BsFillJournalBookmarkFill } from "react-icons/bs";
+import Title from "../Title";
 
 const cards = [
   {
@@ -29,12 +30,15 @@ const cards = [
 
 const Ourfacilities = () => {
   return (
-    <div className="container mx-auto py-12 px-5">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+
+    <div className="mt-9 mb-10 py-10">
+    <Title text="OUR FACILITIES "/>
+     <div className="container mx-auto  py-12 px-5 ">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 md:p-10">
         {cards.map((card, idx) => (
           <div
             key={idx}
-            className="bg-white rounded-lg shadow-lg p-6 text-center transition-all duration-300 hover:bg-blue-600 hover:text-white cursor-pointer"
+            className="bg-white rounded-lg shadow-lg p-6 text-center transition-all duration-300 hover:bg-blue-400 hover:text-white cursor-pointer"
           >
             <div className="flex justify-center">{card.icon}</div>
             <h3 className="text-xl font-semibold mb-2">{card.title}</h3>
@@ -43,6 +47,8 @@ const Ourfacilities = () => {
         ))}
       </div>
     </div>
+    </div>
+   
   );
 };
 

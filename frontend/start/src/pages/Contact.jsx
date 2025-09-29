@@ -1,5 +1,6 @@
 import React from 'react';
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
+import Title from '../Components/Title';
 
 const Contact = () => {
   const contactCards = [
@@ -27,11 +28,9 @@ const Contact = () => {
 
   return (
     <div className="mb-12 mt-[130px] px-4 md:px-20">
-      <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center text-gray-800">
-        Contact Us
-      </h2>
+     <Title text="Contact us "/>
 
-      <div className="flex flex-col md:flex-row gap-12">
+      <div className="flex flex-col md:flex-row gap-12 mt-7  ">
         {/* Left Side: Contact Cards */}
         <div className="md:w-1/2 flex flex-col gap-6">
           {contactCards.map((card, index) => (

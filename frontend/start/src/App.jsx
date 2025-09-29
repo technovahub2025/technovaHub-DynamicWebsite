@@ -13,6 +13,8 @@ import VerifyCertificate from "./pages/verifyCertificate/VerifyCertificate";
 import Courses from "./pages/Courses/Courses";
 import BackToTop from "./Components/backtotop/backtotop";
 import GalleryPages from "./pages/Gallery/GalleryPages";
+import WhatsAppButton from "./Components/whatappsup/WhatsAppButton";
+import SoftwareSolutions from "./pages/softwareSolutions/SoftwareSolutions";
 
 // Wrapper to use location
 const Layout = ({ children }) => {
@@ -24,7 +26,9 @@ const hideHeaderFooter = location.pathname.startsWith("/admin");
       {!hideHeaderFooter && <Navbar />}
       {children}
       {!hideHeaderFooter && <Footer />}
-      {!hideHeaderFooter && <BackToTop />} 
+       {!hideHeaderFooter && <BackToTop />} 
+      {!hideHeaderFooter && <WhatsAppButton />}
+     
     </div>
   );
 };
@@ -39,6 +43,9 @@ const App = () => {
           <Route path="/verifyCertificate" element={<VerifyCertificate />} />
           <Route path="/gallery" element={<GalleryPages />} />
           <Route path="/courses" element={<Courses />} />
+          <Route path="/softwaresolutions" element={<SoftwareSolutions />} />
+
+
 
 
 

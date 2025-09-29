@@ -6,17 +6,23 @@ import Ourfacilities from '../Components/Our facilities/Ourfacilities'
 import AboutUsSection from './Aboutpage/AboutBanner'
 import CourseCard from './Courses/CourseCard'
 import Gallery from './Gallery/Gallery'
+import VisionMission from '../Components/OURVISION&MISSION/OurVisionMission'
+import SoftwareSolutions from './softwareSolutions/SoftwareSolutions'
 
 const LandingPage = () => {
   return (
     <div>
       <HeroBanner/>
-      <StatsCounter/>
+      <VisionMission/>
+       <CourseCard/>
+       <SoftwareSolutions/>
     
       <AboutUsSection/>
-        <CourseCard/>
+        <Ourfacilities/>
+       
         <Gallery/>
-      <Ourfacilities/>
+          <StatsCounter/>
+    
 
     </div>
   )

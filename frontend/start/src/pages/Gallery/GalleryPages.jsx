@@ -6,7 +6,7 @@ const GalleryPages = () => {
   return (
     <div>
         <div className='mt-[100px] md:px-10'>
- <GalleryAblum/>
+           <GalleryAblum/>
         </div>
        
         <Gallery/>
