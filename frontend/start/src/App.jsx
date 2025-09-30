@@ -15,20 +15,22 @@ import BackToTop from "./Components/backtotop/backtotop";
 import GalleryPages from "./pages/Gallery/GalleryPages";
 import WhatsAppButton from "./Components/whatappsup/WhatsAppButton";
 import SoftwareSolutions from "./pages/softwareSolutions/SoftwareSolutions";
+import PosterPopup from "./Components/popup/PosterPopup";
+import ProtectedRoute from "./Components/protectRoutes/ProtectedRoute";
 
 // Wrapper to use location
 const Layout = ({ children }) => {
   const location = useLocation();
-const hideHeaderFooter = location.pathname.startsWith("/admin");
+  const hideHeaderFooter = location.pathname.startsWith("/admin");
 
   return (
-   <div>
+    <div>
       {!hideHeaderFooter && <Navbar />}
       {children}
       {!hideHeaderFooter && <Footer />}
-       {!hideHeaderFooter && <BackToTop />} 
+      {!hideHeaderFooter && <BackToTop />}
       {!hideHeaderFooter && <WhatsAppButton />}
-     
+      {!hideHeaderFooter && <PosterPopup />}
     </div>
   );
 };
@@ -45,18 +47,20 @@ const App = () => {
           <Route path="/courses" element={<Courses />} />
           <Route path="/softwaresolutions" element={<SoftwareSolutions />} />
 
-
-
-
-
-
           <Route path="/termsandCondition" element={<TermsAndCondition />} />
           <Route path="/contact" element={<Contact />} />
 
-
+          {/* Admin */}
           <Route path="/adminlogin" element={<AdminLogin />} />
-          <Route path="/admin/*" element={<LayoutDashboard />} />
-           
+
+          <Route
+            path="/admin/*"
+            element={
+              <ProtectedRoute>
+                <LayoutDashboard />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </Layout>
     </BrowserRouter>

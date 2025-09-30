@@ -6,14 +6,15 @@ import {
     updateCourse,
     deleteCourse
 } from "../controllers/courseController.js";
+import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
 // CRUD routes
-router.post("/", createCourse);           // Create
+router.post("/",protect, createCourse);           // Create
 router.get("/", getCourses);             // Read all
 router.get("/:id", getCourseById);       // Read one
-router.put("/:id", updateCourse);        // Update
-router.delete("/:id", deleteCourse);     // Delete
+router.put("/:id",protect, updateCourse);        // Update
+router.delete("/:id",protect, deleteCourse);     // Delete
 
 export default router;

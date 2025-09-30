@@ -1,37 +1,86 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getCertificateData, deleteCertificateApi } from "../../../api/certificateApi";
+import { toast } from "react-toastify";
 
-// Example certificate data
-const certificateData = [
-  { id: 1, empID: "EMP001", empName: "John Doe" },
-  { id: 2, empID: "EMP002", empName: "Jane Smith" },
-  { id: 3, empID: "EMP003", empName: "Michael Johnson" },
-];
+const CertificateList = ({ onEdit, refresh }) => {
+  const [certificates, setCertificates] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-const CertificateList = () => {
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+
+  const fetchCertificates = async () => {
+    setLoading(true);
+    try {
+      const data = await getCertificateData();
+      setCertificates(Array.isArray(data.data) ? data.data : []);
+    } catch (err) {
+      toast.error("Failed to load certificates");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchCertificates();
+  }, [refresh]);
+
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure to delete this certificate?")) return;
+    try {
+      await deleteCertificateApi(id);
+      setCertificates(certificates.filter((c) => c._id !== id));
+      toast.success("Certificate deleted");
+    } catch (err) {
+      toast.error("Failed to delete certificate");
+    }
+  };
+
+  if (loading) return <p className="p-4 text-center text-blue-500">Loading...</p>;
+
+  // Pagination logic
+  const totalPages = Math.ceil(certificates.length / itemsPerPage);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = certificates.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handlePageChange = (page) => setCurrentPage(page);
+
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-semibold mb-4">Certificate List</h2>
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white border rounded-lg shadow-md">
-          <thead className="bg-gray-100">
+    <div className="p-4 md:p-6">
+      <h2 className="text-2xl md:text-3xl font-bold mb-6 text-indigo-600">Certificate List</h2>
+
+      <div className="overflow-x-auto rounded-lg shadow-lg">
+        <table className="min-w-full bg-white border border-gray-200">
+          <thead className="bg-indigo-100 text-indigo-800 font-semibold">
             <tr>
-              <th className="py-2 px-4 border-b text-left">Sl. No</th>
-              <th className="py-2 px-4 border-b text-left">Employee ID</th>
-              <th className="py-2 px-4 border-b text-left">Employee Name</th>
-              <th className="py-2 px-4 border-b text-left">Actions</th>
+              <th className="py-3 px-4 text-left">Sl. No</th>
+              <th className="py-3 px-4 text-left">Employee ID</th>
+              <th className="py-3 px-4 text-left">Employee Name</th>
+              <th className="py-3 px-4 text-left">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {certificateData.map((item, index) => (
-              <tr key={item.id} className="hover:bg-gray-50">
-                <td className="py-2 px-4 border-b">{index + 1}</td>
-                <td className="py-2 px-4 border-b">{item.empID}</td>
-                <td className="py-2 px-4 border-b">{item.empName}</td>
-                <td className="py-2 px-4 border-b">
-                  <button className="bg-yellow-400 text-white px-3 py-1 rounded mr-2 hover:bg-yellow-500 transition">
+            {currentItems.map((item, index) => (
+              <tr
+                key={item._id || item.id}
+                className="hover:bg-indigo-50 transition-colors duration-200 border-b border-gray-100"
+              >
+                <td className="py-2 px-4">{indexOfFirstItem + index + 1}</td>
+                <td className="py-2 px-4 font-medium text-gray-800">{item.empID}</td>
+                <td className="py-2 px-4 text-gray-600">{item.empName}</td>
+                <td className="py-2 px-4 flex gap-2 flex-wrap">
+                  <button
+                    className="bg-indigo-500 text-white px-3 py-1 rounded hover:bg-indigo-600 transition text-sm"
+                    onClick={() => onEdit(item)}
+                  >
                     Edit
                   </button>
-                  <button className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition">
+                  <button
+                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition text-sm"
+                    onClick={() => handleDelete(item._id)}
+                  >
                     Delete
                   </button>
                 </td>
@@ -40,6 +89,25 @@ const CertificateList = () => {
           </tbody>
         </table>
       </div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex justify-center items-center mt-4 gap-2 flex-wrap">
+          {Array.from({ length: totalPages }, (_, i) => (
+            <button
+              key={i}
+              onClick={() => handlePageChange(i + 1)}
+              className={`px-3 py-1 rounded border transition ${
+                currentPage === i + 1
+                  ? "bg-indigo-500 text-white border-indigo-500"
+                  : "bg-white text-indigo-600 border-indigo-300 hover:bg-indigo-100"
+              }`}
+            >
+              {i + 1}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

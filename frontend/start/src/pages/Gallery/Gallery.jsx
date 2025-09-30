@@ -27,7 +27,7 @@ const Gallery = () => {
   };
 
   return (
-    <section className="overflow-hidden mt-[100px] mb-10 text-gray-700">
+    <section className="overflow-hidden  mb-10 text-gray-700">
       <Title text="Gallery" />
 
       <div className="flex justify-center p-3">

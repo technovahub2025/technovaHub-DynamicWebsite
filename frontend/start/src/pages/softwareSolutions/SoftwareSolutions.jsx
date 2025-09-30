@@ -1,11 +1,20 @@
 import React, { useEffect, useState } from "react";
 import Title from "../../Components/Title";
 import { getSoftwareSolutionApi } from "../../api/softwareSolutionApi";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const SoftwareSolutions = () => {
   const [solutions, setSolutions] = useState([]);
 
   useEffect(() => {
+    // ✅ Initialize AOS
+    AOS.init({
+      duration: 1000, // animation duration
+      offset: 100,    // distance before animation triggers
+      once: true,     // animate only once
+    });
+
     const fetchData = async () => {
       try {
         const response = await getSoftwareSolutionApi();
@@ -15,19 +24,24 @@ const SoftwareSolutions = () => {
         setSolutions([]);
       }
     };
+
     fetchData();
   }, []);
 
   return (
     <div className="mt-[100px] px-5">
-      <Title text="Software Solutions" />
+      <div data-aos="fade-up">
+        <Title text="Software Solutions" />
+      </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto mt-3  ">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto mt-3">
         {solutions.length > 0 ? (
-          solutions.map((item) => (
+          solutions.map((item, index) => (
             <div
               key={item._id}
-              className="bg-white shadow-lg rounded-xl shadow-md hover:shadow-xl hover:shadow-blue-300 transition duration-300 p-10   border border-gray-200 hover:shadow-xl transition duration-300"
+              className="bg-white shadow-lg rounded-xl hover:shadow-xl hover:shadow-blue-300 transition duration-300 p-10 border border-gray-200"
+              data-aos="fade-up"
+              data-aos-delay={index * 200} // stagger effect
             >
               <h2 className="text-xl font-bold text-[#002f6c] mb-2">
                 {item.title}

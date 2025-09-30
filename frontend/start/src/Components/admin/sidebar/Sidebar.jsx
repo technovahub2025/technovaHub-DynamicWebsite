@@ -8,13 +8,13 @@ const Sidebar = () => {
   const location = useLocation(); // current path
 
   const menuItems = [
-  { name: "Home website", icon: <Home />, path: "/admin" },
+  { name: "Home", icon: <Home />, path: "/admin" },
   { name: "Gallery", icon: <Users />, path: "/admin/gallery" },
   { name: "Courses", icon: <Users />, path: "/admin/courses" },
 
   { name: "Certificate", icon: <Users />, path: "/admin/Certificate" },
 
-  { name: "Settings", icon: <Settings />, path: "/admin/settings" },
+  
 ];
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`bg-gray-800 text-white h-screen p-4 flex flex-col transition-all duration-300 ${
+      className={`bg-blue-500 text-white h-screen p-4 flex flex-col transition-all duration-300 ${
         isOpen ? "w-64" : "w-16"
       }`}
     >
@@ -49,7 +49,7 @@ const Sidebar = () => {
               key={idx}
               to={item.path}
               className={`flex items-center gap-3 p-2 rounded transition 
-                ${isActive ? "bg-blue-600" : "hover:bg-gray-700"}`}
+                ${isActive ? "bg-blue-200" : "hover:bg-gray-400"}`}
             >
               {item.icon}
               {isOpen && <span>{item.name}</span>}

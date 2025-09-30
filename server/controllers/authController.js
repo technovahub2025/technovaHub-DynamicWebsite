@@ -25,12 +25,16 @@ export const loginAdmin = async (req, res) => {
       sameSite: "strict",
     });
 
-    res.status(200).json({ success: true, message: "Logged in successfully" });
+  res.status(200).json({ 
+      success: true, 
+      message: "Logged in successfully",
+      token,               
+      user: { userName }   
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
-
 
 
 
@@ -39,7 +43,7 @@ export const logoutAdmin = (req, res) => {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
-    maxAge: 0
+    maxAge: 0 
   });
   res.status(200).json({ success: true, message: "Logged out successfully" });
 };

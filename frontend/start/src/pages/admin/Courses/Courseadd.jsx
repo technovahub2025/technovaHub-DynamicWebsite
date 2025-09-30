@@ -1,64 +1,115 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { addCourseApi, updateCourseApi } from "../../../api/CourseApi";
+import { toast } from "react-toastify";
 
-const Courseadd = () => {
+const Courseadd = ({ editingCourse, onDone }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleAddCourse = (e) => {
+  // Populate form when editingCourse changes
+  useEffect(() => {
+    if (editingCourse) {
+      setTitle(editingCourse.title);
+      setDescription(editingCourse.description);
+    } else {
+      setTitle("");
+      setDescription("");
+    }
+  }, [editingCourse]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!title || !description) {
-      alert("Please fill all fields");
+      toast.error("Please fill all fields");
       return;
     }
 
-    // Here you can send data to backend API
-    alert(`Course Added:\nTitle: ${title}\nDescription: ${description}`);
+    setLoading(true);
+    try {
+      if (editingCourse) {
+        await updateCourseApi(editingCourse._id, { title, description });
+        toast.success("Course updated successfully!");
+      } else {
+        await addCourseApi({ title, description });
+        toast.success("Course added successfully!");
+      }
+      setTitle("");
+      setDescription("");
+      if (onDone) onDone(); // notify parent
+    } catch (err) {
+      toast.error("Operation failed");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    // Reset form
+  const handleCancel = () => {
     setTitle("");
     setDescription("");
+    if (onDone) onDone(); // exit edit mode
   };
 
   return (
-    <div className="p-6 max-w-8xl mx-auto bg-white shadow rounded-lg">
-      <h2 className="text-2xl font-semibold mb-4">Add New Course</h2>
-      <form onSubmit={handleAddCourse} className="space-y-4">
-        {/* Course Title */}
+    <div className="p-6 max-w-3xl mx-auto bg-white shadow-lg rounded-xl mb-8">
+      <h2 className="md:text-2xl   mb-6 text-blue-400">
+        {editingCourse ? "Update Course" : "Add New Course"}
+      </h2>
+      <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label className="block text-gray-700 font-medium mb-1">
-            Course Title
-          </label>
+          <label className="block text-gray-700 font-medium mb-1">Course Title</label>
           <input
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Enter course title"
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+            className="w-full md:px-4 md:py-3 px-2 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
           />
         </div>
 
-        {/* Course Description */}
         <div>
-          <label className="block text-gray-700 font-medium mb-1">
-            Course Description
-          </label>
+          <label className="block text-gray-700 font-medium mb-1">Course Description</label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Enter course description"
-            rows="4"
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
-          ></textarea>
+            rows="5"
+           className="w-full md:px-4 md:py-3 px-2 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+          />
         </div>
 
-        {/* Add Button */}
-        <button
-          type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
-        >
-          Add Course
-        </button>
+        {/* Buttons */}
+        {editingCourse ? (
+          <div className="flex gap-10">
+            <button
+              type="submit"
+              disabled={loading}
+              className={`flex-1 py-3 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:scale-105 transform transition-all duration-300 ${
+                loading ? "opacity-50 cursor-not-allowed" : ""
+              }`}
+            >
+              {loading ? "Updating..." : "Update Course"}
+            </button>
+            <button
+              type="button"
+              onClick={handleCancel}
+              className="flex-1 py-3 bg-gray-200  font-semibold rounded-lg shadow-md  transition"
+            >
+              Cancel
+            </button>
+          </div>
+        ) : (
+          <button
+            type="submit"
+            disabled={loading}
+            className={`px-4 py-3 bg-gradient-to-r from-indigo-500 to-blue-500 text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:scale-105 transform transition-all duration-300 ${
+              loading ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+          >
+            {loading ? "Adding..." : "Add Course"}
+          </button>
+        )}
       </form>
     </div>
   );

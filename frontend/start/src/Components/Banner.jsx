@@ -15,7 +15,7 @@ const Banner = () => {
   }, []);
 
   return (
-    <header className="relative h-screen flex items-center justify-center text-center text-[#002f6c] overflow-hidden">
+    <header className="relative md:h-screen  h-[300px] flex items-center justify-center text-center text-[#002f6c]  overflow-hidden">
       {/* Background slides */}
       {images.map((img, index) => (
         <div
@@ -34,10 +34,10 @@ const Banner = () => {
 
       {/* Content */}
       <div className="relative z-20 max-w-3xl px-5 animate-popupBounce opacity-100">
-        <h1 className="md:text-9xl  mt-[70px] text-5xl font-extrabold mb-2 tracking-wide leading-tight">
+        <h1 className="md:text-9xl  mt-[70px] text-3xl font-extrabold mb-2 tracking-wide leading-tight">
           TechnovaHub
         </h1>
-        <p className="md:text-2xl text-2xl font-semibold text-[#334155]">
+        <p className="md:text-2xl text-xl font-semibold text-[#334155]">
           <span className="text-black font-semibold uppercase">
             Empowering Minds
           </span>

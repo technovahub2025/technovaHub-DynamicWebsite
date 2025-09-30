@@ -1,72 +1,93 @@
-import React from "react";
-import loginImage from "../../../assets/images/logoremove.png"; 
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { AiOutlineEye, AiOutlineEyeInvisible, AiOutlineUser, AiOutlineLock } from "react-icons/ai";
+import logo from "../../../assets/images/logoremove.png";
+import { Link, useNavigate } from "react-router-dom";
+import { loginAdmin } from "../../../api/authApi"
+import { toast } from "react-toastify";
 
 const AdminLogin = () => {
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+ 
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+   
+
+    try {
+      const data = await loginAdmin(userName, password);
+      if (data.success) {
+        localStorage.setItem("adminToken", data.token); 
+        localStorage.setItem("adminUser", JSON.stringify(data.user || { userName }));
+        toast.success("Admin Login Successfully")
+        navigate("/admin");
+      }
+    } catch (err) {
+      toast.error(err.message || "Login failed");
+
+    }
+  };
+
   return (
-    <div className="min-h-screen flex ">
-      {/* Left Image - hidden on mobile/tablet */}
-      <div className="hidden bg-white shadow-xl  md:flex w-1/2 ">
-        <img
-          src={loginImage}
-          alt="Admin Login"
-          className="object-cover w-full h-full"
-        />
-      </div>
+    <div className="min-h-screen p-3  flex items-center justify-center bg-gray-100">
+      <div className="w-full max-w-3xl   md:p-10 p-5 rounded-md md:shadow-xl">
+        <div className="flex justify-center">
+          <img src={logo} alt="Logo" className="rounded-full md:w-[400px] md:h-[300px]" />
+        </div>
 
-      {/* Right Form */}
-      <div className="flex flex-col justify-center items-center w-full md:w-1/2 p-6  bg-blue-50">
-        <div className="w-full max-w-xl p-8  space-y-6">
-          <h2 className="text-3xl font-bold text-blue-500 text-center">
-            Admin Login
-          </h2>
+        <h2 className="text-2xl font-bold text-center mb-6 text-blue-700">Admin Login</h2>
 
-          <form className="space-y-4">
-            {/* Email Input */}
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                placeholder="admin@example.com"
-                className="mt-1 block w-full px-4 py-2 outline-blue-300  border border-blue-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-900"
-              />
-            </div>
+       
 
-            {/* Password Input */}
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Password
-              </label>
-              <input
-                type="password"
-                id="password"
-                placeholder="********"
-                className="mt-1 block w-full px-4 py-2 outline-blue-300 border border-blue-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-900"
-              />
-            </div>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Username */}
+          <div className="relative">
+            <AiOutlineUser className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+            <input
+              type="text"
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
+              placeholder="Enter admin username"
+              className="mt-1 block w-full pl-10 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-500"
+              required
+            />
+          </div>
 
-            {/* Submit Button */}
+          {/* Password with toggle */}
+          <div className="relative">
+            <AiOutlineLock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+            <input
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter password"
+              className="mt-1 block w-full pl-10 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-500 pr-10"
+              required
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute inset-y-0 right-0 top-1/2 -translate-y-1/2 px-3 flex items-center text-gray-500"
+            >
+              {showPassword ? <AiOutlineEyeInvisible size={20} /> : <AiOutlineEye size={20} />}
+            </button>
+          </div>
+
+          {/* Submit & Back */}
+          <div className="flex justify-between mb-10 items-center">
+            <Link to="/">
+              <p className="mt-3 text-blue-400">Back to website</p>
+            </Link>
             <button
               type="submit"
-              className="w-full bg-blue-400 hover:bg-blue-500 text-white py-2 px-4 rounded-md shadow  transition duration-300"
+              className="mt-5 bg-blue-400 hover:bg-blue-500 text-white py-2 px-4 rounded transition"
             >
-              Submit
+              Go to Admin Dashboard
             </button>
-          </form>
-
-         <Link to="/">
-                 <h2 className="text-blue-500 text-center ">Back to Website</h2>
-         </Link>
-        </div>
+          </div>
+        </form>
       </div>
     </div>
   );

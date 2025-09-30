@@ -1,58 +1,122 @@
-import React from "react";
-
-// Example gallery data
-const galleryData = [
-  { id: 1, imageUrl: "https://via.placeholder.com/150" },
-  { id: 2, imageUrl: "https://via.placeholder.com/150" },
-  { id: 3, imageUrl: "https://via.placeholder.com/150" },
-];
+import React, { useEffect, useState } from "react";
+import { getGalleryImages, deleteGalleryImage } from "../../../api/gallaryApi";
+import { MdDelete } from "react-icons/md";
+import { toast } from "react-toastify";
 
 const GalleryList = () => {
+  const [galleryData, setGalleryData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
+
+  useEffect(() => {
+    const fetchGallery = async () => {
+      try {
+        const data = await getGalleryImages();
+        setGalleryData(data || []);
+      } catch (err) {
+        console.error("Error fetching gallery images:", err);
+        setError("Failed to load gallery images.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchGallery();
+  }, []);
+
+  const handleDelete = async (id) => {
+    const confirm = window.confirm("Are you sure you want to delete this image?");
+    if (!confirm) return;
+
+    try {
+      await deleteGalleryImage(id);
+     
+      setGalleryData(galleryData.filter((item) => item._id !== id));
+      toast.success("Gallery deleted ")
+    } catch (err) {
+      console.error("Error deleting image:", err);
+      alert("Failed to delete image. Please try again.");
+    }
+  };
+
+  if (loading) return <p className="p-4 text-center text-blue-500">Loading gallery...</p>;
+  if (error) return <p className="p-4 text-center text-red-500">{error}</p>;
+
+  // Pagination logic
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = galleryData.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(galleryData.length / itemsPerPage);
+
   return (
-    <div className="p-4 md:p-6">
-      <h2 className="text-xl md:text-2xl font-semibold mb-4">Gallery List</h2>
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white border rounded-lg">
-          <thead className="bg-gray-100">
+    <div className="md:p-6">
+      <h2 className="text-2xl md:text-3xl font-bold mb-6 text-indigo-600">Gallery List</h2>
+
+      <div className="overflow-x-auto rounded-lg shadow-lg">
+        <table className="min-w-full bg-white border border-gray-200">
+          <thead className="bg-indigo-100 text-indigo-800 font-semibold">
             <tr>
-              <th className="py-2 px-2 md:py-3 md:px-4 border-b text-left text-sm md:text-base">
-                Sl. No
-              </th>
-              <th className="py-2 px-2 md:py-3 md:px-4 border-b text-left text-sm md:text-base">
-                Image
-              </th>
-              <th className="py-2 px-2 md:py-3 md:px-4 border-b text-left text-sm md:text-base">
-                Actions
-              </th>
+              <th className="py-2 px-2 text-left">Sl. No</th>
+              <th className="py-3 px-4 text-left">Image</th>
+              <th className="py-3 px-4 text-left">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {galleryData.map((item, index) => (
-              <tr key={item.id} className="hover:bg-gray-50">
-                <td className="py-2 px-2 md:py-3 md:px-4 border-b text-sm md:text-base">
-                  {index + 1}
-                </td>
-                <td className="py-2 px-2 md:py-3 md:px-4 border-b">
+            {currentItems.map((item, index) => (
+              <tr
+                key={item._id}
+                className="hover:bg-indigo-50 transition-colors duration-200 border-b border-gray-100"
+              >
+                <td className="py-2 px-4">{indexOfFirstItem + index + 1}</td>
+                <td className="py-2 px-4">
                   <img
                     src={item.imageUrl}
                     alt={`Gallery ${index + 1}`}
-                    className="w-24 h-16 md:w-32 md:h-20 object-cover rounded"
+                    className="w-24 h-16 md:w-32 md:h-20 object-cover rounded shadow-sm"
                   />
                 </td>
-                <td className="py-2 px-2 md:py-3 md:px-4 border-b flex flex-wrap gap-2">
-                    
-                  <button className="bg-blue-500 text-white px-2 py-1 md:px-3 md:py-1 rounded cursor-pointer transition text-xs md:text-sm">
-                    Edit
-                  </button>
-                  <button className="bg-red-500 text-white px-2 py-1 md:px-3 md:py-1 rounded hover:bg-red-600 cursor-pointer transition text-xs md:text-sm">
-                    Delete
+                <td className="py-2 px-4 flex flex-wrap gap-2">
+                  <button
+                    onClick={() => handleDelete(item._id)}
+                    className="bg-red-500 p-3 text-white cursor-pointer px-2 mt-5 py-1 rounded hover:bg-red-600 transition text-sm flex items-center gap-1"
+                  >
+                    <MdDelete  /> 
                   </button>
                 </td>
               </tr>
             ))}
+            {galleryData.length === 0 && (
+              <tr>
+                <td colSpan={3} className="text-center py-6 text-gray-500">
+                  No images found.
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex justify-center items-center mt-4 gap-2 flex-wrap">
+          {Array.from({ length: totalPages }, (_, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrentPage(i + 1)}
+              className={`px-3 py-1 rounded border transition ${
+                currentPage === i + 1
+                  ? "bg-indigo-500 text-white border-indigo-500"
+                  : "bg-white text-indigo-600 border-indigo-300 hover:bg-indigo-100"
+              }`}
+            >
+              {i + 1}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

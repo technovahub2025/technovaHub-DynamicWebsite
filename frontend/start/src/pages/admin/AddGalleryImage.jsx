@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { uploadGalleryImages } from "../../api/gallaryApi"; 
 
 const AddGalleryImage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImages, setSelectedImages] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   // Handle file selection
   const handleFileChange = (e) => {
@@ -22,11 +24,23 @@ const AddGalleryImage = () => {
   };
 
   // Handle submit
-  const handleSubmit = () => {
-    // Here you can send `selectedImages` to backend
-    alert(`${selectedImages.length} image(s) submitted!`);
-    setSelectedImages([]);
-    setIsModalOpen(false);
+  const handleSubmit = async () => {
+    if (selectedImages.length === 0) return;
+
+    setLoading(true);
+    try {
+      await uploadGalleryImages(selectedImages);
+      alert(`${selectedImages.length} image(s) uploaded successfully!`);
+      setSelectedImages([]);
+      setIsModalOpen(false);
+      // Optional: refresh gallery list after upload
+      window.location.reload(); 
+    } catch (err) {
+      console.error("Upload failed:", err);
+      alert("Failed to upload images. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -85,11 +99,13 @@ const AddGalleryImage = () => {
 
             {/* Submit Button */}
             <button
-              className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition"
+              className={`bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition ${
+                loading ? "opacity-50 cursor-not-allowed" : ""
+              }`}
               onClick={handleSubmit}
-              disabled={selectedImages.length === 0}
+              disabled={selectedImages.length === 0 || loading}
             >
-              Submit
+              {loading ? "Uploading..." : "Submit"}
             </button>
           </div>
         </div>

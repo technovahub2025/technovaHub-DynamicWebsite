@@ -40,7 +40,9 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="fixed w-full z-50 top-0">
+
+    <>
+     <nav className="fixed w-full  z-50 top-0 ">
      
 
       {/* MAIN NAVBAR */}
@@ -124,6 +126,8 @@ const Navbar = () => {
         `}
       </style>
     </nav>
+    </>
+   
   );
 };
 
