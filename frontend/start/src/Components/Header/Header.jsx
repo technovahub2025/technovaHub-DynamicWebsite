@@ -59,6 +59,7 @@ const Navbar = () => {
                 <span className="text-2xl font-extrabold text-blue-800 flex items-center">
                   <div className="w-[140px] h-10 md:w-[200px] mt-10 md:mt-5 md:h-[60px] mr-2 rounded-lg flex items-center justify-center shadow-inner">
                     <img src={logo} alt="logo" />
+                  
                   </div>
                 
                  

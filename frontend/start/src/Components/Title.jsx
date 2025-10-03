@@ -8,7 +8,7 @@ const Title = ({ text }) => {
           relative
           text-[#002f6c] 
           font-bold 
-          text-2xl
+          text-xl
           md:text-3xl
           tracking-[0.02em] 
           uppercase 

@@ -8,6 +8,7 @@ import CourseCard from './Courses/CourseCard'
 import Gallery from './Gallery/Gallery'
 import VisionMission from '../Components/OURVISION&MISSION/OurVisionMission'
 import SoftwareSolutions from './softwareSolutions/SoftwareSolutions'
+import Clients from '../Components/Clients'
 
 const LandingPage = () => {
   return (
@@ -19,6 +20,7 @@ const LandingPage = () => {
     
       <AboutUsSection/>
         <Ourfacilities/>
+        <Clients/>
        
         <Gallery/>
           <StatsCounter/>

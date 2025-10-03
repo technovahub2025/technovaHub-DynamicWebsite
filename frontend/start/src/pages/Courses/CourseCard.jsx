@@ -73,7 +73,7 @@ const CourseCard = () => {
 const SimpleCard = ({ title, description, aosDelay }) => {
   return (
     <div
-      className="w-full h-64 bg-white rounded-lg shadow-md hover:shadow-xl hover:shadow-blue-300 transition duration-300 p-6 flex flex-col items-center justify-center text-center"
+      className="w-full h-64 bg-white rounded-lg shadow-md border-1 border-blue-400 hover:shadow-xl hover:shadow-blue-300 transition duration-300 p-6 flex flex-col items-center justify-center text-center"
       data-aos="fade-up"
       data-aos-delay={aosDelay} // staggered animation
     >

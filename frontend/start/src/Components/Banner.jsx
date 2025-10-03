@@ -2,15 +2,18 @@ import React, { useEffect, useState } from "react";
 import banner1 from "../assets/images/indoor.jpg";
 import banner2 from "../assets/images/train.jpg";
 import banner3 from "../assets/images/akshaya.jpg";
+import banner4 from "../assets/images/4.jpg";
+
+
 
 const Banner = () => {
-  const images = [banner1, banner2, banner3];
+  const images = [banner1, banner2, banner3, banner4 ];
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrent((prev) => (prev + 1) % images.length);
-    }, 1000); 
+    }, 2000); 
     return () => clearInterval(interval);
   }, []);
 
@@ -46,7 +49,7 @@ const Banner = () => {
           href="https://docs.google.com/forms/d/e/1FAIpQLSesAnC00FPStzrs3z22PtnItYt24iHvaXPLIABUTe8WMWJC7A/viewform?usp=sharing&ouid=101727743134439473534"
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-5 inline-block bg-blue-300  border-2 border-blue-300 border-2 border-white p-2 font-bold text-white md:py-3 md:px-6 hover:border-2 hover:border-white rounded-md transition-colors hover:bg-blue-400"
+          className="mt-5 inline-block bg-blue-300   border-2 border-blue-300 border-2 border-white p-1 font-medium text-white md:py-3 md:px-6 py-2 text-[15px]   hover:border-2 hover:border-white rounded-md transition-colors hover:bg-blue-400"
         >
           Click to Connect
         </a>

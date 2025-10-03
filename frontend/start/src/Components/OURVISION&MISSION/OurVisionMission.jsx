@@ -13,7 +13,7 @@ const VisionMission = () => {
   }, []);
 
   return (
-    <section className="py-15 bg-gray-50">
+    <section className="py-15 md:mb-10 bg-gray-50 md:py-20">
       <div data-aos="fade-up">
         <Title text="OUR VISION & MISSION" />
       </div>

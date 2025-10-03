@@ -39,7 +39,7 @@ const SoftwareSolutions = () => {
           solutions.map((item, index) => (
             <div
               key={item._id}
-              className="bg-white shadow-lg rounded-xl hover:shadow-xl hover:shadow-blue-300 transition duration-300 p-10 border border-gray-200"
+              className="bg-white shadow-lg  rounded-xl hover:shadow-xl hover:shadow-blue-300 transition duration-300 p-10 border-1 border-blue-400"
               data-aos="fade-up"
               data-aos-delay={index * 200} // stagger effect
             >
