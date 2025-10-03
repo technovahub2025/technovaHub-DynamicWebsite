@@ -13,12 +13,22 @@ import softwareSolution from "./routers/softwareRoutes.js";
 dotenv.config();
 
 const app = express();
-const allowedOrigin = process.env.CLIENT_URL || "http://localhost:5173";
+
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://technova-hub-dynamic-website.vercel.app"
+];
 
 app.use(
   cors({
-    origin: allowedOrigin,
-    credentials: true, 
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
   })
 );
 app.use(express.json());
@@ -29,6 +39,8 @@ const PORT = process.env.PORT || 9000;
 app.get("/", (req, res) => {
   res.send("API is working 🚀");
 });
+
+
 
 connectDB();
 app.use("/api/gallery", galleryRoutes);

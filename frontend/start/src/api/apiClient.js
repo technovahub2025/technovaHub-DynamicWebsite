@@ -1,18 +1,18 @@
 import axios from "axios";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL; 
 
 const apiClient = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: `${API_BASE_URL}/api`,   // /api append pannunga
   headers: { "Content-Type": "application/json" },
-  withCredentials: true, 
+  withCredentials: true,
 });
 
 // Request interceptor to add token from localStorage
 apiClient.interceptors.request.use((config) => {
-  const token = localStorage.getItem("adminToken"); 
+  const token = localStorage.getItem("adminToken");
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`; 
+    config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });
