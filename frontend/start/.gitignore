@@ -7,30 +7,19 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# Dependency directories
-node_modules/
-
-# Production build
-dist/
-dist-ssr/
-
-# Local env files
-.env
-.env.*       # all .env files hidden
-
-# Local project settings
+node_modules
+dist
+dist-ssr
 *.local
+.env*
 
-# IDE/editor settings
-.vscode/
+# Editor directories and files
+.vscode/*
 !.vscode/extensions.json
-.idea/
+.idea
 .DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
-
-# Optional: cache folders
-.cache/
