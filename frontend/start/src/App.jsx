@@ -17,7 +17,7 @@ import WhatsAppButton from "./Components/whatappsup/WhatsAppButton";
 import SoftwareSolutions from "./pages/softwareSolutions/SoftwareSolutions";
 import PosterPopup from "./Components/popup/PosterPopup";
 import ProtectedRoute from "./Components/protectRoutes/ProtectedRoute";
-import Backtop from "./Components/Backtop/Backtop";
+// import Backtop from "./Components/Backtop/Backtop";
 
 // Wrapper to use location
 const Layout = ({ children }) => {
@@ -29,7 +29,7 @@ const Layout = ({ children }) => {
       {!hideHeaderFooter && <Navbar />}
       {children}
       {!hideHeaderFooter && <Footer />}
-      {!hideHeaderFooter && <Backtop />}
+      {/* {!hideHeaderFooter && <Backtop />} */}
       {!hideHeaderFooter && <WhatsAppButton />}
       {!hideHeaderFooter && <PosterPopup />}
     </div>
