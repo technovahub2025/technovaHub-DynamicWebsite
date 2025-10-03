@@ -25,13 +25,13 @@ const DashboardHeader = () => {
   };
 
   return (
-    <header className="bg-white shadow p-4 flex justify-between items-center">
+    <header className="bg-white shadow md:p-4 p-2 flex justify-between items-center">
       <h2 className="md:text-xl  text-sm font-semibold text-blue-500">TechnovaHub </h2>
       <div className="flex items-center gap-4">
-        <span className="text-blue-700  uppercase">{userName}</span>
+        <span className="text-blue-700 text-[10px] md:text-sm  uppercase">{userName}</span>
         <button
           onClick={handleLogout}
-          className=" shadow-xl md:p-2 p-2 px-3 rounded-full md:px-4 cursor-pointer bg-red-600 text-white"
+          className=" shadow-xl md:p-2 p-2 md:px-3 rounded-full md:px-4 cursor-pointer bg-red-600 text-white"
         >
          <FaPowerOff />
         </button>

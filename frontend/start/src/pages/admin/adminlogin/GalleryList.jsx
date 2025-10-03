@@ -53,15 +53,15 @@ const GalleryList = () => {
 
   return (
     <div className="md:p-6">
-      <h2 className="text-2xl md:text-3xl font-bold mb-6 text-indigo-600">Gallery List</h2>
+      <h2 className="text-xl md:text-3xl  mb-6 text-blue-600">Gallery List</h2>
 
       <div className="overflow-x-auto rounded-lg shadow-lg">
         <table className="min-w-full bg-white border border-gray-200">
-          <thead className="bg-indigo-100 text-indigo-800 font-semibold">
+          <thead className="bg-indigo-100 text-blue-800 ">
             <tr>
-              <th className="py-2 px-2 text-left">Sl. No</th>
-              <th className="py-3 px-4 text-left">Image</th>
-              <th className="py-3 px-4 text-left">Actions</th>
+              <th className="py-2 px-2 text-center">Sl. No</th>
+              <th className="py-3 px-4 text-center">Image</th>
+              <th className="py-3 px-4 text-center">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -75,7 +75,7 @@ const GalleryList = () => {
                   <img
                     src={item.imageUrl}
                     alt={`Gallery ${index + 1}`}
-                    className="w-24 h-16 md:w-32 md:h-20 object-cover rounded shadow-sm"
+                    className="w-[50px] h-[50px] md:w-32 md:h-20 object-cover rounded shadow-sm"
                   />
                 </td>
                 <td className="py-2 px-4 flex flex-wrap gap-2">
