@@ -11,7 +11,7 @@ const navItems = [
   { name: "Contact Us", path: "/contact" },
   { name: "Gallery", path: "/gallery" },
   { name: "Verify Certificate", path: "/verifyCertificate" },
-  { name: "Terms and Condition", path: "/termsandCondition" },
+  { name: "Terms", path: "/termsandCondition" },
 ];
 
 const Navbar = () => {
@@ -22,7 +22,7 @@ const Navbar = () => {
   const toggleMenu = () => setIsOpen(!isOpen);
 
   const getLinkClasses = (path) =>
-    `text-sm font-semibold transition duration-200 ease-in-out px-2 pt-1 ${
+    `text-sm font-semibold transition duration-200 ease-in-out  pt-1 ${
       location.pathname === path
         ? "text-blue-700 border-b-2 border-blue-700"
         : "text-gray-700 hover:text-blue-600 hover:border-b-2 hover:border-blue-400"
@@ -41,12 +41,12 @@ const Navbar = () => {
           isScrolled ? "backdrop-blur-md bg-white/30 shadow-md" : "bg-transparent"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-5 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <div className="flex-shrink-0 flex items-center">
               <Link to="/">
-                <div className="w-36 h-10 md:w-52 md:h-16 rounded-lg flex items-center justify-center shadow-inner">
+                <div className="w-46 h-10 md:w-52 md:h-16 rounded-lg flex items-center justify-center shadow-inner">
                   <img src={logo} alt="logo" className="object-contain w-full h-full" />
                 </div>
               </Link>
