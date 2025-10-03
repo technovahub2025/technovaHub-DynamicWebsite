@@ -2,44 +2,52 @@ import React, { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible, AiOutlineUser, AiOutlineLock } from "react-icons/ai";
 import logo from "../../../assets/images/logoremove.png";
 import { Link, useNavigate } from "react-router-dom";
-import { loginAdmin } from "../../../api/authApi"
+import { loginAdmin } from "../../../api/authApi";
 import { toast } from "react-toastify";
 
 const AdminLogin = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
- 
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-   
+    setLoading(true);
 
     try {
       const data = await loginAdmin(userName, password);
-      if (data.success) {
-        localStorage.setItem("adminToken", data.token); 
+
+      if (data.success && data.token) {
+        // Store token & user info
+        localStorage.setItem("adminToken", data.token);
         localStorage.setItem("adminUser", JSON.stringify(data.user || { userName }));
-        toast.success("Admin Login Successfully")
+
+        toast.success("Admin Login Successful ✅");
+
+        // Redirect to admin dashboard
         navigate("/admin");
+      } else {
+        toast.error(data.message || "Login failed ❌");
       }
     } catch (err) {
-      toast.error(err.message || "Login failed");
-
+      console.error("Login error:", err);
+      toast.error(err.message || "Login failed ❌");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen p-3  flex items-center justify-center bg-gray-100">
-      <div className="w-full max-w-3xl   md:p-10 p-5 rounded-md md:shadow-xl">
+    <div className="min-h-screen p-3 flex items-center justify-center bg-gray-100">
+      <div className="w-full max-w-3xl md:p-10 p-5 rounded-md md:shadow-xl">
         <div className="flex justify-center">
           <img src={logo} alt="Logo" className="rounded-full md:w-[400px] md:h-[300px]" />
         </div>
 
         <h2 className="text-2xl font-bold text-center mb-6 text-blue-700">Admin Login</h2>
-
-       
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Username */}
@@ -82,9 +90,12 @@ const AdminLogin = () => {
             </Link>
             <button
               type="submit"
-              className="mt-5 bg-blue-400 hover:bg-blue-500 text-white py-2 px-4 rounded transition"
+              disabled={loading}
+              className={`mt-5 bg-blue-400 hover:bg-blue-500 text-white py-2 px-4 rounded transition ${
+                loading ? "opacity-50 cursor-not-allowed" : ""
+              }`}
             >
-              Go to Admin Dashboard
+              {loading ? "Logging in..." : "Go to Admin Dashboard"}
             </button>
           </div>
         </form>
