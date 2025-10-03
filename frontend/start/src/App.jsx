@@ -12,7 +12,7 @@ import VerifyCertificate from "./pages/verifyCertificate/VerifyCertificate";
 
 import Courses from "./pages/Courses/Courses";
 
-// import GalleryPages from "./pages/Gallery/GalleryPages";
+import GalleryPages from "./pages/Gallery/GalleryPages";
 import WhatsAppButton from "./Components/whatappsup/WhatsAppButton";
 import SoftwareSolutions from "./pages/softwareSolutions/SoftwareSolutions";
 import PosterPopup from "./Components/popup/PosterPopup";
@@ -20,7 +20,7 @@ import ProtectedRoute from "./Components/protectRoutes/ProtectedRoute";
 // import Backtop from "./Components/Backtop/Backtop";
 
 
-const GalleryPages = React.lazy(() => import("./pages/Gallery/GalleryPages"));
+
 
 // Wrapper to use location
 const Layout = ({ children }) => {
