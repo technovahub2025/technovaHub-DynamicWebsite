@@ -19,6 +19,9 @@ import PosterPopup from "./Components/popup/PosterPopup";
 import ProtectedRoute from "./Components/protectRoutes/ProtectedRoute";
 // import Backtop from "./Components/Backtop/Backtop";
 
+
+
+
 // Wrapper to use location
 const Layout = ({ children }) => {
   const location = useLocation();
