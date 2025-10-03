@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ChevronUp } from "lucide-react";
 
-const BackToTop = () => {
+const Backtop = () => {
   const [visible, setVisible] = useState(false);
 
   // Show button after scrolling 300px
@@ -43,4 +43,4 @@ const BackToTop = () => {
   );
 };
 
-export default BackToTop;
+export default Backtop;
