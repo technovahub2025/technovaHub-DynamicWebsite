@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { getGalleryImages } from "../../api/gallaryapi";
+import { getGalleryImages } from "../../api/gallaryApi";
 import Title from "../../Components/Title";
 
 const Gallery = () => {
   const [images, setImages] = useState([]);
-  const [selectedIndex, setSelectedIndex] = useState(null); // Index instead of URL
+  const [selectedIndex, setSelectedIndex] = useState(null); 
 
   useEffect(() => {
     const fetchData = async () => {
