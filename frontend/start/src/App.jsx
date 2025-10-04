@@ -19,6 +19,7 @@ import PosterPopup from "./Components/popup/PosterPopup";
 import ProtectedRoute from "./Components/protectRoutes/ProtectedRoute";
 import Backtop from "./Components/Backtop/Backtop";
 import Softwaresol from "./pages/softwareSolutions/Softwaresol";
+import ScrollToTop from "./Components/ScrollToTop";
 
 
 
@@ -43,6 +44,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <Layout>
+        <ScrollToTop/>
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/about" element={<About />} />
