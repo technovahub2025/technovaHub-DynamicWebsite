@@ -9,23 +9,29 @@ import Gallery from './Gallery/Gallery'
 import VisionMission from '../Components/OURVISION&MISSION/OurVisionMission'
 import SoftwareSolutions from './softwareSolutions/SoftwareSolutions'
 import Clients from '../Components/Clients'
+import Marquee from '../Components/Marquee'
+import Contact from './Contact'
 
 const LandingPage = () => {
   return (
     <div>
       <HeroBanner/>
       <VisionMission/>
+     
        <CourseCard/>
        <SoftwareSolutions/>
     
       <AboutUsSection/>
+        <StatsCounter/>
         <Ourfacilities/>
+         <Marquee/>
         <Clients/>
+         <Marquee/>
        
         <Gallery/>
           <StatsCounter/>
     
-
+          <Contact/>
     </div>
   )
 }

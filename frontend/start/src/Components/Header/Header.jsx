@@ -11,7 +11,7 @@ const navItems = [
   { name: "Contact Us", path: "/contact" },
   { name: "Gallery", path: "/gallery" },
   { name: "Verify Certificate", path: "/verifyCertificate" },
-  { name: "Terms", path: "/termsandCondition" },
+  { name: "Terms and Conditions", path: "/termsandCondition" },
 ];
 
 const Navbar = () => {

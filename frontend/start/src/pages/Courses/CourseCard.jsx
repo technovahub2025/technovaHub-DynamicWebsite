@@ -77,8 +77,8 @@ const SimpleCard = ({ title, description, aosDelay }) => {
       data-aos="fade-up"
       data-aos-delay={aosDelay} // staggered animation
     >
-      <h2 className="text-blue-500 text-xl font-bold mb-2">{title}</h2>
-      <p className="text-gray-600 text-sm">{description}</p>
+      <h2 className="text-blue-500 text-xl font-bold mb-5">{title}</h2>
+      <p className="text-gray-600 text-sm md:text-md  lg:text-lg">{description}</p>
     </div>
   );
 };
