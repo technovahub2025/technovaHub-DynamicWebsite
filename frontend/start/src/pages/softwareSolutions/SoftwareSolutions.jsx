@@ -39,14 +39,14 @@ const SoftwareSolutions = () => {
           solutions.map((item, index) => (
             <div
               key={item._id}
-              className="bg-white shadow-lg text-center  rounded-xl hover:shadow-xl hover:shadow-blue-300 transition duration-300 p-10 "
+              className="bg-white shadow-lg text-center   rounded-xl hover:shadow-xl hover:shadow-blue-300 transition duration-300 p-10 "
               data-aos="fade-up"
               data-aos-delay={index * 200} // stagger effect
             >
-              <h2 className="text-xl font-bold text-blue-500 mb-2">
+              <h2 className="text-xl mb-5 font-bold text-blue-500 mb-2">
                 {item.title}
               </h2>
-              <p className="text-gray-600">{item.description}</p>
+              <p className="text-gray-600 text-sm md:text-md lg:text-lg">{item.description}</p>
             </div>
           ))
         ) : (

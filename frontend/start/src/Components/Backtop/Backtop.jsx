@@ -33,7 +33,7 @@ const Backtop = () => {
       {visible && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-6 right-6 z-50 p-3 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition"
+          className="fixed bottom-6 left-3 z-50 p-3 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition"
           aria-label="Back to top"
         >
           <ChevronUp className="w-5 h-5" />
