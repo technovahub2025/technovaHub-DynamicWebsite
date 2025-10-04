@@ -41,13 +41,13 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="min-h-screen p-3 flex items-center justify-center bg-gray-100">
-      <div className="w-full max-w-3xl md:p-10 p-5 rounded-md md:shadow-xl">
+    <div className="min-h-screen p-3  flex  justify-center bg-white ">
+      <div className="w-full max-w-6xl md:p-10 p-5 rounded-md md:shadow-xl">
         <div className="flex justify-center">
-          <img src={logo} alt="Logo" className="rounded-full md:w-[400px] md:h-[300px]" />
+          <img src={logo} alt="Logo" className="rounded-full w-[150px] h-[150px] md:w-[400px] md:h-[400px]" />
         </div>
 
-        <h2 className="text-2xl font-bold text-center mb-6 text-blue-700">Admin Login</h2>
+        <h2 className="text-2xl font-bold text-center mb-6 text-blue-900">Admin Login</h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Username */}
@@ -86,7 +86,7 @@ const AdminLogin = () => {
           {/* Submit & Back */}
           <div className="flex justify-between mb-10 items-center">
             <Link to="/">
-              <p className="mt-3 text-blue-400">Back to website</p>
+              <p className="mt-3 text-sm  text-blue-400">Back to website</p>
             </Link>
             <button
               type="submit"
