@@ -22,8 +22,8 @@ const app = express();
 
 // Allowed frontend URLs
 const allowedOrigins = [
-  process.env.FRONTEND_LOCAL_URL,
-  process.env.FRONTEND_VERCEL_URL,
+  "http://localhost:5173",
+  "https://technova-hub-dynamic-website.vercel.app",
 ];
 
 // CORS setup
