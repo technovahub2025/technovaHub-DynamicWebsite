@@ -25,7 +25,7 @@ const Navbar = () => {
     `text-sm font-semibold transition duration-200 ease-in-out  pt-1 ${
       location.pathname === path
         ? "text-blue-700 border-b-2 border-blue-700"
-        : "text-gray-700 hover:text-blue-600 hover:border-b-2 hover:border-blue-400"
+        : "text-gray-900 hover:text-blue-600 hover:border-b-2 hover:border-blue-400"
     }`;
 
   useEffect(() => {
