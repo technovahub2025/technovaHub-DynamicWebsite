@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Home, Users, Settings, Menu } from "lucide-react";
+import { Home, Images, BookOpen, Award , Menu } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 const Sidebar = () => {
@@ -9,10 +9,10 @@ const Sidebar = () => {
 
   const menuItems = [
   { name: "Home", icon: <Home />, path: "/admin" },
-  { name: "Gallery", icon: <Users />, path: "/admin/gallery" },
-  { name: "Courses", icon: <Users />, path: "/admin/courses" },
+  { name: "Gallery", icon: <Images />, path: "/admin/gallery" },
+  { name: "Courses", icon: <BookOpen />, path: "/admin/courses" },
 
-  { name: "Certificate", icon: <Users />, path: "/admin/Certificate" },
+  { name: "Certificate", icon: <Award />, path: "/admin/Certificate" },
 
   
 ];
@@ -49,7 +49,7 @@ const Sidebar = () => {
               key={idx}
               to={item.path}
               className={`flex items-center gap-3 p-2 rounded transition 
-                ${isActive ? "bg-blue-200" : "hover:bg-gray-400"}`}
+                ${isActive ? "bg-blue-200" : "hover:bg-white hover:text-black"}`}
             >
               {item.icon}
               {isOpen && <span>{item.name}</span>}

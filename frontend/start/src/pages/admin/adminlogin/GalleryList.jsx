@@ -52,16 +52,16 @@ const GalleryList = () => {
   const totalPages = Math.ceil(galleryData.length / itemsPerPage);
 
   return (
-    <div className="md:p-6">
+    <div className="md:p-6  ">
       <h2 className="text-xl md:text-3xl  mb-6 text-blue-600">Gallery List</h2>
 
       <div className="overflow-x-auto rounded-lg shadow-lg">
         <table className="min-w-full bg-white border border-gray-200">
           <thead className="bg-indigo-100 text-blue-800 ">
             <tr>
-              <th className="py-2 px-2 text-center">Sl. No</th>
-              <th className="py-3 px-4 text-center">Image</th>
-              <th className="py-3 px-4 text-center">Actions</th>
+              <th className="py-2 px-2 text-center font-medium">Sl. No</th>
+              <th className="py-3 px-4 text-center font-medium">Image</th>
+              <th className="py-3 px-4 text-center font-medium">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -81,9 +81,9 @@ const GalleryList = () => {
                 <td className="py-2 px-4 flex flex-wrap gap-2">
                   <button
                     onClick={() => handleDelete(item._id)}
-                    className="bg-red-500 p-3 text-white cursor-pointer px-2 mt-5 py-1 rounded hover:bg-red-600 transition text-sm flex items-center gap-1"
+                    className="bg-red-500 p-3 text-white cursor-pointer  px-2 mt-5 py-1 rounded hover:bg-red-600 transition text-sm flex items-center gap-1"
                   >
-                    <MdDelete  /> 
+                 Delete
                   </button>
                 </td>
               </tr>

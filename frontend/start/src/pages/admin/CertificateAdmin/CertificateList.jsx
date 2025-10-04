@@ -49,7 +49,7 @@ const CertificateList = ({ onEdit, refresh }) => {
 
   return (
     <div className="p-4 md:p-6">
-      <h2 className="text-2xl md:text-3xl font-bold mb-6 text-indigo-600">Certificate List</h2>
+      <h2 className="text-md md:text-2xl font-bold mb-6 text-indigo-600">Certificate List</h2>
 
       <div className="overflow-x-auto rounded-lg shadow-lg">
         <table className="min-w-full bg-white border border-gray-200">

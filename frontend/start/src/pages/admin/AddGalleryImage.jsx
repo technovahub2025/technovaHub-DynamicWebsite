@@ -47,10 +47,10 @@ const AddGalleryImage = () => {
     <div className="flex justify-end  md:p-6">
       {/* Add Image Button */}
       <button
-        className="bg-blue-500 text-white md:px-4 md:py-2 p-2  rounded hover:bg-blue-600 transition"
+        className="bg-blue-500 text-white md:px-4 md:py-2 p-2 text-sm border-2 border-white   rounded hover:bg-blue-600 transition-all "
         onClick={() => setIsModalOpen(true)}
       >
-        Add Image
+        + Image
       </button>
 
       {/* Modal */}

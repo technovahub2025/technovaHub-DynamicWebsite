@@ -52,13 +52,13 @@ const Courseadd = ({ editingCourse, onDone }) => {
   };
 
   return (
-    <div className="p-6 max-w-3xl mx-auto bg-white shadow-lg rounded-xl mb-8">
+    <div className="p-2 max-w-3xl mx-auto  mb-3">
       <h2 className="md:text-2xl   mb-6 text-blue-400">
         {editingCourse ? "Update Course" : "Add New Course"}
       </h2>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label className="block text-gray-700 font-medium mb-1">Course Title</label>
+          {/* <label className="block text-gray-700 font-medium mb-1">Course Title</label> */}
           <input
             type="text"
             value={title}
@@ -69,7 +69,7 @@ const Courseadd = ({ editingCourse, onDone }) => {
         </div>
 
         <div>
-          <label className="block text-gray-700 font-medium mb-1">Course Description</label>
+          {/* <label className="block text-gray-700 font-medium mb-1">Course Description</label> */}
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}

@@ -56,7 +56,7 @@ const AdminLogin = () => {
             <input
               type="text"
               value={userName}
-              onChange={(e) => setUserName(e.target.value)}
+             onChange={(e) => setUserName(e.target.value.toLowerCase())}
               placeholder="Enter admin username"
               className="mt-1 block w-full pl-10 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-500"
               required
