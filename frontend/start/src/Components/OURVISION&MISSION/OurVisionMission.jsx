@@ -25,7 +25,7 @@ const VisionMission = () => {
           data-aos="fade-right"
         >
           <h2 className="text-2xl font-bold text-blue-500 mb-4">Vision</h2>
-          <p className="text-gray-600 leading-relaxed">
+          <p className="text-gray-600 text-sm md:text-md lg:text-lg leading-relaxed">
             Our vision is to become a nationally recognized hub of excellence in
             technology education, IT services and automation-driven innovation.
             We are dedicated to nurturing future-ready talent and delivering
@@ -39,7 +39,7 @@ const VisionMission = () => {
           data-aos="fade-left"
         >
           <h2 className="text-2xl font-bold text-blue-500 mb-4">Mission</h2>
-          <p className="text-gray-600 leading-relaxed">
+          <p className="text-gray-600 text-sm md:text-md lg:text-lg leading-relaxed">
             Our mission is to empower learners with industry-relevant skills
             through hands-on training and real-world projects. We bridge the gap
             between academic learning and practical application to create

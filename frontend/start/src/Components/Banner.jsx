@@ -17,7 +17,7 @@ const Banner = () => {
   }, []);
 
   return (
-    <header className="relative min-h-screen    flex items-center justify-center text-center text-[#002f6c] overflow-hidden">
+    <header className="relative md:min-h-screen  h-[40vh]   flex items-center justify-center text-center text-[#002f6c] overflow-hidden">
       {/* Background slides */}
       {images.map((img, index) => (
         <div
@@ -36,7 +36,7 @@ const Banner = () => {
 
       {/* Content */}
       <div className="relative z-20 max-w-7xl px-5">
-       <div className="w-[300px] h-[300px] md:w-[500px]  md:h-[500px] mt-3 rounded-lg flex items-center justify-center ">
+       <div className="w-[200px] h-[200px] md:w-[500px]  md:h-[500px] mt-3 rounded-lg flex items-center justify-center ">
                         <img src={logo} alt="logo" className="object-contain w-full h-full" />
                         
                       </div>
@@ -46,7 +46,7 @@ const Banner = () => {
           href="https://docs.google.com/forms/d/e/1FAIpQLSesAnC00FPStzrs3z22PtnItYt24iHvaXPLIABUTe8WMWJC7A/viewform?usp=sharing&ouid=101727743134439473534"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-block bg-blue-500 border-2 border-white p-2 md:py-3 md:px-6 font-medium text-white text-[15px] rounded-md hover:bg-blue-600 transition-colors"
+          className="inline-block bg-blue-500 border-2 border-white p-2 mb-10 md:py-3 md:px-6 font-medium text-white text-[15px] rounded-md hover:bg-blue-600 transition-colors"
         >
           Click to Connect
         </a>
