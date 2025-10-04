@@ -1,13 +1,14 @@
 import React from "react";
 import CourseCard from "./CourseCard";
+import Coursebanner from "../../Components/Coursebanner";
 
 
 const Courses = () => {
   return (
     <div className="w-full">
       {/* Banner Section */}
-
-      <div className="mt-[100px] md:mt-[100px]">
+            <Coursebanner/>
+      <div className="mt-[50px] md:mt-[100px]">
 <hr className="text-transparent" />
       </div>
     

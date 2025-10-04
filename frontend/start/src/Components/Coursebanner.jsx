@@ -5,7 +5,7 @@ import banner3 from "../assets/images/akshaya.jpg";
 import banner4 from "../assets/images/4.jpg";
 import logo from "../assets/images/logoremove.png";
 
-const Banner = () => {
+const Coursebanner = () => {
   const images = [banner1, banner2, banner3, banner4];
   const [current, setCurrent] = useState(0);
 
@@ -17,7 +17,7 @@ const Banner = () => {
   }, []);
 
   return (
-    <header className="relative min-h-screen  flex items-center justify-center text-center text-[#002f6c] overflow-hidden">
+    <header className="relative md:h-[50vh] h-[30vh] flex items-center justify-center text-center text-[#002f6c] overflow-hidden">
       {/* Background slides */}
       {images.map((img, index) => (
         <div
@@ -33,26 +33,16 @@ const Banner = () => {
 
       {/* Overlay */}
       <div className="absolute inset-0 bg-white/50 z-10" />
-
-      {/* Content */}
-      <div className="relative z-20 max-w-7xl px-5">
-       <div className="w-[300px] h-[300px] md:w-[500px]  md:h-[500px] mt-3 rounded-lg flex items-center justify-center ">
-                        <img src={logo} alt="logo" className="object-contain w-full h-full" />
-                        
-                      </div>
+ <div className="relative z-20 max-w-7xl px-5">
+      
        
       
-        <a
-          href="https://docs.google.com/forms/d/e/1FAIpQLSesAnC00FPStzrs3z22PtnItYt24iHvaXPLIABUTe8WMWJC7A/viewform?usp=sharing&ouid=101727743134439473534"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-block bg-blue-500 border-2 border-white p-2 md:py-3 md:px-6 font-medium text-white text-[15px] rounded-md hover:bg-blue-600 transition-colors"
-        >
-          Click to Connect
-        </a>
+        <h1 className="text-blue-900  text-xl md:text-6xl font-bold">Course Offered</h1>
       </div>
+      
+    
     </header>
   );
 };
 
-export default Banner;
+export default Coursebanner;

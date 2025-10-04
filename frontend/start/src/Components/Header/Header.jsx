@@ -41,16 +41,19 @@ const Navbar = () => {
           isScrolled ? "backdrop-blur-md bg-white/30 shadow-md" : "bg-transparent"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-5 lg:px-8">
-          <div className="flex justify-between items-center h-16">
+        <div className="max-w-7xl mx-auto  p-3 md:p-5 ">
+          <div className="flex justify-between items-center  h-16">
             {/* Logo */}
             <div className="flex-shrink-0 flex items-center">
               <Link to="/">
-                <div className="w-46 h-10 md:w-52 md:h-16 rounded-lg flex items-center justify-center shadow-inner">
+                <div className="w-[130px] h-[130px] md:w-[150px]  md:h-[150px] mt-3 rounded-lg flex items-center justify-center ">
                   <img src={logo} alt="logo" className="object-contain w-full h-full" />
+                  
                 </div>
+                
               </Link>
             </div>
+            
 
             {/* Desktop nav */}
             <div className="hidden lg:flex h-full items-center space-x-6 flex-wrap">

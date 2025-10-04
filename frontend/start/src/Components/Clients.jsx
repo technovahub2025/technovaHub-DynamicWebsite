@@ -56,7 +56,7 @@ const experts = [
 
 const Clients = () => {
   return (
-    <section className="py-20 md:mb-10 bg-gray-50 relative">
+    <section className="py-20    md:mb-20 bg-gray-50 relative">
       {/* Add custom keyframes here */}
       <style>
         {`

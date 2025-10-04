@@ -31,7 +31,7 @@ const Gallery = () => {
       <Title text="Gallery" />
 
       <div className="flex justify-center p-3">
-        <div className="grid gap-3 md:gap-6 mt-5 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-w-7xl w-full">
+        <div className="grid gap-3 md:gap-6 mt-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-w-6xl w-full">
           {images.map((img, index) => (
             <div
               key={img._id}

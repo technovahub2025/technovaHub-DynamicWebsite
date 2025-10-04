@@ -41,7 +41,7 @@ const Ourfacilities = () => {
   }, []);
 
   return (
-    <div className="mt-9 mb-10 py-10">
+    <div className="mt-9  py-10">
       <Title text="OUR FACILITIES " />
 
       <div className="container mx-auto py-12 px-5">

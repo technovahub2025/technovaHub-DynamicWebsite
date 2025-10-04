@@ -14,10 +14,11 @@ import Courses from "./pages/Courses/Courses";
 
 import GalleryPages from "./pages/Gallery/GalleryPages";
 import WhatsAppButton from "./Components/whatappsup/WhatsAppButton";
-import SoftwareSolutions from "./pages/softwareSolutions/SoftwareSolutions";
+
 import PosterPopup from "./Components/popup/PosterPopup";
 import ProtectedRoute from "./Components/protectRoutes/ProtectedRoute";
 import Backtop from "./Components/Backtop/Backtop";
+import Softwaresol from "./pages/softwareSolutions/Softwaresol";
 
 
 
@@ -48,7 +49,7 @@ const App = () => {
           <Route path="/verifyCertificate" element={<VerifyCertificate />} />
           <Route path="/gallery" element={<GalleryPages />} />
           <Route path="/courses" element={<Courses />} />
-          <Route path="/softwaresolutions" element={<SoftwareSolutions />} />
+          <Route path="/softwaresolutions" element={<Softwaresol />} />
 
           <Route path="/termsandCondition" element={<TermsAndCondition />} />
           <Route path="/contact" element={<Contact />} />
