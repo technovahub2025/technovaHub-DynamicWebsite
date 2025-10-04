@@ -41,10 +41,10 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="min-h-screen p-3  flex  justify-center bg-white ">
-      <div className="w-full max-w-6xl md:p-10 p-5 rounded-md md:shadow-xl">
+    <div className=" p-3  flex  justify-center  ">
+      <div className="w-full max-w-3xl md:p-10 p-5 ">
         <div className="flex justify-center">
-          <img src={logo} alt="Logo" className="rounded-full w-[150px] h-[150px] md:w-[400px] md:h-[400px]" />
+          <img src={logo} alt="Logo" className="rounded-full w-[150px] h-[150px] md:w-[200px] md:h-[200px]" />
         </div>
 
         <h2 className="text-2xl font-bold text-center mb-6 text-blue-900">Admin Login</h2>

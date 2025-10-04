@@ -45,7 +45,7 @@ const Ourfacilities = () => {
       <Title text="OUR FACILITIES " />
 
       <div className="container mx-auto py-12 px-5">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 md:p-10">
+        <div className="grid grid-cols-1  md:grid-cols-3 lg:grid-cols-4 gap-6 md:p-10">
           {cards.map((card, idx) => (
             <div
               key={idx}

@@ -1,4 +1,5 @@
 import React from "react";
+import Title from "../Components/Title";
 
 const policies = {
   terms: {
@@ -68,7 +69,8 @@ export default function TermsAndCondition() {
   return (
     <div className="min-h-screen bg-gray-100 mt-[100px] md:p-6">
       <div className="text-center mb-6 mt-4">
-        <h1 className="text-blue-500 text-3xl font-thin">Technovahub Policies</h1>
+        <Title text="Technovahub Policies"/>
+       
       </div>
       <div className="max-w-10xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

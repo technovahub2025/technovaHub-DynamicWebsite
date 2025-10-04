@@ -34,16 +34,16 @@ const SoftwareSolutions = () => {
         <Title text="Software Solutions" />
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto mt-3">
+      <div className="grid gap-6 md:grid-cols-3 mt-6 lg:grid-cols-4 max-w-7xl mx-auto mt-3">
         {solutions.length > 0 ? (
           solutions.map((item, index) => (
             <div
               key={item._id}
-              className="bg-white shadow-lg  rounded-xl hover:shadow-xl hover:shadow-blue-300 transition duration-300 p-10 border-1 border-blue-400"
+              className="bg-white shadow-lg text-center  rounded-xl hover:shadow-xl hover:shadow-blue-300 transition duration-300 p-10 "
               data-aos="fade-up"
               data-aos-delay={index * 200} // stagger effect
             >
-              <h2 className="text-xl font-bold text-[#002f6c] mb-2">
+              <h2 className="text-xl font-bold text-blue-500 mb-2">
                 {item.title}
               </h2>
               <p className="text-gray-600">{item.description}</p>

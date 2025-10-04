@@ -21,7 +21,7 @@ const VisionMission = () => {
       <div className="max-w-6xl mx-auto mt-8 px-4 grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Vision Card */}
         <div
-          className="bg-white p-8 rounded-2xl shadow-2xl hover:shadow-2xl border border-blue-300 hover:shadow-blue-200 transition duration-300"
+          className="bg-white p-8 rounded-2xl shadow-2xl hover:shadow-2xl  hover:shadow-blue-200 transition duration-300"
           data-aos="fade-right"
         >
           <h2 className="text-2xl font-bold text-blue-500 mb-4">Vision</h2>
@@ -35,7 +35,7 @@ const VisionMission = () => {
 
         {/* Mission Card */}
         <div
-          className="bg-white p-8 rounded-2xl shadow-2xl border border-blue-300 hover:shadow-2xl hover:shadow-blue-200 transition duration-300"
+          className="bg-white p-8 rounded-2xl shadow-2xl  hover:shadow-2xl hover:shadow-blue-200 transition duration-300"
           data-aos="fade-left"
         >
           <h2 className="text-2xl font-bold text-blue-500 mb-4">Mission</h2>

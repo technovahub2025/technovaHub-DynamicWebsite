@@ -38,8 +38,8 @@ const CourseCard = () => {
         <Title text="Courses Offered" />
       </div>
 
-      <div className="flex justify-center px-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 max-w-7xl w-full py-2">
+      <div className="flex justify-center mt-5 px-4">
+        <div className="grid grid-cols-1  md:grid-cols-3 lg:grid-cols-4 gap-5 max-w-7xl w-full py-2">
           {/* Loading State */}
           {loading ? (
             <>
@@ -73,11 +73,11 @@ const CourseCard = () => {
 const SimpleCard = ({ title, description, aosDelay }) => {
   return (
     <div
-      className="w-full h-64 bg-white rounded-lg shadow-md border-1 border-blue-400 hover:shadow-xl hover:shadow-blue-300 transition duration-300 p-6 flex flex-col items-center justify-center text-center"
+      className="w-full h-64 bg-white rounded-lg shadow-md  hover:shadow-xl hover:shadow-blue-300 transition duration-300 p-6 flex flex-col items-center justify-center text-center"
       data-aos="fade-up"
       data-aos-delay={aosDelay} // staggered animation
     >
-      <h2 className="text-blue-900 text-xl font-bold mb-2">{title}</h2>
+      <h2 className="text-blue-500 text-xl font-bold mb-2">{title}</h2>
       <p className="text-gray-600 text-sm">{description}</p>
     </div>
   );

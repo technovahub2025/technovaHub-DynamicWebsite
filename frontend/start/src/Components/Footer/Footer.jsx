@@ -6,7 +6,7 @@ const Footer = () => {
     <footer className="bg-blue-600  text-white py-6 mt-10">
       <div className="container mx-auto px-6 md:p-10 p-10 flex flex-col md:flex-row items-center justify-between">
         {/* Brand */}
-        <h1 className=" text-xl lg:text-9xl font-bold">TechnovaHub</h1>
+        <h1 className=" text-5xl lg:text-[100px]  font-bold">TechnovaHub</h1>
 
         {/* Links */}
         <div className="flex space-x-6 mt-4 md:mt-0">

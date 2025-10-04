@@ -17,12 +17,12 @@ const Banner = () => {
   }, []);
 
   return (
-    <header className="relative min-h-screen  flex items-center justify-center text-center text-[#002f6c] overflow-hidden">
+    <header className="relative min-h-screen    flex items-center justify-center text-center text-[#002f6c] overflow-hidden">
       {/* Background slides */}
       {images.map((img, index) => (
         <div
           key={index}
-          className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out`}
+          className={`absolute inset-0 bg-cover bg-center  transition-opacity duration-1000 ease-in-out`}
           style={{
             backgroundImage: `url(${img})`,
             opacity: index === current ? 1 : 0,
@@ -32,7 +32,7 @@ const Banner = () => {
       ))}
 
       {/* Overlay */}
-      <div className="absolute inset-0 bg-white/50 z-10" />
+      <div className="absolute inset-0 bg-white/80 z-10" />
 
       {/* Content */}
       <div className="relative z-20 max-w-7xl px-5">
