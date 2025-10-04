@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { getGalleryImages } from "../../api/gallaryApi";
 import Title from "../../Components/Title";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { GrChapterNext } from "react-icons/gr";
+import { GrChapterPrevious } from "react-icons/gr";
 
 const Gallery = () => {
   const [images, setImages] = useState([]);
-  const [selectedIndex, setSelectedIndex] = useState(null); 
+  const [selectedIndex, setSelectedIndex] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -16,6 +20,14 @@ const Gallery = () => {
       }
     };
     fetchData();
+
+    // Initialize AOS
+    AOS.init({
+      duration: 800,
+      easing: "ease-in-out",
+      once: true,
+      mirror: false,
+    });
   }, []);
 
   const handleNext = () => {
@@ -27,7 +39,7 @@ const Gallery = () => {
   };
 
   return (
-    <section className="overflow-hidden  mb-10 text-gray-700">
+    <section className="overflow-hidden mb-10 text-gray-700">
       <Title text="Gallery" />
 
       <div className="flex justify-center p-3">
@@ -37,6 +49,7 @@ const Gallery = () => {
               key={img._id}
               className="overflow-hidden rounded-lg shadow-lg cursor-pointer hover:scale-105 transform transition duration-300"
               onClick={() => setSelectedIndex(index)}
+              data-aos="zoom-in" // AOS zoom-in effect
             >
               <img
                 src={img.imageUrl}
@@ -73,16 +86,16 @@ const Gallery = () => {
 
             {/* Prev & Next Buttons */}
             <button
-              className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-black/50 text-white px-3 py-2 rounded-r hover:bg-black transition"
+              className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-black/50 text-white px-10 py-5 rounded-md hover:bg-black transition"
               onClick={handlePrev}
             >
-              &#10094; Prev
+             <GrChapterPrevious />
             </button>
             <button
-              className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-black/50 text-white px-3 py-2 rounded-l hover:bg-black transition"
+              className="absolute top-1/2 right-[-30px] transform -translate-y-1/2 bg-black/50 text-white px-10 py-5 rounded-md hover:bg-black transition"
               onClick={handleNext}
             >
-              Next &#10095;
+             <GrChapterNext />
             </button>
           </div>
         </div>

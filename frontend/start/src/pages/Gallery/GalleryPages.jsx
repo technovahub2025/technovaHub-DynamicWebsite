@@ -5,7 +5,7 @@ import {GalleryAblum} from './GalleryAblum'
 const GalleryPages = () => {
   return (
     <div>
-        <div className='mt-[130px] md:px-10'>
+        <div className=''>
            <GalleryAblum/>
         </div>
        

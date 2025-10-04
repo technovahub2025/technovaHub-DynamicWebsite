@@ -14,18 +14,24 @@ const Backtop = () => {
     return () => window.removeEventListener("scroll", toggleVisibility);
   }, []);
 
-  // Custom smooth scroll
+  // Smooth scroll to top
   const scrollToTop = () => {
-    const scrollDuration = 800; 
-    const scrollStep = -window.scrollY / (scrollDuration / 15); 
+    const isMobile = window.innerWidth < 768; // Mobile breakpoint
+    const scrollDuration = isMobile ? 300 : 600; // Faster on mobile
 
-    const scrollInterval = setInterval(() => {
-      if (window.scrollY !== 0) {
-        window.scrollBy(0, scrollStep);
-      } else {
-        clearInterval(scrollInterval);
+    const start = window.scrollY;
+    const startTime = performance.now();
+
+    const scrollStep = (currentTime) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / scrollDuration, 1); // Clamp 0-1
+      window.scrollTo(0, start * (1 - progress));
+      if (progress < 1) {
+        requestAnimationFrame(scrollStep);
       }
-    }, 15);
+    };
+
+    requestAnimationFrame(scrollStep);
   };
 
   return (
