@@ -86,13 +86,13 @@ const Gallery = () => {
 
             {/* Prev & Next Buttons */}
             <button
-              className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-black/50 text-white px-10 py-5 rounded-md hover:bg-black transition"
+              className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-black/50 text-white px-5 py-5 rounded-md hover:bg-black transition"
               onClick={handlePrev}
             >
              <GrChapterPrevious />
             </button>
             <button
-              className="absolute top-1/2 right-[-30px] transform -translate-y-1/2 bg-black/50 text-white px-10 py-5 rounded-md hover:bg-black transition"
+              className="absolute top-1/2 right-[-2px] transform -translate-y-1/2 bg-black/50 text-white px-5 py-5 rounded-md hover:bg-black transition"
               onClick={handleNext}
             >
              <GrChapterNext />
