@@ -1,26 +1,32 @@
-// server.js
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import cookieParser from "cookie-parser";
+
+// Routers
 import galleryRoutes from "./routers/galleryRoutes.js";
 import courseRoutes from "./routers/courseRoutes.js";
-import auth from "./routers/authRoutes.js";
+import authRoutes from "./routers/authRoutes.js";
 import certificateRoutes from "./routers/certificateRoutes.js";
-import softwareSolution from "./routers/softwareRoutes.js";
+import softwareRoutes from "./routers/softwareRoutes.js";
 
-dotenv.config();
+// Load environment variables based on NODE_ENV
+if (process.env.NODE_ENV === "production") {
+  dotenv.config({ path: ".env.production" });
+} else {
+  dotenv.config({ path: ".env.local" });
+}
 
 const app = express();
 
 // Allowed frontend URLs
 const allowedOrigins = [
-  "http://localhost:5173",
-  "https://technova-hub-dynamic-website.vercel.app"
+  process.env.FRONTEND_LOCAL_URL,
+  process.env.FRONTEND_VERCEL_URL,
 ];
 
-// CORS setup with Authorization header
+// CORS setup
 app.use(
   cors({
     origin: function (origin, callback) {
@@ -32,7 +38,7 @@ app.use(
     },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"], 
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
@@ -41,6 +47,7 @@ app.use(cookieParser());
 
 const PORT = process.env.PORT || 9000;
 
+// Test route
 app.get("/", (req, res) => {
   res.send("API is working 🚀");
 });
@@ -51,11 +58,11 @@ connectDB();
 // Routes
 app.use("/api/gallery", galleryRoutes);
 app.use("/api/courses", courseRoutes);
-app.use("/api/auth", auth);
+app.use("/api/auth", authRoutes);
 app.use("/api/certificate", certificateRoutes);
-app.use("/api/softwareSolution", softwareSolution);
+app.use("/api/softwareSolution", softwareRoutes);
 
-// Global error handler for CORS issues
+// Global error handler for CORS
 app.use((err, req, res, next) => {
   if (err instanceof Error && err.message === "Not allowed by CORS") {
     res.status(403).json({ message: err.message });
