@@ -78,16 +78,16 @@ const Navbar = () => {
 
         {/* Mobile menu */}
         <div
-          className={`transition-all duration-300 bg-white z-10 shadow-lg overflow-hidden ${
+          className={`transition-all duration-300 backdrop-blur-md bg-white/30  shadow-md h-[100vh] z-10 shadow-lg overflow-hidden ${
             isOpen ? "max-h-screen" : "max-h-0"
           }`}
         >
-          <div className="px-2 pt-2 pb-3 space-y-4 sm:px-3">
+          <div className="px-2 pt-2 pb-3 space-y-3 sm:px-3">
             {navItems.map((item) => (
               <Link
                 key={item.name}
                 to={item.path}
-                className="block px-3 py-2 rounded-md text-base font-sm text-center    text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+                className="block px-3 py-2 rounded-md text-base font-sm text-center  border-b  border-white    text-blue-600 hover:bg-blue-700 transition-all duration-300 hover:text-blue-300"
                 onClick={toggleMenu}
               >
                 {item.name}
