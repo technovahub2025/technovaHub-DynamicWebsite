@@ -34,7 +34,7 @@ const SoftwareSolutions = () => {
         <Title text="Software Solutions" />
       </div>
 
-      <div className="grid gap-6 md:grid-cols-3 mt-6 lg:grid-cols-4 max-w-7xl mx-auto mt-3">
+      <div className="grid gap-6 md:grid-cols-2 mt-6 lg:grid-cols-3 max-w-7xl mx-auto mt-3">
         {solutions.length > 0 ? (
           solutions.map((item, index) => (
             <div

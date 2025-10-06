@@ -62,6 +62,10 @@ const Navbar = () => {
                   {item.name}
                 </Link>
               ))}
+
+               <div>
+             
+            </div>
             </div>
 
             {/* Mobile toggle */}
@@ -73,6 +77,11 @@ const Navbar = () => {
                 {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
               </button>
             </div>
+
+
+
+
+           
           </div>
         </div>
 
