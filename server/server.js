@@ -10,6 +10,7 @@ import courseRoutes from "./routers/courseRoutes.js";
 import authRoutes from "./routers/authRoutes.js";
 import certificateRoutes from "./routers/certificateRoutes.js";
 import softwareRoutes from "./routers/softwareRoutes.js";
+import quatation from "./routers/quoatitionRoutes.js"
 
 // Load environment variables based on NODE_ENV
 if (process.env.NODE_ENV === "production") {
@@ -24,6 +25,9 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:5173",
   "https://technova-hub-dynamic-website.vercel.app",
+  "http://127.0.0.1:5500/index.html",
+  "https://technovahub2025.github.io/aroun_quotation/"
+
 ];
 
 // CORS setup
@@ -61,6 +65,8 @@ app.use("/api/courses", courseRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/certificate", certificateRoutes);
 app.use("/api/softwareSolution", softwareRoutes);
+app.use("/api/quatation", quatation);
+
 
 // Global error handler for CORS
 app.use((err, req, res, next) => {
