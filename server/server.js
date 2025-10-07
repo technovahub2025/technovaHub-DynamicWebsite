@@ -25,8 +25,6 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:5173",
   "https://technova-hub-dynamic-website.vercel.app",
-  "http://127.0.0.1:5500/index.html",
-  "https://technovahub2025.github.io/aroun_quotation/"
 
 ];
 

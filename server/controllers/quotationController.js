@@ -1,5 +1,7 @@
 import Quatation from "../models/quatationModel.js";
 
+// ----------------------- Existing CRUD -----------------------
+
 // CREATE - Add new item
 export const createItem = async (req, res) => {
   try {
@@ -21,7 +23,7 @@ export const getItems = async (req, res) => {
   }
 };
 
-// READ - Get single item by ID
+// READ - Get single item
 export const getItemById = async (req, res) => {
   try {
     const item = await Quatation.findById(req.params.id);
@@ -51,5 +53,35 @@ export const deleteItem = async (req, res) => {
     res.status(200).json({ message: "Item deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: "Error deleting item", error });
+  }
+};
+
+// ----------------------- BULK SAVE/UPDATE -----------------------
+
+export const bulkSaveItems = async (req, res) => {
+  try {
+    const items = req.body; // Array of items
+
+    if (!Array.isArray(items)) {
+      return res.status(400).json({ message: "Request body must be an array of items" });
+    }
+
+    // Option 1: Delete all existing items and insert new ones
+    await Quatation.deleteMany();
+    const savedItems = await Quatation.insertMany(items);
+
+    // Option 2 (Alternative): Upsert each item individually
+    // for (let item of items) {
+    //   if (item._id) {
+    //     await Quatation.findByIdAndUpdate(item._id, item, { new: true, upsert: true });
+    //   } else {
+    //     await new Quatation(item).save();
+    //   }
+    // }
+
+    res.status(201).json(savedItems);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error saving bulk items", error });
   }
 };

@@ -13,6 +13,7 @@ const Sidebar = () => {
   { name: "Courses", icon: <BookOpen />, path: "/admin/courses" },
 
   { name: "Certificate", icon: <Award />, path: "/admin/Certificate" },
+   { name: "Quotation", icon: <Award />, path: "/admin/quotation" },
 
   
 ];

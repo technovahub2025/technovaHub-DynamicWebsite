@@ -4,6 +4,7 @@ import { Routes, Route, Link } from "react-router-dom";
 import GalleryImage from "../../../pages/admin/GalleryImage";
 import CourseAdmin from "../../../pages/admin/Courses/CourseAdmin";
 import CertificateAdmin from "../../../pages/admin/CertificateAdmin/CertificateAdmin";
+import QuotationUI from "../../../pages/admin/Quotation/Quotation";
 
 const HomePage = () => (
   <div className="p-4 flex flex-col  justify-center items-center h-[60vh] ">
@@ -32,6 +33,13 @@ const Certificate = () => (
   </div>
 );
 
+const Quotation = () => (
+  <div className="p-4">
+  <QuotationUI/>
+  </div>
+);
+
+
 
 
 const MainContent = () => {
@@ -42,6 +50,8 @@ const MainContent = () => {
         <Route path="gallery" element={<Gallery />} />
         <Route path="certificate" element={<Certificate />} />
         <Route path="courses" element={<Course />} />
+        <Route path="quotation" element={<Quotation />} />
+
        
       </Routes>
     </main>

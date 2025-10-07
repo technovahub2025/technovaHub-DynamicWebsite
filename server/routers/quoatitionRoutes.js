@@ -4,16 +4,20 @@ import {
   getItems,
   getItemById,
   updateItem,
-  deleteItem
+  deleteItem,
+  bulkSaveItems   // <-- import bulk function
 } from "../controllers/quotationController.js";
 
 const router = express.Router();
 
 // CRUD routes
-router.post("/", createItem);           // Create
-router.get("/", getItems);             // Get all
-router.get("/:id", getItemById);      // Get single
-router.put("/:id", updateItem);       // Update
-router.delete("/:id", deleteItem);    // Delete
+router.post("/", createItem);
+router.get("/", getItems);
+router.get("/:id", getItemById);
+router.put("/:id", updateItem);
+router.delete("/:id", deleteItem);
+
+// Bulk save route
+router.post("/bulk", bulkSaveItems);
 
 export default router;
