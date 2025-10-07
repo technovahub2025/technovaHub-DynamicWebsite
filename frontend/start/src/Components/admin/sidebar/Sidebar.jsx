@@ -14,6 +14,7 @@ const Sidebar = () => {
 
   { name: "Certificate", icon: <Award />, path: "/admin/Certificate" },
    { name: "Quotation", icon: <Award />, path: "/admin/quotation" },
+    { name: "Quotation Edit", icon: <Award />, path: "/admin/quotationEdit" },
 
   
 ];

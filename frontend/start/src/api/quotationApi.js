@@ -1,6 +1,6 @@
 import apiClient from "./apiClient";
 
-//get all gallary images
+//get quatation
 
 export const getQuotation = async () => {
     const res = await apiClient.get("/quatation")
@@ -8,19 +8,19 @@ export const getQuotation = async () => {
 }
 
 
-// Add new certificate
-export const addQuotation = async (certificate) => {
+// Add new quatation
+export const addQuotation = async (quatation) => {
   const res = await apiClient.post("/quatation", quatation);
   return res.data;
 };
 
-// Update certificate by ID
-export const updateQuotation = async (id, certificate) => {
+// Update quatation by ID
+export const updateQuotation = async (id, quatation) => {
   const res = await apiClient.put(`/quatation/${id}`, quatation);
   return res.data;
 };
 
-// Delete certificate by ID
+// Delete quatation by ID
 export const deleteQuotation = async (id) => {
   const res = await apiClient.delete(`/quatation/${id}`);
   return res.data;

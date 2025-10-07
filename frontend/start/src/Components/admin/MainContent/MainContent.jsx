@@ -5,6 +5,8 @@ import GalleryImage from "../../../pages/admin/GalleryImage";
 import CourseAdmin from "../../../pages/admin/Courses/CourseAdmin";
 import CertificateAdmin from "../../../pages/admin/CertificateAdmin/CertificateAdmin";
 import QuotationUI from "../../../pages/admin/Quotation/Quotation";
+import QuotationForm from "../../../pages/admin/Quotation/QuotationForm";
+import QuotationManager from "../../../pages/admin/Quotation/QuotationManager";
 
 const HomePage = () => (
   <div className="p-4 flex flex-col  justify-center items-center h-[60vh] ">
@@ -40,6 +42,12 @@ const Quotation = () => (
 );
 
 
+const QuotationEdit = () => (
+  <div className="p-4">
+<QuotationManager/>
+  </div>
+);
+
 
 
 const MainContent = () => {
@@ -51,6 +59,8 @@ const MainContent = () => {
         <Route path="certificate" element={<Certificate />} />
         <Route path="courses" element={<Course />} />
         <Route path="quotation" element={<Quotation />} />
+        <Route path="quotationEdit" element={<QuotationEdit />} />
+
 
        
       </Routes>
