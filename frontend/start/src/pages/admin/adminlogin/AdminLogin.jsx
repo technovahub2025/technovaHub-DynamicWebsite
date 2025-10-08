@@ -4,6 +4,8 @@ import logo from "../../../assets/images/logoremove.png";
 import { Link, useNavigate } from "react-router-dom";
 import { loginAdmin } from "../../../api/authApi";
 import toast from "react-hot-toast";
+import bgImage from "../../../assets/images/bk2.jpg";
+
 
 
 const AdminLogin = () => {
@@ -42,10 +44,13 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className=" p-3  flex  justify-center  ">
-      <div className="w-full max-w-3xl md:p-10 p-5 ">
-        <div className="flex justify-center">
-          <img src={logo} alt="Logo" className="rounded-full w-[150px] h-[150px] md:w-[200px] md:h-[200px]" />
+    <div  className="min-h-screen flex justify-center items-center bg-cover bg-center  p-3"
+      style={{ backgroundImage: `url(${bgImage})` }}>
+         
+
+      <div className="w-full max-w-xl md:p-10 p-5 bg-white/10 backdrop-blur-md shadow-lg rounded-[50px] ">
+        <div className="flex justify-center ">
+          <img src={logo} alt="Logo" className="rounded-full w-[150px] h-[150px] md:w-[290px] md:h-[250px]" />
         </div>
 
         <h2 className="text-2xl font-bold text-center mb-6 text-blue-900">Admin Login</h2>
@@ -59,7 +64,7 @@ const AdminLogin = () => {
               value={userName}
              onChange={(e) => setUserName(e.target.value.toLowerCase())}
               placeholder="Enter admin username"
-              className="mt-1 block w-full pl-10 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-500"
+              className="mt-1 block rounded-md w-full pl-10 px-3 py-2 border border-white rounded focus:outline-none focus:ring focus:border-blue-500"
               required
             />
           </div>
@@ -72,7 +77,7 @@ const AdminLogin = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter password"
-              className="mt-1 block w-full pl-10 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-500 pr-10"
+              className="mt-1 block rounded-md w-full pl-10 px-3 py-2 border border-white rounded focus:outline-none focus:ring focus:border-blue-500 pr-10"
               required
             />
             <button
@@ -80,14 +85,14 @@ const AdminLogin = () => {
               onClick={() => setShowPassword(!showPassword)}
               className="absolute inset-y-0 right-0 top-1/2 -translate-y-1/2 px-3 flex items-center text-gray-500"
             >
-              {showPassword ? <AiOutlineEyeInvisible size={20} /> : <AiOutlineEye size={20} />}
+              {showPassword ? <AiOutlineEyeInvisible className="text-white" size={20} /> : <AiOutlineEye className="text-white" size={20} />}
             </button>
           </div>
 
           {/* Submit & Back */}
           <div className="flex justify-between mb-10 items-center">
             <Link to="/">
-              <p className="mt-3 text-sm  text-blue-400">Back to website</p>
+              <p className="mt-3 text-sm  text-blue-400 underline  ">Back to website</p>
             </Link>
             <button
               type="submit"
