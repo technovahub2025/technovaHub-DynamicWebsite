@@ -44,7 +44,7 @@ const AdminLogin = () => {
   };
 
   return (
-    <div  className=" flex justify-center items-center h-[100vh]  bg-cover bg-center "
+    <div  className=" flex justify-center items-center  h-[100vh]  bg-cover bg-center "
       style={{ backgroundImage: `url(${bgImage})` }}>
          
 
@@ -53,7 +53,7 @@ const AdminLogin = () => {
           <img src={logo} alt="Logo" className="rounded-full w-[150px] h-[150px] md:w-[290px] md:h-[250px]" />
         </div>
 
-        <h2 className="text-2xl font-bold text-center mb-6 text-white">Admin Login</h2>
+        <h2 className="text-xl font-bold text-center mb-6 text-white">Admin Login</h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Username */}
