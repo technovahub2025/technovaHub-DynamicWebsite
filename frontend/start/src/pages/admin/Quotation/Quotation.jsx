@@ -101,27 +101,44 @@ export default function QuotationUI() {
   }
 
   const handleDownload = async () => {
-    if (!quotationRef.current) return;
+  if (!quotationRef.current) return;
 
-    try {
-      const canvas = await html2canvas(quotationRef.current, { scale: 2, useCORS: true, logging: false });
-      const imgData = canvas.toDataURL("image/png");
+  try {
+    // Clone the node
+    const clone = quotationRef.current.cloneNode(true);
+    // Temporarily remove any scaling
+    clone.style.transform = "scale(1)";
+    clone.style.width = "210mm";
+    clone.style.minHeight = "297mm";
+    clone.style.maxWidth = "100%";
 
-      const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
-      const imgWidth = canvas.width;
-      const imgHeight = canvas.height;
-      const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
-      const imgX = (pdfWidth - imgWidth * ratio) / 2;
-      const imgY = 0;
+    // Append clone off-screen
+    clone.style.position = "absolute";
+    clone.style.top = "-9999px";
+    document.body.appendChild(clone);
 
-      pdf.addImage(imgData, "PNG", imgX, imgY, imgWidth * ratio, imgHeight * ratio);
-      pdf.save(`Quotation_${voucherInfo.voucherNo}.pdf`);
-    } catch (error) {
-      console.error("Error generating PDF:", error);
-    }
-  };
+    const canvas = await html2canvas(clone, { scale: 2, useCORS: true });
+    const imgData = canvas.toDataURL("image/png");
+
+    const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = pdf.internal.pageSize.getHeight();
+    const imgWidth = canvas.width;
+    const imgHeight = canvas.height;
+    const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+    const imgX = (pdfWidth - imgWidth * ratio) / 2;
+    const imgY = 0;
+
+    pdf.addImage(imgData, "PNG", imgX, imgY, imgWidth * ratio, imgHeight * ratio);
+    pdf.save(`Quotation_${voucherInfo.voucherNo}.pdf`);
+
+    // Remove the clone
+    document.body.removeChild(clone);
+  } catch (error) {
+    console.error("Error generating PDF:", error);
+  }
+};
+
 
   if (loading) return <div className="p-4">Loading...</div>;
 
