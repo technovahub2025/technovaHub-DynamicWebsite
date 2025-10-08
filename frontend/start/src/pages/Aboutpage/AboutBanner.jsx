@@ -16,7 +16,7 @@ export default function AboutUsSection() {
 
   return (
     <section className="w-full py-12 px-3 md:px-12 lg:px-20">
-      <div className="max-w-5xl mx-auto flex flex-col items-center text-center space-y-8">
+      <div className="max-w-4xl mx-auto flex flex-col items-center text-center space-y-8">
         {/* heading Components */}
         <div data-aos="fade-up">
           <Title text="ABOUT US" />

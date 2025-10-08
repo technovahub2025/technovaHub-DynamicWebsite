@@ -20,6 +20,8 @@ import ProtectedRoute from "./Components/protectRoutes/ProtectedRoute";
 import Backtop from "./Components/Backtop/Backtop";
 import Softwaresol from "./pages/softwareSolutions/Softwaresol";
 import ScrollToTop from "./Components/ScrollToTop";
+import Cursor from "./Components/Cursor";
+import NeonCursor from "./Components/NeonCursor";
 
 
 
@@ -31,6 +33,9 @@ const Layout = ({ children }) => {
   return (
     <div>
       {!hideHeaderFooter && <Navbar />}
+        {/* {!hideHeaderFooter && <Cursor />} */}
+      
+
       {children}
       {!hideHeaderFooter && <Footer />}
       {!hideHeaderFooter && <Backtop />}

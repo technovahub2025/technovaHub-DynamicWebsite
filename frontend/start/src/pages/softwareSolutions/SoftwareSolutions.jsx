@@ -34,7 +34,7 @@ const SoftwareSolutions = () => {
         <Title text="Software Solutions" />
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 mt-6 lg:grid-cols-3 max-w-7xl mx-auto mt-3">
+      <div className="grid gap-6 md:grid-cols-2 mt-6 lg:grid-cols-3 max-w-5xl mx-auto mt-3">
         {solutions.length > 0 ? (
           solutions.map((item, index) => (
             <div
@@ -43,7 +43,7 @@ const SoftwareSolutions = () => {
               data-aos="fade-up"
               data-aos-delay={index * 200} // stagger effect
             >
-              <h2 className="text-xl mb-5 font-bold text-blue-500 mb-2">
+              <h2 className="text-md lg:text-lg mb-5 font-bold text-blue-500 mb-2">
                 {item.title}
               </h2>
               <p className="text-gray-600 text-sm md:text-md lg:text-lg">{item.description}</p>

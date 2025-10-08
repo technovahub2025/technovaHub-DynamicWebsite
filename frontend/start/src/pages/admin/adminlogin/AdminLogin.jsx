@@ -55,7 +55,7 @@ const AdminLogin = () => {
 
         <h2 className="text-xl font-bold text-center mb-6 text-white">Admin Login</h2>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-5">
           {/* Username */}
           <div className="relative">
             <AiOutlineUser className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
@@ -64,7 +64,7 @@ const AdminLogin = () => {
               value={userName}
              onChange={(e) => setUserName(e.target.value.toLowerCase())}
               placeholder="Enter admin username"
-              className="mt-1 block rounded-md w-full pl-10 px-3 py-2 border border-white rounded focus:outline-none focus:ring focus:border-blue-500"
+              className="mt-1 block text-white rounded-md w-full pl-10 px-3 py-2 border border-white rounded focus:outline-none focus:ring focus:border-blue-500"
               required
             />
           </div>
@@ -77,7 +77,7 @@ const AdminLogin = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter password"
-              className="mt-1 block rounded-md w-full pl-10 px-3 py-2 border border-white rounded focus:outline-none focus:ring focus:border-blue-500 pr-10"
+              className="mt-1 block rounded-md text-white w-full pl-10 px-3 py-2 border border-white rounded focus:outline-none focus:ring focus:border-blue-500 pr-10"
               required
             />
             <button
