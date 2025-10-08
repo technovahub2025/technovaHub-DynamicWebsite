@@ -1,39 +1,48 @@
 import React from "react";
 import { FaPowerOff } from "react-icons/fa";
+import { Menu } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { logoutAdmin } from "../../../api/authApi"; 
+import { logoutAdmin } from "../../../api/authApi";
 import { toast } from "react-toastify";
 
-const DashboardHeader = () => {
+const DashboardHeader = ({ toggleSidebar }) => {
   const navigate = useNavigate();
-
-  // Get adminUser from localStorage
-  const adminUser = JSON.parse(localStorage.getItem("adminUser") || '{}');
+  const adminUser = JSON.parse(localStorage.getItem("adminUser") || "{}");
   const userName = adminUser.userName || "Admin";
 
   const handleLogout = async () => {
     try {
       await logoutAdmin();
-       localStorage.removeItem("adminToken"); 
-      localStorage.removeItem("adminUser"); 
-      toast.success("Logout Successfully")
-      navigate("/adminlogin"); 
+      localStorage.removeItem("adminToken");
+      localStorage.removeItem("adminUser");
+      toast.success("Logout Successfully");
+      navigate("/adminlogin");
     } catch (err) {
-      toast.error("Logout failed:", err.message || err);
-      
+      toast.error("Logout failed");
     }
   };
 
   return (
-    <header className="bg-white shadow md:p-4 p-2 flex justify-between items-center">
-      <h2 className="md:text-xl  text-sm font-semibold text-blue-500">TechnovaHub </h2>
+    <header className="bg-white shadow-md p-4 flex justify-between items-center">
+      <div className="flex items-center gap-3">
+        {/* Mobile Menu Toggle */}
+        <button
+          onClick={toggleSidebar}
+          className="md:hidden text-blue-600 focus:outline-none"
+        >
+          <Menu size={24} />
+        </button>
+
+        <h2 className="text-xl font-semibold text-blue-600">TechnovaHub</h2>
+      </div>
+
       <div className="flex items-center gap-4">
-        <span className="text-blue-700 text-[10px] md:text-sm  uppercase">{userName}</span>
+        <span className="text-blue-700 text-sm uppercase">{userName}</span>
         <button
           onClick={handleLogout}
-          className=" shadow-xl md:p-2 p-2 md:px-3 rounded-full md:px-4 cursor-pointer bg-red-600 text-white"
+          className="p-2 bg-red-600 text-white rounded-full shadow-md"
         >
-         <FaPowerOff />
+          <FaPowerOff />
         </button>
       </div>
     </header>

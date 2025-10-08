@@ -10,11 +10,11 @@ import QuotationManager from "../../../pages/admin/Quotation/QuotationManager";
 
 const HomePage = () => (
   <div className="p-4 flex flex-col  justify-center items-center h-[60vh] ">
-    <img src={logo} alt="" />
+    <img src={logo} alt="" className="w-[200px] md:w-[400px]" />
     <h1 className="md:text-4xl text-blue-900 font-bold">
       Welcome to Technova Hub
     </h1>
-    <Link to="/" className="mt-10 bg-blue-500 p-5 px-5 text-white rounded-md border-1 border-white ">
+    <Link to="/" className="mt-10 bg-blue-500 md:p-5 md:px-5 p-3 text-white rounded-md border-1 border-white ">
          Go to Website
     </Link>
   </div>

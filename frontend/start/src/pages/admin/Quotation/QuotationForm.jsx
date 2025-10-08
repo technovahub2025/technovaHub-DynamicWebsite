@@ -119,12 +119,12 @@ const QuotationForm = ({ editData, onUpdateComplete }) => {
           onSubmit={handleSubmit}
           className="w-full max-w-5xl  "
         >
-          <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+          <h2 className="text-xl font-bold  mb-6  text-blue-800 text-center">
             {isEdit ? "Edit Quotation" : "Add New Quotation"}
           </h2>
 
           {/* Row 1 */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 gap-3 mb-4">
             <input
               name="desc"
               placeholder="Product Description"
@@ -163,7 +163,7 @@ const QuotationForm = ({ editData, onUpdateComplete }) => {
           </div>
 
           {/* Row 3 */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-4">
             <input
               name="qty"
               type="number"
@@ -180,13 +180,7 @@ const QuotationForm = ({ editData, onUpdateComplete }) => {
               onChange={handleChange}
                className="w-full px-4 py-3 border-2   border-gray-200 shadow-lg  rounded-lg focus:ring-2  focus:ring-blue-400 focus:outline-none"
             />
-            <input
-              name="unit"
-              placeholder="Unit (pcs, kg)"
-              value={formData.unit}
-              onChange={handleChange}
-                className="w-full px-4 py-3 border-2   border-gray-200 shadow-lg  rounded-lg focus:ring-2  focus:ring-blue-400 focus:outline-none"
-            />
+            
           </div>
 
           {/* Row 4 */}
@@ -207,6 +201,13 @@ const QuotationForm = ({ editData, onUpdateComplete }) => {
               onChange={handleChange}
                className="w-full px-4 py-3 border-2   border-gray-200 shadow-lg  rounded-lg focus:ring-2  focus:ring-blue-400 focus:outline-none"
             />
+             <input
+              name="unit"
+              placeholder="Unit (pcs, kg)"
+              value={formData.unit}
+              onChange={handleChange}
+                className="w-full px-4 py-3 border-2   border-gray-200 shadow-lg  rounded-lg focus:ring-2  focus:ring-blue-400 focus:outline-none"
+            />
           </div>
 
           {/* Total Amount */}
@@ -219,6 +220,7 @@ const QuotationForm = ({ editData, onUpdateComplete }) => {
               disabled
                className="w-full px-4 py-3 border-2   border-gray-200 shadow-lg  rounded-lg focus:ring-2  focus:ring-blue-400 focus:outline-none"
             />
+           
           </div>
 
           <button
