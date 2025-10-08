@@ -4,7 +4,7 @@ import logo from "../../../assets/images/logoremove.png";
 import { Link, useNavigate } from "react-router-dom";
 import { loginAdmin } from "../../../api/authApi";
 import toast from "react-hot-toast";
-import bgImage from "../../../assets/images/bk2.jpg";
+import bgImage from "../../../assets/images/bk3.jpg";
 
 
 
@@ -44,16 +44,16 @@ const AdminLogin = () => {
   };
 
   return (
-    <div  className="min-h-screen flex justify-center items-center bg-cover bg-center  p-3"
+    <div  className=" flex justify-center items-center h-[100vh]  bg-cover bg-center "
       style={{ backgroundImage: `url(${bgImage})` }}>
          
 
-      <div className="w-full max-w-xl md:p-10 p-5 bg-white/10 backdrop-blur-md shadow-lg rounded-[50px] ">
+      <div className="w-full   max-w-xl md:p-10 p-8 bg-white/10 backdrop-blur-md shadow-lg rounded-[50px] ">
         <div className="flex justify-center ">
           <img src={logo} alt="Logo" className="rounded-full w-[150px] h-[150px] md:w-[290px] md:h-[250px]" />
         </div>
 
-        <h2 className="text-2xl font-bold text-center mb-6 text-blue-900">Admin Login</h2>
+        <h2 className="text-2xl font-bold text-center mb-6 text-white">Admin Login</h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Username */}
@@ -97,11 +97,11 @@ const AdminLogin = () => {
             <button
               type="submit"
               disabled={loading}
-              className={`mt-5 bg-blue-400 hover:bg-blue-500 text-white py-2 px-4 rounded transition ${
+              className={`mt-5 bg-blue-400 hover:bg-blue-500 text-white md:py-2 p-2 border-2 border-white  md:px-4 rounded transition ${
                 loading ? "opacity-50 cursor-not-allowed" : ""
               }`}
             >
-              {loading ? "Logging in..." : "Go to Admin Dashboard"}
+              {loading ? "Logging in..." : " Go to Dashboard"}
             </button>
           </div>
         </form>
