@@ -100,26 +100,42 @@ export default function QuotationUI() {
     return words + " Only";
   }
 
-  const handleDownload = async () => {
+const handleDownload = async () => {
   if (!quotationRef.current) return;
 
   try {
-    // Clone the node
+    // Step 1: Clone the quotation element
     const clone = quotationRef.current.cloneNode(true);
-    // Temporarily remove any scaling
-    clone.style.transform = "scale(1)";
-    clone.style.width = "210mm";
-    clone.style.minHeight = "297mm";
-    clone.style.maxWidth = "100%";
 
-    // Append clone off-screen
-    clone.style.position = "absolute";
-    clone.style.top = "-9999px";
+    // Step 2: Apply A4 dimensions and remove scaling
+    Object.assign(clone.style, {
+      transform: "scale(1)",
+      width: "210mm",
+      minHeight: "297mm",
+      position: "absolute",
+      top: "-9999px",
+      left: "0",
+      background: "white",
+      maxWidth: "100%",
+      zoom: "1", // ensure normal scale
+    });
+
+    // Step 3: Append clone off-screen (not visible)
     document.body.appendChild(clone);
 
-    const canvas = await html2canvas(clone, { scale: 2, useCORS: true });
-    const imgData = canvas.toDataURL("image/png");
+    // Step 4: Generate canvas from unscaled clone
+    const canvas = await html2canvas(clone, {
+      scale: 2,
+      useCORS: true,
+      logging: false,
+      scrollX: 0,
+      scrollY: 0,
+      windowWidth: 210 * 4, // ensures high-res A4 capture
+      windowHeight: 297 * 4,
+    });
 
+    // Step 5: Convert canvas to image and add to PDF
+    const imgData = canvas.toDataURL("image/png");
     const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
     const pdfWidth = pdf.internal.pageSize.getWidth();
     const pdfHeight = pdf.internal.pageSize.getHeight();
@@ -132,7 +148,7 @@ export default function QuotationUI() {
     pdf.addImage(imgData, "PNG", imgX, imgY, imgWidth * ratio, imgHeight * ratio);
     pdf.save(`Quotation_${voucherInfo.voucherNo}.pdf`);
 
-    // Remove the clone
+    // Step 6: Remove temporary clone
     document.body.removeChild(clone);
   } catch (error) {
     console.error("Error generating PDF:", error);
@@ -140,7 +156,8 @@ export default function QuotationUI() {
 };
 
 
-  if (loading) return <div className="p-4">Loading...</div>;
+
+  if (loading) return <div className="flex justify-center items-center  h-[100vh]">Loading...</div>;
 
   return (
     <div className="w-full min-h-screen bg-white flex flex-col items-center py-8 px-2 md:px-4">
