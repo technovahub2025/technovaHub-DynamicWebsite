@@ -114,13 +114,17 @@ export default function QuotationUI() {
   return (
     <div className="w-full min-h-screen bg-gray-100 flex flex-col items-center justify-start py-5 px-2 overflow-x-auto">
       {/* Auto-center + scale container */}
-      <div className="flex justify-center items-start w-full overflow-x-auto">
+      <div className="flex justify-center items-start w-full overflow-x-auto overflow-y-auto">
         {/* Scale dynamically based on screen */}
         <div
-          className="origin-top scale-[0.65] sm:scale-[0.8] md:scale-[0.95] lg:scale-[1]"
+          className="
+            origin-top
+            w-[1000px] h-[400px] scale-[0.40]
+            sm:w-[1000px] sm:h-[900px] sm:scale-[0.20]
+            md:w-[190mm] md:scale-[0.95]
+            lg:w-[210mm] lg:scale-[1]
+          "
           style={{
-            width: "210mm",
-            minHeight: "297mm",
             transition: "transform 0.3s ease-in-out",
           }}
         >

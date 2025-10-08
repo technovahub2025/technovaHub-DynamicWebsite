@@ -36,14 +36,14 @@ const Certificate = () => (
 );
 
 const Quotation = () => (
-  <div className="p-4">
+  <div className="">
   <QuotationUI/>
   </div>
 );
 
 
 const QuotationEdit = () => (
-  <div className="p-4">
+  <div className="">
 <QuotationManager/>
   </div>
 );

@@ -41,7 +41,8 @@ const QuotationTable = ({ onEdit }) => {
     if (onEdit) onEdit(quotation);
   };
 
-  if (loading) return <p className="text-center mt-10 text-gray-500">Loading...</p>;
+  if (loading)
+    return <p className="text-center mt-10 text-gray-500">Loading...</p>;
 
   // Pagination logic
   const indexOfLastRow = currentPage * rowsPerPage;
@@ -50,72 +51,75 @@ const QuotationTable = ({ onEdit }) => {
   const totalPages = Math.ceil(quotations.length / rowsPerPage);
 
   return (
-    <div className="mt-6 shadow-lg rounded-lg overflow-hidden border border-gray-200">
-      <table className="min-w-full text-sm">
-        <thead className="bg-gradient-to-r from-blue-300 to-indigo-300 text-white">
-          <tr>
-            <th className="py-3 px-4 text-left">Description</th>
-            <th className="py-3 px-4 text-left">HSN</th>
-            <th className="py-3 px-4 text-left">GST %</th>
-            <th className="py-3 px-4 text-left">Due ON</th>
-            <th className="py-3 px-4 text-left">Batch</th>
-            <th className="py-3 px-4 text-left">Qty</th>
-            <th className="py-3 px-4 text-left">Rate</th>
-            <th className="py-3 px-4 text-left">Unit</th>
-            <th className="py-3 px-4 text-left">Discount %</th>
-            <th className="py-3 px-4 text-left">Amount</th>
-            <th className="py-3 px-4 text-left">Actions</th>
-          </tr>
-        </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
-          {currentRows.length === 0 ? (
+    <div className="mt-6 rounded-lg overflow-hidden border border-gray-200 shadow-lg">
+      {/* Scrollable container for mobile */}
+      <div className="overflow-x-auto w-full">
+        <table className="min-w-[1000px] w-full text-sm">
+          <thead className="bg-gradient-to-r from-blue-300 to-indigo-300 text-white">
             <tr>
-              <td colSpan="11" className="text-center py-6 text-gray-500">
-                No quotations found.
-              </td>
+              <th className="py-3 px-4 text-left">Description</th>
+              <th className="py-3 px-4 text-left">HSN</th>
+              <th className="py-3 px-4 text-left">GST %</th>
+              <th className="py-3 px-4 text-left">Due ON</th>
+              <th className="py-3 px-4 text-left">Batch</th>
+              <th className="py-3 px-4 text-left">Qty</th>
+              <th className="py-3 px-4 text-left">Rate</th>
+              <th className="py-3 px-4 text-left">Unit</th>
+              <th className="py-3 px-4 text-left">Discount %</th>
+              <th className="py-3 px-4 text-left">Amount</th>
+              <th className="py-3 px-4 text-left">Actions</th>
             </tr>
-          ) : (
-            currentRows.map((q, idx) => (
-              <tr
-                key={q._id}
-                className={`transition hover:bg-blue-50 ${
-                  idx % 2 === 0 ? "bg-gray-50" : ""
-                }`}
-              >
-                <td className="py-2 px-4">{q.desc}</td>
-                <td className="py-2 px-4">{q.hsn}</td>
-                <td className="py-2 px-4">{q.gst}%</td>
-                <td className="py-2 px-4">
-                  {q.dueOn ? new Date(q.dueOn).toLocaleDateString() : "-"}
-                </td>
-                <td className="py-2 px-4">{q.batch}</td>
-                <td className="py-2 px-4">{q.qty}</td>
-                <td className="py-2 px-4">{q.rate}</td>
-                <td className="py-2 px-4">{q.unit}</td>
-                <td className="py-2 px-4">{q.discount}</td>
-                <td className="py-2 px-4 font-semibold">{q.amount}</td>
-                <td className="py-2 px-4 flex gap-2">
-                  <button
-                    onClick={() => handleEdit(q)}
-                    className="px-3 py-1 bg-yellow-400 text-white rounded shadow hover:bg-yellow-500 transition"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleDelete(q._id)}
-                    className="px-3 py-1 bg-red-500 text-white rounded shadow hover:bg-red-600 transition"
-                  >
-                    Delete
-                  </button>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {currentRows.length === 0 ? (
+              <tr>
+                <td colSpan="11" className="text-center py-6 text-gray-500">
+                  No quotations found.
                 </td>
               </tr>
-            ))
-          )}
-        </tbody>
-      </table>
+            ) : (
+              currentRows.map((q, idx) => (
+                <tr
+                  key={q._id}
+                  className={`transition hover:bg-blue-50 ${
+                    idx % 2 === 0 ? "bg-gray-50" : ""
+                  }`}
+                >
+                  <td className="py-2 px-4">{q.desc}</td>
+                  <td className="py-2 px-4">{q.hsn}</td>
+                  <td className="py-2 px-4">{q.gst}%</td>
+                  <td className="py-2 px-4">
+                    {q.dueOn ? new Date(q.dueOn).toLocaleDateString() : "-"}
+                  </td>
+                  <td className="py-2 px-4">{q.batch}</td>
+                  <td className="py-2 px-4">{q.qty}</td>
+                  <td className="py-2 px-4">{q.rate}</td>
+                  <td className="py-2 px-4">{q.unit}</td>
+                  <td className="py-2 px-4">{q.discount}</td>
+                  <td className="py-2 px-4 font-semibold">{q.amount}</td>
+                  <td className="py-2 px-4 flex gap-2">
+                    <button
+                      onClick={() => handleEdit(q)}
+                      className="px-3 py-1 bg-yellow-400 text-white rounded shadow hover:bg-yellow-500 transition"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(q._id)}
+                      className="px-3 py-1 bg-red-500 text-white rounded shadow hover:bg-red-600 transition"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
 
       {/* Pagination */}
-      <div className="flex justify-center items-center gap-2 py-3 bg-gray-50">
+      <div className="flex justify-center items-center gap-2 py-3 bg-gray-50 flex-wrap">
         <button
           onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
           disabled={currentPage === 1}

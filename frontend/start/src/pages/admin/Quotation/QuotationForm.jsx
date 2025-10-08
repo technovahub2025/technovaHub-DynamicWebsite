@@ -115,17 +115,17 @@ const QuotationForm = ({ editData, onUpdateComplete }) => {
 
   return (
     <>
-      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 flex items-center justify-center p-4">
+      <div className=" flex items-center justify-center p-4">
         <form
           onSubmit={handleSubmit}
-          className="w-full max-w-5xl p-6 "
+          className="w-full max-w-5xl  "
         >
           <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
             {isEdit ? "Edit Quotation" : "Add New Quotation"}
           </h2>
 
           {/* Row 1 */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
             <input
               name="desc"
               placeholder="Product Description"
@@ -145,7 +145,7 @@ const QuotationForm = ({ editData, onUpdateComplete }) => {
           </div>
 
           {/* Row 2 */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 gap-4 mb-4">
             <input
               name="gst"
               type="number"
@@ -191,7 +191,7 @@ const QuotationForm = ({ editData, onUpdateComplete }) => {
           </div>
 
           {/* Row 4 */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 gap-1 md:gap-3 mb-4">
             <input
               name="discount"
               type="number"
@@ -224,7 +224,7 @@ const QuotationForm = ({ editData, onUpdateComplete }) => {
 
           <button
             type="submit"
-            className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold py-3 rounded-xl shadow-lg hover:from-indigo-600 hover:to-blue-500 transition-all duration-300"
+            className=" px-5 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold py-3 rounded-xl shadow-lg hover:from-indigo-600 hover:to-blue-500 transition-all duration-300"
           >
             {isEdit ? "Update Quotation" : "Add Quotation"}
           </button>
