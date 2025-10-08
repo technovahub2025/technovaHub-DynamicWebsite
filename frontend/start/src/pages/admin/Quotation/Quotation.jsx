@@ -1,35 +1,55 @@
-import React, { useEffect, useRef, useState } from "react";
-import jsPDF from "jspdf";
+import React, { useRef, useState, useEffect } from "react";
 import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 import { getQuotation } from "../../../api/quotationApi";
 import qr from "../../../assets/images/qrlogo.jpeg";
 import qr2 from "../../../assets/images/iso.jpg";
 import qr3 from "../../../assets/images/fsai.png";
 import qr4 from "../../../assets/images/gmp.jpg";
+import { FaDownload } from "react-icons/fa";
 
 export default function QuotationUI() {
   const quotationRef = useRef(null);
-  const [items, setItems] = useState([]);
 
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const [buyerInfo, setBuyerInfo] = useState({
+    address: "Plot: 1/1 to 1/4, Mannadipet Commune,",
+    gstin: "34XXXXX1234X1XX",
+    stateCode: "34",
+    contact: "John Doe",
+    mobile: "+91 9876543210",
+  });
+
+  const [voucherInfo, setVoucherInfo] = useState({
+    voucherNo: "ASSE/25-26/8181",
+    dated: "02/10/2025",
+    paymentMode: "02 Days",
+    buyerRef: "ASSE/25-26/8181",
+    dispatchedThrough: "By Hand",
+    destination: "Free Door Delivery",
+    immediateDated: "Immediate",
+  });
+
+  const [declarationInfo, setDeclarationInfo] = useState({
+    declarationText:
+      "Product Quality: Tested by QMS, EMS, OHSAS. No Sales Involved. Payments will be received only in company name through Cheque. Goods once sold cannot be taken back in any circumstances.",
+    bankName: "HDFC BANK",
+    accountNo: "50200000453361",
+    branchIfsc: "45 FEET ROAD, & HDFC0001278",
+  });
+
+  // Fetch data from API
   useEffect(() => {
     async function fetchItems() {
       try {
         const data = await getQuotation();
-        const mapped = data.map((it, idx) => ({
-          id: it._id,
-          sno: idx + 1,
-          desc: it.desc,
-          hsn: it.hsn,
-          gst: it.gst,
-          dueOn: it.dueOn,
-          qty: it.qty || 0,
-          rate: it.rate || 0,
-          unit: it.unit || "",
-          discount: it.discount || 0,
-        }));
-        setItems(mapped);
-      } catch (err) {
-        console.error(err);
+        setItems(data || []);
+      } catch (error) {
+        console.error("Error fetching quotations:", error);
+      } finally {
+        setLoading(false);
       }
     }
     fetchItems();
@@ -37,10 +57,11 @@ export default function QuotationUI() {
 
   // Total calculation
   const total = items.reduce((acc, row) => {
-    const qty = parseFloat(row.qty) || 0;
-    const rate = parseFloat(row.rate) || 0;
-    const discount = parseFloat(row.discount) || 0;
-    const gst = parseFloat(String(row.gst || "").replace("%", "").trim()) || 0;
+    const qty = Number(row.qty) || 0;
+    const rate = Number(row.rate) || 0;
+    const discount = Number(row.discount) || 0;
+    const gst = Number(row.gst) || 0;
+
     const amount = qty * rate;
     const afterDiscount = amount - (amount * discount) / 100;
     const finalAmt = afterDiscount + (afterDiscount * gst) / 100;
@@ -79,70 +100,48 @@ export default function QuotationUI() {
     return words + " Only";
   }
 
-  // Download PDF
-  const handleDownloadPDF = async () => {
-    const element = quotationRef.current;
+  const handleDownload = async () => {
+    if (!quotationRef.current) return;
 
-    const clone = element.cloneNode(true);
-    clone.querySelectorAll("*").forEach((el) => {
-      const style = window.getComputedStyle(el);
-      if (style.backgroundColor.includes("oklch") || style.backgroundColor.includes("lab") || style.backgroundColor.includes("lch")) {
-        el.style.backgroundColor = "#ffffff";
-      }
-      if (style.color.includes("oklch") || style.color.includes("lab") || style.color.includes("lch")) {
-        el.style.color = "#000000";
-      }
-    });
+    try {
+      const canvas = await html2canvas(quotationRef.current, { scale: 2, useCORS: true, logging: false });
+      const imgData = canvas.toDataURL("image/png");
 
-    const wrapper = document.createElement("div");
-    wrapper.style.position = "fixed";
-    wrapper.style.left = "-9999px";
-    wrapper.appendChild(clone);
-    document.body.appendChild(wrapper);
+      const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      const imgWidth = canvas.width;
+      const imgHeight = canvas.height;
+      const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+      const imgX = (pdfWidth - imgWidth * ratio) / 2;
+      const imgY = 0;
 
-    const canvas = await html2canvas(clone, { scale: 2, useCORS: true });
-    const imgData = canvas.toDataURL("image/png");
-    const pdf = new jsPDF("p", "mm", "a4");
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-    pdf.save("Quotation.pdf");
-
-    document.body.removeChild(wrapper);
+      pdf.addImage(imgData, "PNG", imgX, imgY, imgWidth * ratio, imgHeight * ratio);
+      pdf.save(`Quotation_${voucherInfo.voucherNo}.pdf`);
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+    }
   };
 
+  if (loading) return <div className="p-4">Loading...</div>;
+
   return (
-    <div className="w-full min-h-screen bg-gray-100 flex flex-col items-center justify-start py-5 px-2 overflow-x-auto">
-      {/* Auto-center + scale container */}
-      <div className="flex justify-center items-start w-full overflow-x-auto overflow-y-auto">
-        {/* Scale dynamically based on screen */}
-        <div
-          className="
-            origin-top
-            w-[1000px] h-[400px] scale-[0.40]
-            sm:w-[1000px] sm:h-[900px] sm:scale-[0.20]
-            md:w-[190mm] md:scale-[0.95]
-            lg:w-[210mm] lg:scale-[1]
-          "
-          style={{
-            transition: "transform 0.3s ease-in-out",
-          }}
-        >
-          {/* Quotation layout (A4 fixed) */}
-          <div
-            ref={quotationRef}
-            className="relative bg-white text-black shadow-lg border p-4 sm:p-6 overflow-hidden"
-            style={{
-              width: "210mm",
-              minHeight: "297mm",
-              maxWidth: "100%",
-              transformOrigin: "top center",
-            }}
-          >
-            {/* Header */}
-            <div className="flex justify-between items-center border-b pb-4 gap-10 mb-4">
+    <div className="w-full min-h-screen bg-white shadow-lg flex flex-col items-center py-8 px-4">
+      <div className="mb-6 w-full max-w-[210mm] flex justify-end no-print">
+  <button
+    onClick={handleDownload}
+    className="shadow-lg p-2 bg-green-200 flex items-center gap-2"
+  >
+    <FaDownload />
+    <span>Download Quotation</span>
+  </button>
+</div>
+
+      <div className="w-full max-w-[210mm] bg-card p-8 shadow-lg rounded-lg" ref={quotationRef}>
+        {/* Header */}
+       <div className="flex justify-between items-center border-b pb-4 gap-10 mb-4">
               <div>
-                <img src={qr} alt="logo" className="w-[290px] h-[50px]" />
+                <img src={qr} alt="logo" className="md:w-[290px]  md:h-[50px]" />
               </div>
               <div>
                 <h1 className="text-sm sm:text-lg font-bold">Aroun Systems & Safety Equipments</h1>
@@ -158,157 +157,154 @@ export default function QuotationUI() {
               </div>
             </div>
 
-            <h1 className="text-center font-extrabold text-lg sm:text-xl mb-4">AROUN - QUOTATION</h1>
-
-            {/* Buyer & Details */}
-            <div className="grid grid-cols-2 gap-2 mb-3">
-              <div className="max-w-2xl p-3 border">
-                <h2 className="font-bold">Buyer (Bill to)</h2>
-                <p className="text-sm mt-3" contentEditable>Plot: 1/1 to 1/4, Mannadipet Commune,</p>
-                <p className="text-sm mt-3" contentEditable>GSTIN/UIN :</p>
-                <p className="text-sm mt-3" contentEditable>State Name : Code : 34</p>
-                <p className="text-sm mt-3" contentEditable>Contact :</p>
-                <p className="text-sm mt-3" contentEditable>Mobile :</p>
-              </div>
-
-              <div className="max-w-2xl p-3 border">
-                <div className="flex justify-between items-center">
-                  <h2 className="font-bold text-sm">Voucher No.</h2>
-                  <p className="text-sm mt-3" contentEditable>ASSE/25-26/8181</p>
-                </div>
-                <hr />
-                <div className="flex justify-between items-center">
-                  <h2 className="font-bold text-sm">Dated</h2>
-                  <p className="text-sm mt-3" contentEditable>02/10/2025</p>
-                </div>
-                <hr />
-                <div className="flex justify-between items-center">
-                  <h2 className="font-bold text-sm">Mode/Terms of Payment</h2>
-                  <p className="text-sm mt-3" contentEditable>02 Days</p>
-                </div>
-                <hr />
-                <div className="flex justify-between items-center">
-                  <h2 className="font-bold text-sm">Buyer's Ref./Order No.</h2>
-                  <p className="text-sm mt-3" contentEditable>ASSE/25-26/8181</p>
-                </div>
-                <hr />
-                <div className="flex justify-between items-center">
-                  <h2 className="font-bold text-sm">Dispatched through</h2>
-                  <p className="text-sm mt-3" contentEditable>By Hand</p>
-                </div>
-                <hr />
-                <div className="flex justify-between items-center">
-                  <h2 className="font-bold text-sm">Destination</h2>
-                  <p className="text-sm mt-3" contentEditable>Free Door Delivery</p>
-                </div>
-                <hr />
-                <div className="flex justify-between items-center">
-                  <h2 className="font-bold text-sm">Dated</h2>
-                  <p className="text-sm mt-3" contentEditable>Immediate</p>
-                </div>
-              </div>
+            <div className="flex justify-center mb-5">
+              <h1 className="font-extrabold text-xl">AROUN - QUOTATION</h1>
             </div>
 
-            {/* Table */}
-            <div className="overflow-x-auto">
-              <table className="table-auto w-full text-xs sm:text-sm border-collapse border border-gray-400">
-                <thead>
-                  <tr className="bg-gray-100">
-                    <th className="border px-2 py-1">Sl No.</th>
-                    <th className="border px-2 py-1">Description</th>
-                    <th className="border px-2 py-1">HSN</th>
-                    <th className="border px-2 py-1">GST</th>
-                    <th className="border px-2 py-1">Due On</th>
-                    <th className="border px-2 py-1">Qty</th>
-                    <th className="border px-2 py-1">Rate</th>
-                    <th className="border px-2 py-1">Per</th>
-                    <th className="border px-2 py-1">Disc %</th>
-                    <th className="border px-2 py-1">Amount</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {items.map((row) => {
-                    const qty = parseFloat(row.qty) || 0;
-                    const rate = parseFloat(row.rate) || 0;
-                    const discount = parseFloat(row.discount) || 0;
-                    const gst = parseFloat(String(row.gst || "").replace("%", "").trim()) || 0;
-                    const amount = qty * rate;
-                    const afterDiscount = amount - (amount * discount) / 100;
-                    const finalAmt = afterDiscount + (afterDiscount * gst) / 100;
+        {/* Buyer & Voucher Info */}
+        <div className="grid grid-cols-2 gap-4 mb-6">
+          <div className="p-4 border border-border rounded">
+            <h3 className="font-bold text-foreground mb-3">Buyer (Bill to)</h3>
+            {Object.entries(buyerInfo).map(([key, value]) => (
+              <p
+                key={key}
+                className="text-sm mt-2 text-foreground"
+                contentEditable
+                suppressContentEditableWarning={true}
+                onInput={(e) => setBuyerInfo({ ...buyerInfo, [key]: e.currentTarget.textContent || "" })}
+              >
+                {key === "gstin" ? `GSTIN/UIN: ${value}` :
+                 key === "stateCode" ? `State Code: ${value}` :
+                 key === "contact" ? `Contact: ${value}` :
+                 key === "mobile" ? `Mobile: ${value}` :
+                 value
+                }
+              </p>
+            ))}
+          </div>
 
-                    return (
-                      <tr key={row.id}>
-                        <td className="border px-1 py-1 text-center">{row.sno}</td>
-                        <td className="border px-1 py-1 text-left">{row.desc}</td>
-                        <td className="border px-1 py-1 text-center">{row.hsn}</td>
-                        <td className="border px-1 py-1 text-center">{row.gst}%</td>
-                        <td className="py-2 px-4 border">
-                          {row.dueOn ? new Date(row.dueOn).toLocaleDateString() : "-"}
-                        </td>
-                        <td className="border px-1 py-1 text-center">{row.qty}</td>
-                        <td className="border px-1 py-1 text-right">{row.rate.toFixed(2)}</td>
-                        <td className="border px-1 py-1 text-center">{row.unit}</td>
-                        <td className="border px-1 py-1 text-center">{row.discount}</td>
-                        <td className="border px-1 py-1 text-right">{finalAmt.toFixed(2)}</td>
-                      </tr>
-                    );
-                  })}
-                  <tr className="font-bold">
-                    <td colSpan={9} className="text-right border px-2 py-1">Total</td>
-                    <td className="text-right border px-2 py-1">{total.toFixed(2)}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            {/* Amount in Words + Bank Details */}
-            <div className="grid grid-cols-2 gap-5 mt-4">
-              <div className="border p-2 text-sm">
-                <strong>Amount Chargeable (in words):</strong>
-                <div>{amountWords}</div>
-                <h1 className="font-bold mt-5">Declaration</h1>
-                <p contentEditable>
-                  Product Quality: Tested by QMS, EMS, OHSAS. No Sales Involved. Payments will be
-                  received only in company name through Cheque... Goods once sold cannot taken back
-                  in any Circumstances.
+          <div className="p-4 border border-border rounded">
+            {Object.entries(voucherInfo).map(([key, value]) => (
+              <div key={key} className="flex justify-between items-center mt-2">
+                <h4 className="font-semibold text-sm text-foreground">
+                  {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}:
+                </h4>
+                <p
+                  className="text-sm text-foreground"
+                  contentEditable
+                  suppressContentEditableWarning={true}
+                  onInput={(e) => setVoucherInfo({ ...voucherInfo, [key]: e.currentTarget.textContent || "" })}
+                >
+                  {value}
                 </p>
               </div>
+            ))}
+          </div>
+        </div>
 
-              <div className="border p-2 text-sm">
-                <h1 className="font-bold">Company's Bank Details</h1>
-                <div className="flex justify-between items-center">
-                  <h2 className="font-bold text-sm">Bank Name :</h2>
-                  <p className="text-sm mt-3" contentEditable>HDFC BANK</p>
-                </div>
-                <div className="flex justify-between items-center">
-                  <h2 className="font-bold text-sm">A/c No. :</h2>
-                  <p className="text-sm mt-3" contentEditable>50200000453361</p>
-                </div>
-                <div className="flex justify-between items-center">
-                  <h2 className="font-bold text-sm">Branch & IFS Code :</h2>
-                  <p className="text-sm mt-3" contentEditable>45 FEET ROAD, & HDFC0001278</p>
-                </div>
-                <div>
-                  <h1 className="ml-5 font-bold mt-3">
-                    For Aroun Systems & Safety Equipments
-                  </h1>
-                </div>
-                <div className="flex justify-end mt-7 font-bold">
-                  <h1>Authorised Signatory</h1>
-                </div>
+        {/* Items Table */}
+       <div className="overflow-x-auto mb-6">
+  <table className="w-full text-sm border border-border border-collapse">
+    <thead>
+      <tr className="bg-muted text-center">
+        <th className="px-2 py-1 border border-border">Sl No.</th>
+        <th className="px-2 py-1 border border-border text-left">Description</th>
+        <th className="px-2 py-1 border border-border">HSN</th>
+        <th className="px-2 py-1 border border-border">GST%</th>
+        <th className="px-2 py-1 border border-border">Due On</th>
+        <th className="px-2 py-1 border border-border text-right">Qty</th>
+        <th className="px-2 py-1 border border-border text-right">Rate</th>
+        <th className="px-2 py-1 border border-border text-left">Unit</th>
+        <th className="px-2 py-1 border border-border text-right">Disc%</th>
+        <th className="px-2 py-1 border border-border text-right">Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      {items.map((row, index) => {
+        const qty = Number(row.qty) || 0;
+        const rate = Number(row.rate) || 0;
+        const discount = Number(row.discount) || 0;
+        const gst = Number(row.gst) || 0;
+        const amount = qty * rate;
+        const afterDiscount = amount - (amount * discount) / 100;
+        const finalAmt = afterDiscount + (afterDiscount * gst) / 100;
+
+        return (
+          <tr key={row.id} className="text-sm text-foreground">
+            <td className="px-2 py-1 border border-border text-center">{index+1}</td>
+            <td className="px-2 py-1 border border-border text-left">{row.desc}</td>
+            <td className="px-2 py-1 border border-border text-center">{row.hsn}</td>
+            <td className="px-2 py-1 border border-border text-center">{gst}%</td>
+            <td className="px-2 py-1 border border-border text-center">{row.dueOn ? new Date(row.dueOn).toLocaleDateString() : "-"}</td>
+            <td className="px-2 py-1 border border-border text-right">{qty}</td>
+            <td className="px-2 py-1 border border-border text-right">{rate.toFixed(2)}</td>
+            <td className="px-2 py-1 border border-border text-left">{row.unit}</td>
+            <td className="px-2 py-1 border border-border text-right">{discount}</td>
+            <td className="px-2 py-1 border border-border text-right">{finalAmt.toFixed(2)}</td>
+          </tr>
+        );
+      })}
+      <tr className="font-bold text-right bg-muted">
+        <td colSpan={9} className="px-2 py-1 border border-border text-right">Total</td>
+        <td className="px-2 py-1 border border-border text-right">{total.toFixed(2)}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+        {/* Declaration + Bank Details */}
+        <div className="grid grid-cols-2 gap-4">
+          <div className="border border-border rounded p-4">
+            <strong className="text-foreground">Amount Chargeable (in words):</strong>
+            <div className="mt-2 text-sm text-foreground">{amountWords}</div>
+            <h4 className="font-bold mt-6 text-foreground">Declaration</h4>
+            <p
+              className="mt-2 text-xs text-muted-foreground"
+              contentEditable
+              suppressContentEditableWarning={true}
+              onInput={(e) =>
+                setDeclarationInfo({ ...declarationInfo, declarationText: e.currentTarget.textContent || "" })
+              }
+            >
+              {declarationInfo.declarationText}
+            </p>
+          </div>
+
+          <div className="border border-border rounded p-4">
+            <h4 className="font-bold text-foreground mb-3">Company's Bank Details</h4>
+            {[
+              { key: "bankName", label: "Bank Name:" },
+              { key: "accountNo", label: "A/c No.:" },
+              { key: "branchIfsc", label: "Branch & IFS Code:" },
+            ].map(({ key, label }) => (
+              <div key={key} className="flex justify-between items-center mt-2">
+                <h5 className="font-semibold text-sm text-foreground">{label}</h5>
+                <p
+                  className="text-sm text-foreground"
+                  contentEditable
+                  suppressContentEditableWarning={true}
+                  onInput={(e) =>
+                    setDeclarationInfo({ ...declarationInfo, [key]: e.currentTarget.textContent || "" })
+                  }
+                >
+                  {declarationInfo[key]}
+                </p>
               </div>
+            ))}
+            <div className="mt-6">
+              <h5 className="font-bold text-foreground">For Aroun Systems & Safety Equipments</h5>
+            </div>
+            <div className="flex justify-end mt-8 font-bold text-foreground">
+              <h5>Authorised Signatory</h5>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Download button */}
-      <button
-        onClick={handleDownloadPDF}
-        className="mt-6 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
-      >
-        Download PDF
-      </button>
+
+
+      
     </div>
   );
 }

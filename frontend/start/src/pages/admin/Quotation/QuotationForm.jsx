@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { addQuotation, updateQuotation } from "../../../api/quotationApi";
-import QuotationTable from "./QuotationTable";
 
 const QuotationForm = ({ editData, onUpdateComplete }) => {
   const [formData, setFormData] = useState({
