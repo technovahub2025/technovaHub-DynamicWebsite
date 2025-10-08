@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { addCourseApi, updateCourseApi } from "../../../api/CourseApi";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 const Courseadd = ({ editingCourse, onDone }) => {
   const [title, setTitle] = useState("");

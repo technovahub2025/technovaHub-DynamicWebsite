@@ -41,8 +41,11 @@ const QuotationTable = ({ onEdit }) => {
     if (onEdit) onEdit(quotation);
   };
 
-  if (loading)
-    return <p className="text-center mt-10 text-gray-500">Loading...</p>;
+ if (loading) return (
+<div className="flex items-center justify-center h-[50vh] ">
+      <div className="loader"></div>
+    </div>
+  ) 
 
   // Pagination logic
   const indexOfLastRow = currentPage * rowsPerPage;

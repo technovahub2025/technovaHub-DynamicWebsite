@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { toast } from "react-toastify";
+
 import { addCertificateApi, updateCertificateApi } from "../../../api/certificateApi";
+import toast  from "react-hot-toast";
 
 const CertificateAdd = ({ editingCertificate, onDone }) => {
   const [empID, setEmpID] = useState("");

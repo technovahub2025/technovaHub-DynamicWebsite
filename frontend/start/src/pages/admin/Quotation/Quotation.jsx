@@ -157,7 +157,11 @@ const handleDownload = async () => {
 
 
 
-  if (loading) return <div className="flex justify-center items-center  h-[100vh]">Loading...</div>;
+  if (loading) return (
+<div className="flex items-center justify-center h-[50vh] ">
+      <div className="loader"></div>
+    </div>
+  ) 
 
   return (
     <div className="w-full min-h-screen bg-white flex flex-col items-center py-8 px-2 md:px-4">

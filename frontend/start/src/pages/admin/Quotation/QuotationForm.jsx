@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { addQuotation, updateQuotation } from "../../../api/quotationApi";
+import toast from "react-hot-toast";
 
 const QuotationForm = ({ editData, onUpdateComplete }) => {
   const [formData, setFormData] = useState({
@@ -84,10 +85,10 @@ const QuotationForm = ({ editData, onUpdateComplete }) => {
     try {
       if (isEdit && editId) {
         await updateQuotation(editId, dataToSend);
-        alert("Quotation updated successfully!");
+        toast.success("Quotation updated successfully!");
       } else {
         await addQuotation(dataToSend);
-        alert("Quotation added successfully!");
+        toast.success("Quotation added successfully!");
       }
 
       // Reset form
@@ -108,7 +109,7 @@ const QuotationForm = ({ editData, onUpdateComplete }) => {
       if (onUpdateComplete) onUpdateComplete();
     } catch (err) {
       console.error(err.response?.data || err);
-      alert("Failed to save quotation");
+      toast.error("Failed to save quotation");
     }
   };
 

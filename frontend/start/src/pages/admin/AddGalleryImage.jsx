@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { uploadGalleryImages } from "../../api/gallaryApi"; 
+import toast from "react-hot-toast";
 
 const AddGalleryImage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,14 +31,14 @@ const AddGalleryImage = () => {
     setLoading(true);
     try {
       await uploadGalleryImages(selectedImages);
-      alert(`${selectedImages.length} image(s) uploaded successfully!`);
+     toast.success(`${selectedImages.length} image(s) uploaded successfully!`);
       setSelectedImages([]);
       setIsModalOpen(false);
       // Optional: refresh gallery list after upload
       window.location.reload(); 
     } catch (err) {
       console.error("Upload failed:", err);
-      alert("Failed to upload images. Please try again.");
+        toast.error("Failed to upload images. Please try again.");
     } finally {
       setLoading(false);
     }

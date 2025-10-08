@@ -3,7 +3,8 @@ import { AiOutlineEye, AiOutlineEyeInvisible, AiOutlineUser, AiOutlineLock } fro
 import logo from "../../../assets/images/logoremove.png";
 import { Link, useNavigate } from "react-router-dom";
 import { loginAdmin } from "../../../api/authApi";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
+
 
 const AdminLogin = () => {
   const [userName, setUserName] = useState("");
@@ -25,7 +26,7 @@ const AdminLogin = () => {
         localStorage.setItem("adminToken", data.token);
         localStorage.setItem("adminUser", JSON.stringify(data.user || { userName }));
 
-        toast.success("Admin Login Successful ✅");
+        toast.success("Admin Login Successful");
 
         // Redirect to admin dashboard
         navigate("/admin");

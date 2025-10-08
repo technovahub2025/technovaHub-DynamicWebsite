@@ -3,7 +3,7 @@ import { FaPowerOff } from "react-icons/fa";
 import { Menu } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { logoutAdmin } from "../../../api/authApi";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 const DashboardHeader = ({ toggleSidebar }) => {
   const navigate = useNavigate();

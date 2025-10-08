@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { getGalleryImages, deleteGalleryImage } from "../../../api/gallaryApi";
 import { MdDelete } from "react-icons/md";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
+
+
 
 const GalleryList = () => {
   const [galleryData, setGalleryData] = useState([]);
@@ -18,7 +20,7 @@ const GalleryList = () => {
         const data = await getGalleryImages();
         setGalleryData(data || []);
       } catch (err) {
-        console.error("Error fetching gallery images:", err);
+     toast.error("Error fetching gallery images:", err);
         setError("Failed to load gallery images.");
       } finally {
         setLoading(false);
@@ -37,12 +39,16 @@ const GalleryList = () => {
       setGalleryData(galleryData.filter((item) => item._id !== id));
       toast.success("Gallery deleted ")
     } catch (err) {
-      console.error("Error deleting image:", err);
-      alert("Failed to delete image. Please try again.");
+     
+      toast.error("Failed to delete image. Please try again.");
     }
   };
 
-  if (loading) return <p className="p-4 text-center text-blue-500">Loading gallery...</p>;
+  if (loading) return (
+<div className="flex items-center justify-center h-[50vh] ">
+      <div className="loader"></div>
+    </div>
+  ) 
   if (error) return <p className="p-4 text-center text-red-500">{error}</p>;
 
   // Pagination logic

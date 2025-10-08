@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getCourseApi, deleteCourseApi } from "../../../api/CourseApi";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
+
 
 const CourseList = ({ onEdit, refresh }) => {
   const [courses, setCourses] = useState([]);
@@ -37,8 +38,11 @@ const CourseList = ({ onEdit, refresh }) => {
     }
   };
 
-  if (loading)
-    return <p className="p-4 text-center text-blue-500">Loading...</p>;
+  if (loading) return (
+<div className="flex items-center justify-center h-[50vh] ">
+      <div className="loader"></div>
+    </div>
+  ) 
 
   // Pagination logic
   const totalPages = Math.ceil(courses.length / itemsPerPage);
