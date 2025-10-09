@@ -5,7 +5,7 @@ import GalleryImage from "../../../pages/admin/GalleryImage";
 import CourseAdmin from "../../../pages/admin/Courses/CourseAdmin";
 import CertificateAdmin from "../../../pages/admin/CertificateAdmin/CertificateAdmin";
 import QuotationUI from "../../../pages/admin/Quotation/Quotation";
-import QuotationForm from "../../../pages/admin/Quotation/QuotationForm";
+
 import QuotationManager from "../../../pages/admin/Quotation/QuotationManager";
 
 const HomePage = () => (

@@ -40,7 +40,11 @@ export default function QuotationUI() {
     branchIfsc: "45 FEET ROAD, & HDFC0001278",
   });
 
-  // Fetch data from API
+  // Filters
+  const [searchDesc, setSearchDesc] = useState("");
+  const [batchFilter, setBatchFilter] = useState("");
+
+  // Fetch data
   useEffect(() => {
     async function fetchItems() {
       try {
@@ -55,8 +59,18 @@ export default function QuotationUI() {
     fetchItems();
   }, []);
 
-  // Total calculation
-  const total = items.reduce((acc, row) => {
+  // Unique batch options
+  const batchOptions = ["All", ...Array.from(new Set(items.map(item => item.batch).filter(Boolean)))];
+
+  // Filtered items
+  const filteredItems = items.filter((row) => {
+    const matchesDesc = row.desc.toLowerCase().includes(searchDesc.toLowerCase());
+    const matchesBatch = batchFilter ? (row.batch || "") === batchFilter : true;
+    return matchesDesc && matchesBatch;
+  });
+
+  // Total based on filtered items
+  const total = filteredItems.reduce((acc, row) => {
     const qty = Number(row.qty) || 0;
     const rate = Number(row.rate) || 0;
     const discount = Number(row.discount) || 0;
@@ -100,111 +114,106 @@ export default function QuotationUI() {
     return words + " Only";
   }
 
-const handleDownload = async () => {
-  if (!quotationRef.current) return;
+  const handleDownload = async () => {
+    if (!quotationRef.current) return;
+    try {
+      const clone = quotationRef.current.cloneNode(true);
+      Object.assign(clone.style, {
+        transform: "scale(1)",
+        width: "210mm",
+        minHeight: "297mm",
+        position: "absolute",
+        top: "-9999px",
+        left: "0",
+        background: "white",
+        maxWidth: "100%",
+        zoom: "1",
+      });
+      document.body.appendChild(clone);
 
-  try {
-    // Step 1: Clone the quotation element
-    const clone = quotationRef.current.cloneNode(true);
+      const canvas = await html2canvas(clone, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        scrollX: 0,
+        scrollY: 0,
+        windowWidth: 210 * 4,
+        windowHeight: 297 * 4,
+      });
 
-    // Step 2: Apply A4 dimensions and remove scaling
-    Object.assign(clone.style, {
-      transform: "scale(1)",
-      width: "210mm",
-      minHeight: "297mm",
-      position: "absolute",
-      top: "-9999px",
-      left: "0",
-      background: "white",
-      maxWidth: "100%",
-      zoom: "1", // ensure normal scale
-    });
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      const imgWidth = canvas.width;
+      const imgHeight = canvas.height;
+      const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+      const imgX = (pdfWidth - imgWidth * ratio) / 2;
+      const imgY = 0;
 
-    // Step 3: Append clone off-screen (not visible)
-    document.body.appendChild(clone);
+      pdf.addImage(imgData, "PNG", imgX, imgY, imgWidth * ratio, imgHeight * ratio);
+      pdf.save(`Quotation_${voucherInfo.voucherNo}.pdf`);
+      document.body.removeChild(clone);
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+    }
+  };
 
-    // Step 4: Generate canvas from unscaled clone
-    const canvas = await html2canvas(clone, {
-      scale: 2,
-      useCORS: true,
-      logging: false,
-      scrollX: 0,
-      scrollY: 0,
-      windowWidth: 210 * 4, // ensures high-res A4 capture
-      windowHeight: 297 * 4,
-    });
-
-    // Step 5: Convert canvas to image and add to PDF
-    const imgData = canvas.toDataURL("image/png");
-    const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = pdf.internal.pageSize.getHeight();
-    const imgWidth = canvas.width;
-    const imgHeight = canvas.height;
-    const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
-    const imgX = (pdfWidth - imgWidth * ratio) / 2;
-    const imgY = 0;
-
-    pdf.addImage(imgData, "PNG", imgX, imgY, imgWidth * ratio, imgHeight * ratio);
-    pdf.save(`Quotation_${voucherInfo.voucherNo}.pdf`);
-
-    // Step 6: Remove temporary clone
-    document.body.removeChild(clone);
-  } catch (error) {
-    console.error("Error generating PDF:", error);
-  }
-};
-
-
-
-  if (loading) return (
-<div className="flex items-center justify-center h-[50vh] ">
-      <div className="loader"></div>
-    </div>
-  ) 
+  if (loading)
+    return (
+      <div className="flex items-center justify-center h-[50vh] ">
+        <div className="loader"></div>
+      </div>
+    );
 
   return (
     <div className="w-full min-h-screen bg-white flex flex-col items-center py-8 px-2 md:px-4">
       {/* Download Button */}
-      <div className="mb-6 w-full flex justify-end no-print px-2 md:px-0">
+      <div className="mb-6 w-full flex justify-center no-print px-2 md:px-0">
         <button
           onClick={handleDownload}
-          className="shadow-lg p-2 bg-green-200 flex items-center gap-2 text-sm md:text-base"
+          className="shadow-lg p-3 rounded-md bg-green-600 text-white flex items-center gap-2 text-sm md:text-base"
         >
           <FaDownload />
           <span>Download Quotation</span>
         </button>
       </div>
 
-      {/* Scrollable scalable container */}
-      <div className="flex justify-center items-start w-full overflow-x-auto overflow-y-auto">
-        <div
-          className="
-            origin-top
-            w-[1000px] h-[400px] scale-[0.40]
-            sm:w-[1000px] sm:h-[900px] sm:scale-[0.20]
-            md:w-[190mm] md:scale-[0.95]
-            lg:w-[210mm] lg:scale-[1]
-          "
-          style={{ transition: "transform 0.3s ease-in-out" }}
+      {/* Filters */}
+      <div className="flex gap-4 mb-4 w-full max-w-[1000px] px-2 md:px-0">
+        <input
+          type="text"
+          placeholder="Search Description..."
+          className="border border-blue-500 outline-none p-2 rounded w-1/2"
+          value={searchDesc}
+          onChange={(e) => setSearchDesc(e.target.value)}
+        />
+
+        <select
+          value={batchFilter}
+          onChange={(e) => setBatchFilter(e.target.value)}
+          className="border border-blue-500 outline-none p-2 rounded w-1/2"
         >
-          {/* Quotation layout (A4 fixed) */}
-          <div
-            ref={quotationRef}
-            className="relative bg-white text-black shadow-lg border p-4 sm:p-6 overflow-hidden"
-            style={{ width: "210mm", minHeight: "297mm", maxWidth: "100%", transformOrigin: "top center" }}
-          >
+          {batchOptions.map((batch, idx) => (
+            <option key={idx} value={batch === "All" ? "" : batch}>
+              {batch}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* Scrollable container */}
+      <div className="flex justify-center items-start w-full overflow-x-auto overflow-y-auto">
+        <div className="origin-top w-[1000px] h-[400px] scale-[0.40] sm:w-[1000px] sm:h-[900px] sm:scale-[0.20] md:w-[190mm] md:scale-[0.95] lg:w-[210mm] lg:scale-[1]" style={{ transition: "transform 0.3s ease-in-out" }}>
+          <div ref={quotationRef} className="relative bg-white text-black shadow-lg border p-4 sm:p-6 overflow-hidden" style={{ width: "210mm", minHeight: "297mm", maxWidth: "100%", transformOrigin: "top center" }}>
+            
             {/* --- HEADER --- */}
             <div className="flex justify-between items-center border-b pb-4 gap-10 mb-4">
-              <div>
-                <img src={qr} alt="logo" className="md:w-[290px] md:h-[50px]" />
-              </div>
+              <div><img src={qr} alt="logo" className="md:w-[290px] md:h-[50px]" /></div>
               <div>
                 <h1 className="text-sm sm:text-lg font-bold">Aroun Systems & Safety Equipments</h1>
                 <p className="text-[13px]">Manufacturer & Wholesalers For Fire & Safety Equipments</p>
-                <p className="text-xs sm:text-sm mt-2">
-                  GSTIN : 34ADXP... | Address : 38, 39, 2nd Cross Street, Green Garden, Lawspet Post, Puducherry - 605 008
-                </p>
+                <p className="text-xs sm:text-sm mt-2">GSTIN : 34ADXP... | Address : 38, 39, 2nd Cross Street, Green Garden, Lawspet Post, Puducherry - 605 008</p>
               </div>
               <div className="flex gap-2">
                 <img src={qr2} alt="" className="w-[60px] h-[40px]" />
@@ -214,28 +223,15 @@ const handleDownload = async () => {
             </div>
 
             {/* Title */}
-            <div className="flex justify-center mb-5">
-              <h1 className="font-extrabold text-xl">AROUN - QUOTATION</h1>
-            </div>
+            <div className="flex justify-center mb-5"><h1 className="font-extrabold text-xl">AROUN - QUOTATION</h1></div>
 
             {/* Buyer & Voucher Info */}
             <div className="grid grid-cols-2 gap-4 mb-6">
               <div className="p-4 border border-border rounded">
                 <h3 className="font-bold text-foreground mb-3">Buyer (Bill to)</h3>
                 {Object.entries(buyerInfo).map(([key, value]) => (
-                  <p
-                    key={key}
-                    className="text-sm mt-2 text-foreground"
-                    contentEditable
-                    suppressContentEditableWarning={true}
-                    onInput={(e) => setBuyerInfo({ ...buyerInfo, [key]: e.currentTarget.textContent || "" })}
-                  >
-                    {key === "gstin" ? `GSTIN/UIN: ${value}` :
-                     key === "stateCode" ? `State Code: ${value}` :
-                     key === "contact" ? `Contact: ${value}` :
-                     key === "mobile" ? `Mobile: ${value}` :
-                     value
-                    }
+                  <p key={key} className="text-sm mt-2 text-foreground" contentEditable suppressContentEditableWarning={true} onInput={(e) => setBuyerInfo({ ...buyerInfo, [key]: e.currentTarget.textContent || "" })}>
+                    {key === "gstin" ? `GSTIN/UIN: ${value}` : key === "stateCode" ? `State Code: ${value}` : key === "contact" ? `Contact: ${value}` : key === "mobile" ? `Mobile: ${value}` : value}
                   </p>
                 ))}
               </div>
@@ -243,17 +239,8 @@ const handleDownload = async () => {
               <div className="p-4 border border-border rounded">
                 {Object.entries(voucherInfo).map(([key, value]) => (
                   <div key={key} className="flex justify-between items-center mt-2">
-                    <h4 className="font-semibold text-sm text-foreground">
-                      {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}:
-                    </h4>
-                    <p
-                      className="text-sm text-foreground"
-                      contentEditable
-                      suppressContentEditableWarning={true}
-                      onInput={(e) => setVoucherInfo({ ...voucherInfo, [key]: e.currentTarget.textContent || "" })}
-                    >
-                      {value}
-                    </p>
+                    <h4 className="font-semibold text-sm text-foreground">{key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase())}:</h4>
+                    <p className="text-sm text-foreground" contentEditable suppressContentEditableWarning={true} onInput={(e) => setVoucherInfo({ ...voucherInfo, [key]: e.currentTarget.textContent || "" })}>{value}</p>
                   </div>
                 ))}
               </div>
@@ -262,10 +249,11 @@ const handleDownload = async () => {
             {/* Items Table */}
             <div className="overflow-x-auto mb-6">
               <table className="w-full text-sm border border-border border-collapse">
-                <thead>
+                <thead >
                   <tr className="bg-muted text-center">
                     <th className="px-2 py-1 border border-border">Sl No.</th>
                     <th className="px-2 py-1 border border-border text-left">Description</th>
+                    {/* <th className="px-2 py-1 border border-border">Batch</th> */}
                     <th className="px-2 py-1 border border-border">HSN</th>
                     <th className="px-2 py-1 border border-border">GST%</th>
                     <th className="px-2 py-1 border border-border">Due On</th>
@@ -277,7 +265,7 @@ const handleDownload = async () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {items.map((row, index) => {
+                  {filteredItems.map((row, index) => {
                     const qty = Number(row.qty) || 0;
                     const rate = Number(row.rate) || 0;
                     const discount = Number(row.discount) || 0;
@@ -288,8 +276,9 @@ const handleDownload = async () => {
 
                     return (
                       <tr key={row.id} className="text-sm text-foreground">
-                        <td className="px-2 py-1 border border-border text-center">{index+1}</td>
+                        <td className="px-2 py-1 border border-border text-center">{index + 1}</td>
                         <td className="px-2 py-1 border border-border text-left">{row.desc}</td>
+                        {/* <td className="px-2 py-1 border border-border text-center">{row.batch || "-"}</td> */}
                         <td className="px-2 py-1 border border-border text-center">{row.hsn}</td>
                         <td className="px-2 py-1 border border-border text-center">{gst}%</td>
                         <td className="px-2 py-1 border border-border text-center">{row.dueOn ? new Date(row.dueOn).toLocaleDateString() : "-"}</td>
@@ -309,22 +298,13 @@ const handleDownload = async () => {
               </table>
             </div>
 
-            {/* Declaration + Bank Details */}
+            {/* Declaration + Bank */}
             <div className="grid grid-cols-2 gap-4">
               <div className="border border-border rounded p-4">
                 <strong className="text-foreground">Amount Chargeable (in words):</strong>
                 <div className="mt-2 text-sm text-foreground">{amountWords}</div>
                 <h4 className="font-bold mt-6 text-foreground">Declaration</h4>
-                <p
-                  className="mt-2 text-xs text-muted-foreground"
-                  contentEditable
-                  suppressContentEditableWarning={true}
-                  onInput={(e) =>
-                    setDeclarationInfo({ ...declarationInfo, declarationText: e.currentTarget.textContent || "" })
-                  }
-                >
-                  {declarationInfo.declarationText}
-                </p>
+                <p className="mt-2 text-xs text-muted-foreground" contentEditable suppressContentEditableWarning={true} onInput={(e) => setDeclarationInfo({ ...declarationInfo, declarationText: e.currentTarget.textContent || "" })}>{declarationInfo.declarationText}</p>
               </div>
 
               <div className="border border-border rounded p-4">
@@ -336,16 +316,7 @@ const handleDownload = async () => {
                 ].map(({ key, label }) => (
                   <div key={key} className="flex justify-between items-center mt-2">
                     <h5 className="font-semibold text-sm text-foreground">{label}</h5>
-                    <p
-                      className="text-sm text-foreground"
-                      contentEditable
-                      suppressContentEditableWarning={true}
-                      onInput={(e) =>
-                        setDeclarationInfo({ ...declarationInfo, [key]: e.currentTarget.textContent || "" })
-                      }
-                    >
-                      {declarationInfo[key]}
-                    </p>
+                    <p className="text-sm text-foreground" contentEditable suppressContentEditableWarning={true} onInput={(e) => setDeclarationInfo({ ...declarationInfo, [key]: e.currentTarget.textContent || "" })}>{declarationInfo[key]}</p>
                   </div>
                 ))}
                 <div className="mt-6">

@@ -32,7 +32,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
 
       {/* Sidebar */}
       <div
-        className={`fixed md:static bg-blue-600 text-white h-screen p-4 flex flex-col transition-all duration-300 z-50
+        className={`fixed md:static bg-gradient-to-r from-blue-300 to-blue-600 text-white h-screen p-4 flex flex-col transition-all duration-300 z-50
           ${isOpen ? "translate-x-0 w-64" : "-translate-x-full md:translate-x-0 md:w-64"}
         `}
       >
@@ -48,7 +48,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
                 key={idx}
                 to={item.path}
                 onClick={() => setIsOpen(false)} // auto close on mobile
-                className={`flex items-center gap-3 p-2 rounded transition 
+                className={`flex items-center gap-3 p-2 font-medium rounded transition 
                   ${isActive ? "bg-blue-200 text-black" : "hover:bg-white hover:text-black"}`}
               >
                 {item.icon}

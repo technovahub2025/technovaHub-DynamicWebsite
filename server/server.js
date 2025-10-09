@@ -11,6 +11,8 @@ import authRoutes from "./routers/authRoutes.js";
 import certificateRoutes from "./routers/certificateRoutes.js";
 import softwareRoutes from "./routers/softwareRoutes.js";
 import quatation from "./routers/quoatitionRoutes.js"
+import invoice from "./routers/invoiceRoutes.js"
+
 
 // Load environment variables based on NODE_ENV
 if (process.env.NODE_ENV === "production") {
@@ -64,6 +66,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/certificate", certificateRoutes);
 app.use("/api/softwareSolution", softwareRoutes);
 app.use("/api/quatation", quatation);
+app.use("/api/invoice", invoice);
+
 
 
 // Global error handler for CORS
