@@ -12,6 +12,10 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
     { name: "Certificate", icon: <Award />, path: "/admin/certificate" },
     { name: "Aroun Quotation", icon: <Award />, path: "/admin/quotation" },
     { name: "Aroun Quotation Edit", icon: <Award />, path: "/admin/quotationEdit" },
+    { name: "TechnovaHub Invoice", icon: <Award />, path: "/admin/invoice" },
+    { name: "Invoice Edit", icon: <Award />, path: "/admin/invoiceEdit" },
+
+
   ];
 
   // Prevent scrolling when sidebar is open (mobile only)

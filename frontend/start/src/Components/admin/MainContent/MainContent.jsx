@@ -7,6 +7,8 @@ import CertificateAdmin from "../../../pages/admin/CertificateAdmin/CertificateA
 import QuotationUI from "../../../pages/admin/Quotation/Quotation";
 
 import QuotationManager from "../../../pages/admin/Quotation/QuotationManager";
+import InvoiceCertificate from "../../../pages/admin/InvoiceTechnovahub/InvoiceCertificate";
+import InvoiceMangar from "../../../pages/admin/InvoiceTechnovahub/InvoiceMangar";
 
 const HomePage = () => (
   <div className="p-4 flex flex-col  justify-center items-center h-[60vh] ">
@@ -25,7 +27,7 @@ const Gallery = () => (
   </div>
 );
 const Course = () => (
-  <div className="p-4">
+  <div className="md:p-4 p-1">
     <CourseAdmin />
   </div>
 );
@@ -50,6 +52,21 @@ const QuotationEdit = () => (
 
 
 
+const Invoice = () => (
+  <div className="">
+   {/* <InvoiceCertificate/> */}
+
+   cert
+  </div>
+);
+
+const InvoiceEdit = () => (
+  <div className="">
+  <InvoiceMangar />
+  </div>
+);
+
+
 const MainContent = () => {
   return (
     <main className="flex-1 overflow-auto bg-gray-100 ">
@@ -60,6 +77,10 @@ const MainContent = () => {
         <Route path="courses" element={<Course />} />
         <Route path="quotation" element={<Quotation />} />
         <Route path="quotationEdit" element={<QuotationEdit />} />
+        <Route path="invoice" element={<Invoice />} />
+        <Route path="invoiceEdit" element={<InvoiceEdit />} />
+
+
 
 
        

@@ -1,21 +1,21 @@
 import Invoice from "../models/invoiceModel.js";
 
-// Get all quotations
+// Get all invoices
 export const getAllInvoice = async (req, res) => {
   try {
-    const invoice = await Invoice.find().sort({ createdAt: -1 });
-    res.status(200).json(invoice);
+    const invoices = await Invoice.find().sort({ createdAt: -1 });
+    res.status(200).json(invoices);
   } catch (error) {
     res.status(500).json({ message: "Server Error", error: error.message });
   }
 };
 
-// Get a single quotation by ID
+// Get a single invoice by ID
 export const getInvoiceById = async (req, res) => {
   try {
     const invoice = await Invoice.findById(req.params.id);
     if (!invoice) {
-      return res.status(404).json({ message: "Quotation not found" });
+      return res.status(404).json({ message: "Invoice not found" });
     }
     res.status(200).json(invoice);
   } catch (error) {
@@ -23,10 +23,10 @@ export const getInvoiceById = async (req, res) => {
   }
 };
 
-// Create a new quotation
+// Create a new invoice (with multiple items)
 export const createInvoice = async (req, res) => {
   try {
-    const newInvoice = new Invoice(req.body);
+    const newInvoice = new Invoice(req.body); // req.body should include invoiceTo and items[]
     const savedInvoice = await newInvoice.save();
     res.status(201).json(savedInvoice);
   } catch (error) {
@@ -34,16 +34,16 @@ export const createInvoice = async (req, res) => {
   }
 };
 
-// Update a quotation by ID
+// Update an invoice by ID
 export const updateInvoice = async (req, res) => {
   try {
     const updatedInvoice = await Invoice.findByIdAndUpdate(
       req.params.id,
-      req.body,
+      req.body, // can update invoiceTo or items[]
       { new: true, runValidators: true }
     );
     if (!updatedInvoice) {
-      return res.status(404).json({ message: "Quotation not found" });
+      return res.status(404).json({ message: "Invoice not found" });
     }
     res.status(200).json(updatedInvoice);
   } catch (error) {
@@ -51,14 +51,14 @@ export const updateInvoice = async (req, res) => {
   }
 };
 
-// Delete a quotation by ID
+// Delete an invoice by ID
 export const deleteInvoice = async (req, res) => {
   try {
-    const deletedInvoice = await Quatation.findByIdAndDelete(req.params.id);
+    const deletedInvoice = await Invoice.findByIdAndDelete(req.params.id);
     if (!deletedInvoice) {
-      return res.status(404).json({ message: "Quotation not found" });
+      return res.status(404).json({ message: "Invoice not found" });
     }
-    res.status(200).json({ message: "Quotation deleted successfully" });
+    res.status(200).json({ message: "Invoice deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: "Server Error", error: error.message });
   }
