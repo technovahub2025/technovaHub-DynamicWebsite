@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { deleteInvoice } from "../../../api/invoiceApi";
+import { Link } from "react-router-dom";
 
 const InvoiceTable = ({ invoices, onEdit, onRefresh }) => {
   const [invoiceIdFilter, setInvoiceIdFilter] = useState("");
@@ -123,13 +124,18 @@ const InvoiceTable = ({ invoices, onEdit, onRefresh }) => {
             />
           </div>
         </div>
-        <div className="flex items-end w-full sm:w-auto">
+        <div className="flex justify-between items-end w-full ">
           <button
             onClick={clearFilters}
             className="px-4 py-2 bg-gradient-to-r from-red-400 to-pink-500 text-white rounded-lg shadow w-full sm:w-auto"
           >
             Clear Filters
           </button>
+
+<Link to="/admin/invoice">
+ <button className="text-blue-600">Go to Invoice page </button>
+</Link>
+         
         </div>
       </div>
 
