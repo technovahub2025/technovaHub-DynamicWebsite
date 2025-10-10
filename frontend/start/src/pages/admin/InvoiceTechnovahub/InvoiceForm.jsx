@@ -10,7 +10,6 @@ const InvoiceForm = ({ onClose, onRefresh, editData }) => {
     ]
   );
 
-  // Default date + due date
   const today = new Date().toISOString().slice(0, 10);
   const defaultDue = new Date();
   defaultDue.setDate(defaultDue.getDate() + 30);
@@ -19,7 +18,6 @@ const InvoiceForm = ({ onClose, onRefresh, editData }) => {
   const [date, setDate] = useState(editData?.date?.slice(0, 10) || today);
   const [dueOn, setDueOn] = useState(editData?.dueDate?.slice(0, 10) || dueDateStr);
 
-  // Auto update due date when invoice date changes
   useEffect(() => {
     if (editData) {
       const newDue = new Date(date);
@@ -28,7 +26,6 @@ const InvoiceForm = ({ onClose, onRefresh, editData }) => {
     }
   }, [date]);
 
-  // Handle Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     const dataToSend = {
@@ -50,6 +47,7 @@ const InvoiceForm = ({ onClose, onRefresh, editData }) => {
         alert("✅ Invoice updated successfully!");
       } else {
         await addInvoice(dataToSend);
+        console.log("Sending invoice data:", dataToSend);
         alert("✅ Invoice created successfully!");
       }
       onRefresh();
@@ -77,7 +75,6 @@ const InvoiceForm = ({ onClose, onRefresh, editData }) => {
     setItems(items.filter((_, i) => i !== index));
   };
 
-  // Calculate totals
   const calculateRowAmount = (item) => {
     const qty = Number(item.qty) || 0;
     const rate = Number(item.rate) || 0;
@@ -97,7 +94,6 @@ const InvoiceForm = ({ onClose, onRefresh, editData }) => {
       </h2>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Invoice To */}
         <div>
           <label className="font-medium text-gray-700">Invoice To</label>
           <input
@@ -110,7 +106,6 @@ const InvoiceForm = ({ onClose, onRefresh, editData }) => {
           />
         </div>
 
-        {/* Address Field */}
         <div>
           <label className="font-medium text-gray-700">Address</label>
           <textarea
@@ -122,7 +117,6 @@ const InvoiceForm = ({ onClose, onRefresh, editData }) => {
           />
         </div>
 
-        {/* Dates */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="font-medium text-gray-700">Invoice Date</label>
@@ -150,7 +144,6 @@ const InvoiceForm = ({ onClose, onRefresh, editData }) => {
           </div>
         </div>
 
-        {/* Items Table */}
         <div className="overflow-x-auto">
           <table className="w-full text-sm sm:text-base border border-gray-200 rounded-lg">
             <thead className="bg-blue-500 text-white">
@@ -251,7 +244,6 @@ const InvoiceForm = ({ onClose, onRefresh, editData }) => {
           <div className="text-xl font-bold">Total: ₹{totalAmount.toFixed(2)}</div>
         </div>
 
-        {/* Buttons */}
         <div className="flex justify-end gap-3 mt-6">
           <button
             type="button"

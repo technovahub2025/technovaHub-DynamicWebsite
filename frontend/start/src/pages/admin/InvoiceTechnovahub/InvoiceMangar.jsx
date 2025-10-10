@@ -54,10 +54,8 @@ const InvoiceManager = () => {
         </button>
       </div>
 
-      {/* Invoice Table */}
       <InvoiceTable invoices={invoices} onEdit={handleEdit} onRefresh={fetchInvoices} />
 
-      {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex justify-center items-center z-50 p-4">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl overflow-y-auto max-h-[90vh] relative">
