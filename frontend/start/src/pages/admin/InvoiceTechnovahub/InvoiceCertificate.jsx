@@ -2,32 +2,15 @@ import React, { useRef, useState, useEffect } from "react";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { getInvoice } from "../../../api/invoiceApi";
-
 import { FaDownload } from "react-icons/fa";
+import qr from "../../../assets/images/logoremove.png";
 
 export default function InvoiceCertificate() {
   const quotationRef = useRef(null);
 
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  const [buyerInfo, setBuyerInfo] = useState({
-    address: "Plot: 1/1 to 1/4, Mannadipet Commune,",
-    gstin: "34XXXXX1234X1XX",
-    stateCode: "34",
-    contact: "John Doe",
-    mobile: "+91 9876543210",
-  });
-
-  const [voucherInfo, setVoucherInfo] = useState({
-    voucherNo: "ASSE/25-26/8181",
-    dated: "02/10/2025",
-    paymentMode: "02 Days",
-    buyerRef: "ASSE/25-26/8181",
-    dispatchedThrough: "By Hand",
-    destination: "Free Door Delivery",
-    immediateDated: "Immediate",
-  });
+  const [invoiceIdFilter, setInvoiceIdFilter] = useState("");
 
   const [declarationInfo, setDeclarationInfo] = useState({
     declarationText:
@@ -35,21 +18,17 @@ export default function InvoiceCertificate() {
     bankName: "STATE BANK OF INDIA, VILLIYANUR",
     accountNo: "41331089375",
     branchIfsc: "SBIN0016854",
-    AccountName:"TECHNOVAHUB"
+    AccountName: "TECHNOVAHUB",
   });
 
-  // Filters
-  const [searchDesc, setSearchDesc] = useState("");
-  const [batchFilter, setBatchFilter] = useState("");
-
-  // Fetch data
   useEffect(() => {
     async function fetchItems() {
       try {
         const data = await getInvoice();
         setItems(data || []);
+        if (data?.length) setInvoiceIdFilter(data[0].invoiceId);
       } catch (error) {
-        console.error("Error fetching quotations:", error);
+        console.error("Error fetching invoices:", error);
       } finally {
         setLoading(false);
       }
@@ -57,23 +36,27 @@ export default function InvoiceCertificate() {
     fetchItems();
   }, []);
 
-  // Unique batch options
-  const batchOptions = ["All", ...Array.from(new Set(items.map(item => item.batch).filter(Boolean)))];
+  const invoiceIdOptions = items.map((inv) => inv.invoiceId);
+  const filteredInvoices = items.filter((inv) => inv.invoiceId === invoiceIdFilter);
+  const selectedInvoice = filteredInvoices[0] || null;
 
-  // Filtered items
-  const filteredItems = items.filter((row) => {
-    const matchesDesc = row.desc.toLowerCase().includes(searchDesc.toLowerCase());
-    const matchesBatch = batchFilter ? (row.batch || "") === batchFilter : true;
-    return matchesDesc && matchesBatch;
-  });
+  const tableItems = selectedInvoice?.items.map((item, idx) => ({
+    ...item,
+    _uniqueKey: selectedInvoice._id + "_" + idx,
+    invoiceId: selectedInvoice.invoiceId,
+    invoiceTo: selectedInvoice.invoiceTo,
+    date: selectedInvoice.date,
+    dueDate: selectedInvoice.dueDate,
+    gstin: selectedInvoice.gstin,
+    address: selectedInvoice.address,
+    mobile: selectedInvoice.mobile,
+  })) || [];
 
-  // Total based on filtered items
-  const total = filteredItems.reduce((acc, row) => {
-    const qty = Number(row.qty) || 0;
-    const rate = Number(row.rate) || 0;
-    const discount = Number(row.discount) || 0;
-    const gst = Number(row.gst) || 0;
-
+  const total = tableItems.reduce((acc, item) => {
+    const qty = Number(item.qty) || 0;
+    const rate = Number(item.rate) || 0;
+    const discount = Number(item.discount) || 0;
+    const gst = Number(item.gst) || 0;
     const amount = qty * rate;
     const afterDiscount = amount - (amount * discount) / 100;
     const finalAmt = afterDiscount + (afterDiscount * gst) / 100;
@@ -87,7 +70,7 @@ export default function InvoiceCertificate() {
     const a = [
       "", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine",
       "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen",
-      "Seventeen", "Eighteen", "Nineteen",
+      "Seventeen", "Eighteen", "Nineteen"
     ];
     const b = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
 
@@ -123,7 +106,7 @@ export default function InvoiceCertificate() {
         position: "absolute",
         top: "-9999px",
         left: "0",
-        background: "white",
+        background: "#ffffff",
         maxWidth: "100%",
         zoom: "1",
       });
@@ -137,6 +120,7 @@ export default function InvoiceCertificate() {
         scrollY: 0,
         windowWidth: 210 * 4,
         windowHeight: 297 * 4,
+        backgroundColor: "#ffffff",
       });
 
       const imgData = canvas.toDataURL("image/png");
@@ -150,246 +134,272 @@ export default function InvoiceCertificate() {
       const imgY = 0;
 
       pdf.addImage(imgData, "PNG", imgX, imgY, imgWidth * ratio, imgHeight * ratio);
-      pdf.save(`Quotation_${voucherInfo.voucherNo}.pdf`);
+      pdf.save(`Invoice_${tableItems[0]?.invoiceId || "000"}.pdf`);
       document.body.removeChild(clone);
     } catch (error) {
       console.error("Error generating PDF:", error);
     }
   };
 
-  if (loading)
-    return (
-      <div className="flex items-center justify-center h-[50vh] ">
-        <div className="loader"></div>
-      </div>
-    );
+  if (loading) return <div className="flex items-center justify-center h-[50vh]">Loading...</div>;
 
   return (
     <div className="w-full min-h-screen bg-white flex flex-col items-center py-8 px-2 md:px-4">
-      {/* Download Button */}
-      <div className="mb-6 w-full flex justify-center no-print px-2 md:px-0">
-        <button
-          onClick={handleDownload}
-          className="shadow-lg p-3 rounded-md bg-blue-400 text-white flex items-center gap-2 text-sm md:text-base"
-        >
-          <FaDownload />
-          <span>Download Invoice</span>
-        </button>
-      </div>
+    <div className="mb-6 w-full flex flex-col md:flex-row justify-center md:justify-between items-center gap-4 px-2 md:px-0">
+  {/* Download Button */}
+  <button
+    onClick={handleDownload}
+    className="shadow-lg px-4 py-2 md:px-6 md:py-3 rounded-md bg-[#60a5fa] text-white flex items-center gap-2 text-sm md:text-base hover:bg-[#3b82f6] transition-colors"
+  >
+    <FaDownload />
+    <span>Download Invoice</span>
+  </button>
 
-      {/* Filters */}
-      <div className="flex gap-4 mb-4 w-full max-w-[1000px] px-2 md:px-0">
-        <input
-          type="text"
-          placeholder="Search Description..."
-          className="border border-blue-500 outline-none p-2 rounded w-1/2"
-          value={searchDesc}
-          onChange={(e) => setSearchDesc(e.target.value)}
-        />
-
-        <select
-          value={batchFilter}
-          onChange={(e) => setBatchFilter(e.target.value)}
-          className="border border-blue-500 outline-none p-2 rounded w-1/2"
-        >
-          {batchOptions.map((batch, idx) => (
-            <option key={idx} value={batch === "All" ? "" : batch}>
-              {batch}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      {/* Scrollable container */}
-      <div className="flex justify-center items-start w-full overflow-x-auto overflow-y-auto">
-        <div className="origin-top w-[1000px] h-[400px] scale-[0.40] sm:w-[1000px] sm:h-[900px] sm:scale-[0.20] md:w-[190mm] md:scale-[0.95] lg:w-[210mm] lg:scale-[1]" style={{ transition: "transform 0.3s ease-in-out" }}>
-          <div ref={quotationRef} className="relative bg-white text-black shadow-xl border-none  p-4 sm:p-6 overflow-hidden" style={{ width: "210mm", minHeight: "297mm", maxWidth: "100%", transformOrigin: "top center" }}>
-            
-            {/* --- HEADER --- */}
-           
-
-
-
-            {/* Title */}
-            <div style={{color:"#3d7fe2ff"}} className="flex justify-center mb-5"><h1 className="font-bold text-md">INVOICE</h1></div>
-
-              <div className="flex justify-between w-full gap-10 ">
-                <p className="text-[11px]">No.48, First Floor,
-                  
-<br />
-Lawspet Main Road, Puducherry - 605008</p>
-
-<p className="text-[11px] text-right">Phone: 9360962810 | Email: technovahubcareer@gmail.com  <br /> GSTIN: 34ADXPA0879K1Z3 | State: 34-Puducherry</p>
-
-              </div>
-
-         <hr />
-
-
-            {/* Buyer & Voucher Info */}
-            <div    className="grid grid-cols-2 gap-10 mb-6 mt-6">
-              <div className="">
-                <h3 style={{color:"blue"}}  className="font-bold text-foreground mb-3">Invoice To</h3>
-               <hr />
-                <h3   className="font-medium mb-1 mt-2">GST IN</h3>
-              <p contentEditable={true} className="text-sm" >
-  34ADXPA0879K1Z3
-</p>
-                <hr />
-
-                 <h3   className="font-medium mb-1 mt-2">Address</h3>
-              <textarea className="w-full text-sm" contentEditable={true}  >
- 38.39 2ND CROSS STREET GREEN GARDEN
-</textarea>
-                <hr />
-              </div>
-
-             <div >
-  {/* Row 1 */}
-  <div style={{ display: "flex", borderBottom: "1px solid #c4d6f1ff" }}>
-    <div style={{ flex: 1, padding: "10px", border: "1px solid #c4d6f1ff" }} className="font-medium text-sm">Invoice #</div>
-    <div style={{ flex: 1, padding: "10px" ,border: "1px solid #c4d6f1ff" }}>Row 1, Col 2</div>
-  </div>
-
-  {/* Row 2 */}
-  <div style={{ display: "flex", borderBottom: "1px solid #c4d6f1ff" }}>
-    <div style={{ flex: 1, padding: "10px", border: "1px solid #c4d6f1ff" }} className="font-medium text-sm">Date</div>
-    <div style={{ flex: 1, padding: "10px" , border: "1px solid #c4d6f1ff"}}>Row 2, Col 2</div>
-  </div>
-
-  {/* Row 3 */}
-  <div style={{ display: "flex" , borderBottom: "1px solid #c4d6f1ff" }}>
-    <div style={{ flex: 1, padding: "10px", border: "1px solid #c4d6f1ff" }} className="font-medium text-sm">Due Date</div>
-    <div style={{ flex: 1, padding: "10px" ,border: "1px solid #c4d6f1ff" }}>Row 3, Col 2</div>
+  {/* Invoice Dropdown */}
+  <div className="w-full md:w-[300px]">
+    <select
+      value={invoiceIdFilter}
+      onChange={(e) => setInvoiceIdFilter(e.target.value)}
+      className="border border-[#3b82f6] outline-none p-2 rounded w-full text-sm md:text-base"
+    >
+      {invoiceIdOptions.map((id) => (
+        <option key={id} value={id}>
+          {id}
+        </option>
+      ))}
+    </select>
   </div>
 </div>
 
+
+     
+
+      <div className="flex justify-center items-start w-full overflow-x-auto overflow-y-auto">
+        <div
+          className="origin-top w-[1000px] md:w-[190mm] lg:w-[210mm] md:scale-[0.95] lg:scale-[1]"
+          style={{ transition: "transform 0.3s ease-in-out" }}
+        >
+          <div
+            ref={quotationRef}
+            className="relative bg-white text-black shadow-xl border-none p-4 sm:p-6 overflow-hidden"
+            style={{ width: "210mm", minHeight: "297mm", maxWidth: "100%", transformOrigin: "top center" }}
+          >
+            {/* HEADER */}
+            <div className="flex justify-center mb-4">
+              <img src={qr} alt="logo" className="md:w-[200px] md:h-[150px] rounded-full w-[120px] h-[120px]" />
+            </div>
+            <div className="flex justify-center mb-5">
+              <h1 style={{ color: "#60a5fa", fontWeight: "bold" }}>INVOICE</h1>
             </div>
 
-            {/* Items Table */}
-            <div className="overflow-x-auto mb-6">
-             <table
-  className="w-full text-sm border border-collapse"
-  style={{ backgroundColor: "white", borderColor: "#d1d5db" }}
->
-  <thead>
-    <tr
-      style={{
-        backgroundColor: "#3b82f6",
-        color: "white",
-        textAlign: "center",
-      }}
-    >
-      <th style={{ border: "1px solid #d1d5db", padding: "6px" }}>Sl No.</th>
-      <th style={{ border: "1px solid #d1d5db", padding: "6px", textAlign: "left" }}>Description</th>
-      <th style={{ border: "1px solid #d1d5db", padding: "6px" }}>HSN</th>
-      <th style={{ border: "1px solid #d1d5db", padding: "6px" }}>GST%</th>
-      <th style={{ border: "1px solid #d1d5db", padding: "6px" }}>Due On</th>
-      <th style={{ border: "1px solid #d1d5db", padding: "6px", textAlign: "right" }}>Qty</th>
-      <th style={{ border: "1px solid #d1d5db", padding: "6px", textAlign: "right" }}>Rate</th>
-      <th style={{ border: "1px solid #d1d5db", padding: "6px", textAlign: "left" }}>Unit</th>
-      <th style={{ border: "1px solid #d1d5db", padding: "6px", textAlign: "right" }}>Disc%</th>
-      <th style={{ border: "1px solid #d1d5db", padding: "6px", textAlign: "right" }}>Amount</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    {filteredItems.map((row, index) => {
-      const qty = Number(row.qty) || 0;
-      const rate = Number(row.rate) || 0;
-      const discount = Number(row.discount) || 0;
-      const gst = Number(row.gst) || 0;
-      const amount = qty * rate;
-      const afterDiscount = amount - (amount * discount) / 100;
-      const finalAmt = afterDiscount + (afterDiscount * gst) / 100;
-
-      return (
-        <tr key={row.id} style={{ color: "#111827" }}>
-          <td style={{ border: "1px solid #d1d5db", padding: "6px", textAlign: "center" }}>
-            {index + 1}
-          </td>
-          <td style={{ border: "1px solid #d1d5db", padding: "6px", textAlign: "left" }}>
-            {row.desc}
-          </td>
-          <td style={{ border: "1px solid #d1d5db", padding: "6px", textAlign: "center" }}>
-            {row.hsn}
-          </td>
-          <td style={{ border: "1px solid #d1d5db", padding: "6px", textAlign: "center" }}>
-            {gst}%
-          </td>
-          <td style={{ border: "1px solid #d1d5db", padding: "6px", textAlign: "center" }}>
-            {row.dueOn ? new Date(row.dueOn).toLocaleDateString() : "-"}
-          </td>
-          <td style={{ border: "1px solid #d1d5db", padding: "6px", textAlign: "right" }}>
-            {qty}
-          </td>
-          <td style={{ border: "1px solid #d1d5db", padding: "6px", textAlign: "right" }}>
-            {rate.toFixed(2)}
-          </td>
-          <td style={{ border: "1px solid #d1d5db", padding: "6px", textAlign: "left" }}>
-            {row.unit}
-          </td>
-          <td style={{ border: "1px solid #d1d5db", padding: "6px", textAlign: "right" }}>
-            {discount}
-          </td>
-          <td style={{ border: "1px solid #d1d5db", padding: "6px", textAlign: "right" }}>
-            {finalAmt.toFixed(2)}
-          </td>
-        </tr>
-      );
-    })}
-    <tr style={{ fontWeight: "bold", backgroundColor: "#f3f4f6" }}>
-      <td
-        colSpan={9}
-        style={{ border: "1px solid #d1d5db", padding: "6px", textAlign: "right" }}
-      >
-        Total
-      </td>
-      <td
-        style={{ border: "1px solid #d1d5db", padding: "6px", textAlign: "right" }}
-      >
-        {total.toFixed(2)}
-      </td>
-    </tr>
-  </tbody>
-</table>
-
+            {/* Buyer Info & Invoice Details */}
+            <div className="flex flex-row justify-between items-center gap-10 mb-4">
+              <div>
+                <h2 style={{ fontSize: "11px", color: "#6b7280" }}>
+                  No.48, First Floor,<br />Lawspet Main Road, Puducherry - 605008
+                </h2>
+              </div>
+              <div style={{ fontSize: "11px", textAlign: "right", color: "#6b7280" }}>
+                <p>Phone: 9360962810 | Email: technovahubcareer@gmail.com</p>
+                <p>GSTIN: 34ADXPA0879K1Z3 | State: 34-Puducherry</p>
+              </div>
             </div>
+            <hr style={{ borderColor: "#d1d5db" }} />
 
-            <div className="flex justify-end ">
-
-<div className="mt-2 text-[10px] mb-10">{amountWords}</div>
-            </div>
-
-            {/* Declaration + Bank */}
-            <div className="grid grid-cols-2 gap-4">
-              <div className="border border-border rounded p-4">
-                
-                
-                <h4 className="font-bold mt-6 text-foreground">Declaration</h4>
-                <p className="mt-2 text-xs text-muted-foreground" contentEditable suppressContentEditableWarning={true} onInput={(e) => setDeclarationInfo({ ...declarationInfo, declarationText: e.currentTarget.textContent || "" })}>{declarationInfo.declarationText}</p>
+            {/* Invoice To & Details */}
+            <div className="w-full flex flex-col gap-10 mt-5 md:flex-row justify-between mb-6">
+              <div className="md:w-1/2 mb-4 md:mb-0">
+                <p style={{ color: "#60a5fa",  marginBottom: "2px" }}>
+                  Invoice To: <br /> <span style={{color: "#797474ff", fontWeight: "200" }}>{tableItems[0]?.invoiceTo || "N/A"}</span>
+                </p>
+                <hr style={{ borderColor: "#d1d5db" }} />
+                <p style={{ color: "#60a5fa", margin: "5px 0" }}>GST IN:  <br /> <span style={{ color: "#797474ff", fontWeight: "200" }}>34ADXPA0879K1Z3</span> </p>
+                <hr style={{ borderColor: "#d1d5db" }} />
+                <div style={{ color: "#60a5fa", fontWeight: "bold", marginTop: "5px" }}>
+                  Address:  <br />
+                  <p style={{ color: "#716c6cff", fontWeight: "200" }}>38.39 2ND CROSS STREET GREEN GARDEN</p>
+                </div>
               </div>
 
-              <div className="border border-border rounded p-4">
-                <h4 className="font-bold text-foreground mb-3">Company's Bank Details</h4>
+             
+
+
+                  {/* Invoice Details */}
+<div className="md:w-1/2">
+  <table
+    style={{
+      width: "100%",
+      borderCollapse: "collapse",
+      fontSize: "13px",
+      boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+      borderRadius: "6px",
+      overflow: "hidden",
+    }}
+  >
+    <tbody>
+      {[
+        { label: "Invoice #", value: tableItems[0]?.invoiceId || "-" },
+        { label: "Date", value: new Date().toLocaleDateString() },
+        {
+          label: "Due Date",
+          value: new Date(new Date().setDate(new Date().getDate() + 14)).toLocaleDateString(),
+        },
+      ].map((row, index) => (
+        <tr key={index} style={{ backgroundColor: index % 2 === 0 ? "#e0f2fe" : "#f8fafc" }}>
+          <td
+            style={{
+              padding: "8px 10px",
+              fontWeight: "600",
+              color: "#1e3a8a",
+              border: "1px solid #d1d5db",
+              width: "40%",
+            }}
+          >
+            {row.label}
+          </td>
+          <td
+            style={{
+              padding: "8px 10px",
+              color: "#111827",
+              border: "1px solid #d1d5db",
+              width: "60%",
+            }}
+          >
+            {row.value}
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+
+
+
+
+
+
+
+            
+
+
+            </div>
+
+              <hr style={{ borderColor: "#d1d5db" }} />
+
+              {/* Invoice Table */}
+             <div className="w-full overflow-x-auto mt-10">
+  <table
+    style={{
+      width: "100%",
+      borderCollapse: "separate",
+      borderSpacing: "0",
+      borderRadius: "8px",
+      overflow: "hidden",
+      boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+      fontFamily: "'Inter', sans-serif",
+    }}
+  >
+    <thead>
+      <tr
+        style={{
+          backgroundColor: "#accbf0ff", // Tailwind blue-600
+          color: "#ffffff",
+          textTransform: "uppercase",
+          fontSize: "14px",
+        }}
+      >
+        <th className="px-3 py-2">Sl No.</th>
+        <th className="px-3 py-2 text-left">Items Desc</th>
+        <th className="px-3 py-2">HSN/SAC</th>
+        <th className="px-3 py-2 text-right">Qty</th>
+        <th className="px-3 py-2 text-right">Price</th>
+        <th className="px-3 py-2 text-right">Disc%</th>
+        <th className="px-3 py-2">GST%</th>
+        <th className="px-3 py-2 text-right">Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      {tableItems.map((row, index) => {
+        const qty = Number(row.qty) || 0;
+        const rate = Number(row.rate) || 0;
+        const discount = Number(row.discount) || 0;
+        const gst = Number(row.gst) || 0;
+        const amount = qty * rate;
+        const afterDiscount = amount - (amount * discount) / 100;
+        const finalAmt = afterDiscount + (afterDiscount * gst) / 100;
+
+        return (
+          <tr
+            key={row._uniqueKey}
+            style={{
+              backgroundColor: index % 2 === 0 ? "#f9fafb" : "#ffffff",
+              transition: "background 0.2s",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#e0f2fe")} // Tailwind blue-100
+            onMouseLeave={(e) =>
+              (e.currentTarget.style.backgroundColor =
+                index % 2 === 0 ? "#f9fafb" : "#ffffff")
+            }
+          >
+            <td className="px-3 py-2 text-center">{index + 1}</td>
+            <td className="px-3 py-2 text-left">{row.desc}</td>
+            <td className="px-3 py-2 text-center">{row.hsn}</td>
+            <td className="px-3 py-2 text-right">{qty}</td>
+            <td className="px-3 py-2 text-right">{rate.toFixed(2)}</td>
+            <td className="px-3 py-2 text-right">{discount}%</td>
+            <td className="px-3 py-2 text-center">{gst}%</td>
+            <td className="px-3 py-2 text-right">{finalAmt.toFixed(2)}</td>
+          </tr>
+        );
+      })}
+      <tr
+        style={{
+          fontWeight: "bold",
+          backgroundColor: "#e5e7eb", // Tailwind gray-200
+          fontSize: "15px",
+        }}
+      >
+        <td colSpan={7} className="px-3 py-2 text-right">
+          Total
+        </td>
+        <td className="px-3 py-2 text-right">{total.toFixed(2)}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+            <div className="flex justify-end mt-2 text-[10px] mb-10" style={{ color: "#1774b7ff" }}>{amountWords}</div>
+
+            {/* Declaration + Bank */}
+            <div className="grid grid-cols-2 gap-10 mt-4">
+              <div className="p-4">
+                <h4 style={{ color: "#60a5fa" }}>Bank Details</h4>
                 {[
                   { key: "bankName", label: "Bank Name:" },
                   { key: "accountNo", label: "A/c No.:" },
-                  { key: "branchIfsc", label: "Branch & IFS Code:" },
+                  { key: "branchIfsc", label: "Branch & IFS Code:" }
                 ].map(({ key, label }) => (
-                  <div key={key} className="flex justify-between items-center mt-2">
-                    <h5 className="font-semibold text-sm text-foreground">{label}</h5>
-                    <p className="text-sm text-foreground" contentEditable suppressContentEditableWarning={true} onInput={(e) => setDeclarationInfo({ ...declarationInfo, [key]: e.currentTarget.textContent || "" })}>{declarationInfo[key]}</p>
+                  <div key={key} className="flex gap-2 items-center mt-2">
+                    <h5 style={{ fontWeight: "600", fontSize: "12px", color: "#111" }}>{label}</h5>
+                    <p
+                      style={{ fontSize: "12px", color: "#111" }}
+                      contentEditable
+                      suppressContentEditableWarning={true}
+                      onInput={(e) => setDeclarationInfo({ ...declarationInfo, [key]: e.currentTarget.textContent || "" })}
+                    >
+                      {declarationInfo[key]}
+                    </p>
                   </div>
                 ))}
-                <div className="mt-6">
-                  <h5 className="font-bold text-foreground">For TECHNOVAHUB</h5>
-                </div>
-                <div className="flex justify-end mt-8 font-bold text-foreground">
-                  <h5>Authorized Signatory</h5>
-                </div>
+              </div>
+              <div className="p-4">
+                <div className="flex justify-end text-[#60a5fa] text-sm mt-8"><h5>For TECHNOVAHUB</h5></div>
+                <div className="flex justify-end text-sm"><h5>Authorized Signatory</h5></div>
               </div>
             </div>
+
           </div>
         </div>
       </div>

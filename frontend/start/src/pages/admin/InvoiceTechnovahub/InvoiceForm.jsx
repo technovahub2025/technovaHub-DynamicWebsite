@@ -1,168 +1,260 @@
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useEffect, useState } from "react";
 import { addInvoice, updateInvoice } from "../../../api/invoiceApi";
-import toast from "react-hot-toast";
-import { X, Trash, Plus } from "lucide-react";
 
-const InvoiceForm = ({ editData, onClose, onUpdateComplete }) => {
-  // Automatic date and dueDate
+const InvoiceForm = ({ onClose, onRefresh, editData }) => {
+  const [invoiceTo, setInvoiceTo] = useState(editData?.invoiceTo || "");
+  const [items, setItems] = useState(
+    editData?.items || [
+      { desc: "", hsn: "", gst: 18, qty: 1, rate: 0, unit: "Nos", discount: 0 },
+    ]
+  );
+
+  // Default date + due date
   const today = new Date().toISOString().slice(0, 10);
   const defaultDue = new Date();
   defaultDue.setDate(defaultDue.getDate() + 30);
   const dueDateStr = defaultDue.toISOString().slice(0, 10);
 
-  const [invoiceTo, setInvoiceTo] = useState(editData?.invoiceTo || "");
   const [date, setDate] = useState(editData?.date?.slice(0, 10) || today);
   const [dueOn, setDueOn] = useState(editData?.dueDate?.slice(0, 10) || dueDateStr);
 
-  const [items, setItems] = useState(
-    editData?.items?.map((item) => ({ ...item })) || [
-      { desc: "", hsn: "", gst: "", qty: "", rate: "", unit: "", discount: "" }
-    ]
-  );
+  // Auto update due date if invoice date changes (only in edit mode)
+  useEffect(() => {
+    if (editData) {
+      const newDue = new Date(date);
+      newDue.setDate(newDue.getDate() + 30);
+      setDueOn(newDue.toISOString().slice(0, 10));
+    }
+  }, [date]);
 
-  // Handle item change
-  const handleItemChange = (index, e) => {
-    const { name, value } = e.target;
-    const updatedItems = [...items];
-    updatedItems[index][name] = value;
-    setItems(updatedItems);
-  };
-
-  // Add / Remove items
-  const addItem = () => setItems([...items, { desc: "", hsn: "", gst: "", qty: "", rate: "", unit: "", discount: "" }]);
-  const removeItem = (index) => setItems(items.filter((_, i) => i !== index));
-
-  // Calculate item amount
-  const calculateItemAmount = (item) => {
-    const qty = parseFloat(item.qty) || 0;
-    const rate = parseFloat(item.rate) || 0;
-    const discount = parseFloat(item.discount) || 0;
-    const gst = parseFloat(item.gst) || 0;
-
-    const baseAmount = qty * rate;
-    const afterDiscount = baseAmount * (1 - discount / 100);
-    return (afterDiscount * (1 + gst / 100)).toFixed(2);
-  };
-
-  // Submit
+  // Handle submit
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const dataToSend = {
+      invoiceTo,
+      date,
+      dueDate: dueOn,
+      items: items.map((item) => ({
+        ...item,
+        qty: Number(item.qty),
+        rate: Number(item.rate),
+        gst: Number(item.gst),
+        discount: Number(item.discount),
+      })),
+    };
     try {
-      const dataToSend = {
-        invoiceTo,
-        date,
-        dueDate: dueOn,
-        items: items.map(item => ({
-          ...item,
-          qty: Number(item.qty),
-          rate: Number(item.rate),
-          gst: Number(item.gst),
-          discount: Number(item.discount)
-        }))
-      };
-
-      if (editData?._id) {
+      if (editData) {
         await updateInvoice(editData._id, dataToSend);
-        toast.success("Invoice updated successfully!");
+        alert("✅ Invoice updated successfully!");
       } else {
         await addInvoice(dataToSend);
-        toast.success("Invoice added successfully!");
+        alert("✅ Invoice created successfully!");
       }
-
-      onUpdateComplete();
+      onRefresh();
       onClose();
-    } catch (err) {
-      console.error(err);
-      toast.error("Failed to save invoice");
+    } catch (error) {
+      console.error(error);
+      alert("❌ Error saving invoice!");
     }
   };
 
+  const handleItemChange = (index, field, value) => {
+    const updated = [...items];
+    updated[index][field] = value;
+    setItems(updated);
+  };
+
+  const addItem = () => {
+    setItems([
+      ...items,
+      { desc: "", hsn: "", gst: 18, qty: 1, rate: 0, unit: "Nos", discount: 0 },
+    ]);
+  };
+
+  const removeItem = (index) => {
+    setItems(items.filter((_, i) => i !== index));
+  };
+
+  // Calculate total
+  const calculateRowAmount = (item) => {
+    const qty = Number(item.qty) || 0;
+    const rate = Number(item.rate) || 0;
+    const discount = Number(item.discount) || 0;
+    const gst = Number(item.gst) || 0;
+    const base = qty * rate;
+    const afterDiscount = base - (base * discount) / 100;
+    return afterDiscount + (afterDiscount * gst) / 100;
+  };
+
+  const totalAmount = items.reduce((acc, item) => acc + calculateRowAmount(item), 0);
+
   return (
-    <AnimatePresence>
-      <motion.div
-        className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-      >
-        <motion.div
-          className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl p-6 relative border border-gray-100 overflow-y-auto max-h-[90vh]"
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          exit={{ scale: 0.8, opacity: 0 }}
-          transition={{ duration: 0.25 }}
-        >
-          <button onClick={onClose} className="absolute top-4 right-4 text-gray-600 hover:text-red-500 transition">
-            <X size={22} />
+    <div className="p-6 md:p-8 bg-white rounded-2xl shadow-xl">
+      <h2 className="text-center text-2xl font-bold text-blue-700 mb-6">
+        {editData ? "Edit Invoice" : "Create New Invoice"}
+      </h2>
+
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Invoice To */}
+        <div>
+          <label className="font-medium text-gray-700">Invoice To</label>
+          <input
+            type="text"
+            value={invoiceTo}
+            onChange={(e) => setInvoiceTo(e.target.value)}
+            required
+            placeholder="Enter client or company name"
+            className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
+          />
+        </div>
+
+        {/* Dates */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label className="font-medium text-gray-700">Invoice Date</label>
+            <input
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              readOnly={!editData}
+              className={`w-full px-3 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 ${
+                editData ? "focus:ring-blue-400 bg-white" : "bg-gray-100 cursor-not-allowed"
+              }`}
+            />
+          </div>
+          <div>
+            <label className="font-medium text-gray-700">Due Date</label>
+            <input
+              type="date"
+              value={dueOn}
+              onChange={(e) => setDueOn(e.target.value)}
+              readOnly={!editData}
+              className={`w-full px-3 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 ${
+                editData ? "focus:ring-blue-400 bg-white" : "bg-gray-100 cursor-not-allowed"
+              }`}
+            />
+          </div>
+        </div>
+
+        {/* Items Table */}
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm sm:text-base border border-gray-200 rounded-lg">
+            <thead className="bg-blue-500 text-white">
+              <tr>
+                <th className="py-2 px-3">Description</th>
+                <th className="py-2 px-3">HSN</th>
+                <th className="py-2 px-3">Qty</th>
+                <th className="py-2 px-3">Rate</th>
+                <th className="py-2 px-3">GST %</th>
+                <th className="py-2 px-3">Discount %</th>
+                <th className="py-2 px-3">Amount</th>
+                <th className="py-2 px-3">Action</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {items.map((item, index) => (
+                <tr key={index}>
+                  <td>
+                    <input
+                      type="text"
+                      placeholder="Description"
+                      value={item.desc}
+                      onChange={(e) => handleItemChange(index, "desc", e.target.value)}
+                      className="w-full px-2 py-1 border rounded"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      placeholder="HSN"
+                      value={item.hsn}
+                      onChange={(e) => handleItemChange(index, "hsn", e.target.value)}
+                      className="w-full px-2 py-1 border rounded"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="number"
+                      placeholder="Qty"
+                      value={item.qty}
+                      onChange={(e) => handleItemChange(index, "qty", e.target.value)}
+                      className="w-full px-2 py-1 border rounded"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="number"
+                      placeholder="Rate"
+                      value={item.rate}
+                      onChange={(e) => handleItemChange(index, "rate", e.target.value)}
+                      className="w-full px-2 py-1 border rounded"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="number"
+                      placeholder="GST %"
+                      value={item.gst}
+                      onChange={(e) => handleItemChange(index, "gst", e.target.value)}
+                      className="w-full px-2 py-1 border rounded"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="number"
+                      placeholder="Discount %"
+                      value={item.discount}
+                      onChange={(e) => handleItemChange(index, "discount", e.target.value)}
+                      className="w-full px-2 py-1 border rounded"
+                    />
+                  </td>
+                  <td className="text-right font-semibold px-2 py-1">
+                    ₹{calculateRowAmount(item).toFixed(2)}
+                  </td>
+                  <td className="text-center">
+                    <button
+                      type="button"
+                      onClick={() => removeItem(index)}
+                      className="text-red-500 font-bold hover:text-red-700"
+                    >
+                      ✕
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="flex justify-between items-center mt-4">
+          <button
+            type="button"
+            onClick={addItem}
+            className="px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg hover:from-indigo-600 hover:to-blue-500 transition-all"
+          >
+            + Add Item
           </button>
+          <div className="text-xl font-bold">Total: ₹{totalAmount.toFixed(2)}</div>
+        </div>
 
-          <h2 className="text-2xl font-bold mb-5 text-center text-blue-700">
-            {editData ? "Edit Invoice" : "Add New Invoice"}
-          </h2>
-
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="font-medium text-gray-700">Invoice To</label>
-              <input
-                type="text"
-                value={invoiceTo}
-                onChange={(e) => setInvoiceTo(e.target.value)}
-                required
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
-              />
-            </div>
-
-            <div>
-              <label className="font-medium text-gray-700">Invoice Date</label>
-              <input
-                type="date"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
-                readOnly
-              />
-            </div>
-
-            {/* Multiple Items */}
-            {items.map((item, idx) => (
-              <div key={idx} className="border rounded-lg p-3 relative grid grid-cols-2 md:grid-cols-4 gap-3 items-end mb-3 bg-gray-50">
-                <input name="desc" placeholder="Description" value={item.desc} onChange={(e) => handleItemChange(idx, e)} required className="w-full px-2 py-1 border rounded-lg"/>
-                <input name="hsn" placeholder="HSN" value={item.hsn} onChange={(e) => handleItemChange(idx, e)} className="w-full px-2 py-1 border rounded-lg"/>
-                <input name="qty" type="number" placeholder="Qty" value={item.qty} onChange={(e) => handleItemChange(idx, e)} className="w-full px-2 py-1 border rounded-lg"/>
-                <input name="rate" type="number" placeholder="Rate" value={item.rate} onChange={(e) => handleItemChange(idx, e)} className="w-full px-2 py-1 border rounded-lg"/>
-                <input name="gst" type="number" placeholder="GST %" value={item.gst} onChange={(e) => handleItemChange(idx, e)} className="w-full px-2 py-1 border rounded-lg"/>
-                <input name="discount" type="number" placeholder="Discount %" value={item.discount} onChange={(e) => handleItemChange(idx, e)} className="w-full px-2 py-1 border rounded-lg"/>
-                <input name="unit" placeholder="Unit" value={item.unit} onChange={(e) => handleItemChange(idx, e)} className="w-full px-2 py-1 border rounded-lg"/>
-                <input placeholder="Amount" value={calculateItemAmount(item)} disabled className="w-full px-2 py-1 border rounded-lg bg-green-100 text-green-700 font-semibold"/>
-
-                {items.length > 1 && (
-                  <button type="button" onClick={() => removeItem(idx)} className="absolute top-2 right-2 text-red-500 hover:text-red-700">
-                    <Trash size={18}/>
-                  </button>
-                )}
-              </div>
-            ))}
-
-            <button type="button" onClick={addItem} className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
-              <Plus size={18}/> Add Item
-            </button>
-
-            <div>
-              <label className="font-medium text-gray-700">Due Date</label>
-              <input type="date" value={dueOn} onChange={(e) => setDueOn(e.target.value)} className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"/>
-            </div>
-
-            <div className="flex justify-end gap-3 mt-4">
-              <button type="button" onClick={onClose} className="px-5 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium transition">Cancel</button>
-              <button type="submit" className="px-6 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold shadow-lg hover:from-indigo-600 hover:to-blue-500 transition-all">
-                {editData ? "Update Invoice" : "Add Invoice"}
-              </button>
-            </div>
-          </form>
-        </motion.div>
-      </motion.div>
-    </AnimatePresence>
+        {/* Buttons */}
+        <div className="flex justify-end gap-3 mt-6">
+          <button
+            type="button"
+            onClick={onClose}
+            className="px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+          >
+            {editData ? "Update Invoice" : "Create Invoice"}
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
 

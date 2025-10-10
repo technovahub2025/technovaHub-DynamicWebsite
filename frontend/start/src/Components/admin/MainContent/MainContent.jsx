@@ -54,9 +54,9 @@ const QuotationEdit = () => (
 
 const Invoice = () => (
   <div className="">
-   {/* <InvoiceCertificate/> */}
+    <InvoiceCertificate/> 
 
-   cert
+   
   </div>
 );
 
