@@ -3,6 +3,7 @@ import { addInvoice, updateInvoice } from "../../../api/invoiceApi";
 
 const InvoiceForm = ({ onClose, onRefresh, editData }) => {
   const [invoiceTo, setInvoiceTo] = useState(editData?.invoiceTo || "");
+  const [address, setAddress] = useState(editData?.address || "");
   const [items, setItems] = useState(
     editData?.items || [
       { desc: "", hsn: "", gst: 18, qty: 1, rate: 0, unit: "Nos", discount: 0 },
@@ -18,7 +19,7 @@ const InvoiceForm = ({ onClose, onRefresh, editData }) => {
   const [date, setDate] = useState(editData?.date?.slice(0, 10) || today);
   const [dueOn, setDueOn] = useState(editData?.dueDate?.slice(0, 10) || dueDateStr);
 
-  // Auto update due date if invoice date changes (only in edit mode)
+  // Auto update due date when invoice date changes
   useEffect(() => {
     if (editData) {
       const newDue = new Date(date);
@@ -27,11 +28,12 @@ const InvoiceForm = ({ onClose, onRefresh, editData }) => {
     }
   }, [date]);
 
-  // Handle submit
+  // Handle Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     const dataToSend = {
       invoiceTo,
+      address,
       date,
       dueDate: dueOn,
       items: items.map((item) => ({
@@ -75,7 +77,7 @@ const InvoiceForm = ({ onClose, onRefresh, editData }) => {
     setItems(items.filter((_, i) => i !== index));
   };
 
-  // Calculate total
+  // Calculate totals
   const calculateRowAmount = (item) => {
     const qty = Number(item.qty) || 0;
     const rate = Number(item.rate) || 0;
@@ -104,6 +106,18 @@ const InvoiceForm = ({ onClose, onRefresh, editData }) => {
             onChange={(e) => setInvoiceTo(e.target.value)}
             required
             placeholder="Enter client or company name"
+            className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
+          />
+        </div>
+
+        {/* Address Field */}
+        <div>
+          <label className="font-medium text-gray-700">Address</label>
+          <textarea
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            placeholder="Enter client address"
+            rows={3}
             className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
           />
         </div>

@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 // Item sub-schema
 const itemSchema = new mongoose.Schema({
   desc: { type: String, required: true, trim: true },
+
+
   hsn: { type: String },
   qty: { type: Number, required: true, default: 0 },
   rate: { type: Number, required: true, default: 0 },
@@ -17,6 +19,7 @@ const invoiceSchema = new mongoose.Schema(
   {
     invoiceId: { type: String, unique: true, trim: true },
     invoiceTo: { type: String, required: true, trim: true },
+      address: { type: String, required: true, trim: true },
     date: { 
       type: Date, 
       default: () => {

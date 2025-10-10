@@ -366,7 +366,7 @@ export default function InvoiceCertificate() {
                 >
                   Address: <br />
                   <p style={{ color: "#716c6cff", fontWeight: "200" }}>
-                    38.39 2ND CROSS STREET GREEN GARDEN
+                    {tableItems[0]?.address || "N/A"}
                   </p>
                 </div>
               </div>

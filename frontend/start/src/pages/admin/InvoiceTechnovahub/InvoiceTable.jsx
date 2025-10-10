@@ -42,6 +42,7 @@ const InvoiceTable = ({ invoices, onEdit, onRefresh }) => {
       inv.items.map((item) => ({
         invoiceId: inv.invoiceId,
         invoiceTo: inv.invoiceTo,
+        address:inv.address,
         date: inv.date,
         dueDate: inv.dueDate,
         ...item,
@@ -141,12 +142,13 @@ const InvoiceTable = ({ invoices, onEdit, onRefresh }) => {
 
       {/* Table */}
       <div className="overflow-x-auto">
-        <table className="w-full min-w-[900px] text-sm sm:text-base">
+        <table className="w-full min-w-[900px]  text-sm sm:text-base">
           <thead className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white">
             <tr>
-              <th className="py-2 px-3 text-left">SL No</th>
+             
               <th className="py-2 px-3 text-left">Invoice ID</th>
               <th className="py-2 px-3 text-left">Invoice To</th>
+                 <th className="py-2 px-3 text-left">Address</th>
               <th className="py-2 px-3 text-left">Description</th>
               <th className="py-2 px-3 text-left">HSN</th>
               <th className="py-2 px-3 text-left">GST %</th>
@@ -159,10 +161,10 @@ const InvoiceTable = ({ invoices, onEdit, onRefresh }) => {
               <th className="py-2 px-3 text-left">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200 bg-white">
+          <tbody className="divide-y divide-gray-200 bg-white ">
             {currentRows.length === 0 ? (
               <tr>
-                <td colSpan="12" className="text-center py-6 text-gray-500">
+                <td colSpan="12" className="text-center  py-6 text-gray-500">
                   No invoices found.
                 </td>
               </tr>
@@ -179,15 +181,15 @@ const InvoiceTable = ({ invoices, onEdit, onRefresh }) => {
                 return (
                   <tr
                     key={row._invoiceId + "-" + idx}
-                    className={`transition hover:bg-blue-50 ${
+                    className={`transition hover:bg-blue-50  ${
                       idx % 2 === 0 ? "bg-gray-50" : ""
                     }`}
                   >
-                    <td className="py-2 px-3">{idx + 1}</td>
+                  
 
                     {/* Invoice ID with background color */}
                     <td
-                      className="py-2 px-3 font-semibold text-white rounded-md"
+                      className="py-2 px-3   font-semibold text-white rounded-md"
                       style={{
                         backgroundColor: invoiceColors[row.invoiceId],
                       }}
@@ -196,6 +198,8 @@ const InvoiceTable = ({ invoices, onEdit, onRefresh }) => {
                     </td>
 
                     <td className="py-2 px-3">{row.invoiceTo}</td>
+                    <td className="py-2 px-3">{row.address}</td>
+
                     <td className="py-2 px-3">{row.desc}</td>
                     <td className="py-2 px-3">{row.hsn}</td>
                     <td className="py-2 px-3">{gst}%</td>
