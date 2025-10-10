@@ -318,14 +318,14 @@ export default function InvoiceCertificate() {
                 className="md:w-[300px] md:h-[200px] rounded-full w-[120px] h-[120px]"
               />
             </div>
-            <div className="flex justify-center mb-5">
-              <h1 style={{ color: "#60a5fa", fontWeight: "bold" }}>INVOICE</h1>
+            <div className="flex justify-center text-xl mb-5">
+              <h1 style={{ color: "#0c5cbdff", fontWeight: "bold"  }}>INVOICE</h1>
             </div>
 
             {/* Buyer Info & Invoice Details */}
-            <div className="flex flex-row justify-between items-center gap-10 mb-4">
+            <div className="flex flex-row justify-between items-center gap-[10px] mb-4">
               <div>
-                <h2 style={{ fontSize: "11px", color: "#6b7280" }}>
+                <h2 style={{ fontSize: "11px",  color: "#48494bff", }}>
                   No.48, First Floor,
                   <br />
                   Lawspet Main Road, Puducherry - 605008
@@ -335,7 +335,7 @@ export default function InvoiceCertificate() {
                 style={{
                   fontSize: "11px",
                   textAlign: "right",
-                  color: "#6b7280",
+                  color: "#48494bff",
                 }}
               >
                 <p>Phone: 9360962810 | Email: technovahubcareer@gmail.com</p>
@@ -347,14 +347,14 @@ export default function InvoiceCertificate() {
             {/* Invoice To & Details */}
             <div className="w-full flex flex-col gap-10 mt-5 md:flex-row justify-between mb-6">
               <div className="md:w-1/2 mb-4 md:mb-0">
-                <p style={{ color: "#60a5fa", marginBottom: "2px" }}>
+                <p style={{ color: "#0a56b3ff", fontWeight:"bold",  marginBottom: "10px" ,fontSize:"13px"}}>
                   Invoice To: <br />{" "}
                   <span style={{ color: "#797474ff", fontWeight: "200" }}>
                     {tableItems[0]?.invoiceTo || "N/A"}
                   </span>
                 </p>
                 <hr style={{ borderColor: "#d1d5db" }} />
-                <p style={{ color: "#60a5fa", margin: "5px 0" }}>
+               <p style={{ color: "#0a56b3ff", fontWeight:"bold",  marginBottom: "10px" , fontSize:"13px" }}>
                   GST IN: <br />{" "}
                   <span style={{ color: "#797474ff", fontWeight: "200" }}>
                     34ADXPA0879K1Z3
@@ -362,11 +362,7 @@ export default function InvoiceCertificate() {
                 </p>
                 <hr style={{ borderColor: "#d1d5db" }} />
                 <div
-                  style={{
-                    color: "#60a5fa",
-                  
-                    marginTop: "5px",
-                  }}
+                  style={{ color: "#0a56b3ff", fontWeight:"bold",  marginBottom: "2px", fontSize:"13px" }}
                 >
                   Address: <br />
                   <p style={{ color: "#716c6cff", fontWeight: "200" }}>
@@ -454,10 +450,10 @@ export default function InvoiceCertificate() {
                 <thead>
                   <tr
                     style={{
-                      backgroundColor: "#accbf0ff", // Tailwind blue-600
+                      backgroundColor: "#0c5cbdff", // Tailwind blue-600
                       color: "#ffffff",
                       textTransform: "uppercase",
-                      fontSize: "14px",
+                      fontSize: "14px", 
                     }}
                   >
                     <th className="px-3 py-2">Sl No.</th>
