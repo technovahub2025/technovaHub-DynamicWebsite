@@ -220,7 +220,7 @@ export default function QuotationUI() {
               <div>
                 <h1 className="text-sm sm:text-lg font-bold">Aroun Systems & Safety Equipments</h1>
                 <p className="text-[13px]">Manufacturer & Wholesalers For Fire & Safety Equipments</p>
-                <p className="text-xs sm:text-sm mt-2">GSTIN : 34ADXP... | Address : 38, 39, 2nd Cross Street, Green Garden, Lawspet Post, Puducherry - 605 008</p>
+                <p className="text-xs sm:text-sm mt-2">GSTIN : 34ADXPA0879K1Z3 | Address : 38, 39, 2nd Cross Street, Green Garden, Lawspet Post, Puducherry - 605 008</p>
               </div>
               <div className="flex gap-2">
                 <img src={qr2} alt="" className="w-[50px] h-[30px]" />
