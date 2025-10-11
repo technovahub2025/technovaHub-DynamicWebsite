@@ -38,10 +38,10 @@ const Navbar = () => {
     <nav className="fixed  w-full z-50 top-0 overflow-x-hidden">
       <div
         className={`transition-all md:px-10  duration-300 ${
-          isScrolled ? "backdrop-blur-md bg-white/30 shadow-md" : "bg-transparent "
+          isScrolled ? "backdrop-blur-md bg-white/30 shadow-md" : "md:backdrop-blur-md md:bg-white/10 md:shadow-xl bg-transparent "
         }`}
       >
-        <div className="max-w-9xl mx-auto  p-3 md:p-5 ">
+        <div className="max-w-7xl mx-auto  p-3 md:p-5 ">
           <div className="flex justify-between items-center  h-16">
             {/* Logo */}
             <div className="flex-shrink-0 flex items-center">

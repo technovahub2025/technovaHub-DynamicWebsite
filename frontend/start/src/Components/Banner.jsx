@@ -6,7 +6,7 @@ import banner4 from "../assets/images/4.jpg";
 import logo from "../assets/images/logoremove.png";
 
 const Banner = () => {
-  const images = [banner1, banner2, banner3, banner4];
+  const images = [banner2, banner3, banner4, banner1];
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
@@ -17,7 +17,7 @@ const Banner = () => {
   }, []);
 
   return (
-    <header className="relative md:min-h-screen  h-[45vh]   flex items-center justify-center text-center text-[#002f6c] overflow-hidden">
+    <header className="relative md:min-h-screen  h-[45vh]    flex items-center justify-center text-center text-[#002f6c] overflow-hidden">
       {/* Background slides */}
       {images.map((img, index) => (
         <div

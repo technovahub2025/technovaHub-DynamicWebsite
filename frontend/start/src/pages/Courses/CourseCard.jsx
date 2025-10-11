@@ -39,7 +39,7 @@ const CourseCard = () => {
       </div>
 
       <div className="flex justify-center mt-5 px-4">
-        <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl w-full py-2">
+        <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-7xl w-full py-2">
           {/* Loading State */}
           {loading ? (
             <>

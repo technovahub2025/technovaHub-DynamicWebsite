@@ -17,13 +17,13 @@ const LandingPage = () => {
     <div>
       <HeroBanner/>
       <VisionMission/>
-     
+       <Ourfacilities/>
        <CourseCard/>
        <SoftwareSolutions/>
     
       <AboutUsSection/>
         <StatsCounter/>
-        <Ourfacilities/>
+      
          <Marquee/>
         <Clients/>
          <Marquee/>
