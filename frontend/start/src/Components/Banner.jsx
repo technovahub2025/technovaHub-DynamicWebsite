@@ -3,17 +3,21 @@ import banner1 from "../assets/images/indoor.jpg";
 import banner2 from "../assets/images/train.jpg";
 import banner3 from "../assets/images/akshaya.jpg";
 import banner4 from "../assets/images/4.jpg";
+import banner5 from "../assets/images/mastery.jpg";
+import banner6 from "../assets/images/mithran.jpg";
+
+
 import logo from "../assets/images/logoremove.png";
 
 
 const Banner = () => {
-  const images = [banner2, banner3, banner4, banner1];
+  const images = [banner2,banner5,banner6,  banner3, banner4, banner1];
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrent((prev) => (prev + 1) % images.length);
-    }, 3000); // 3s per slide
+    }, 4000); // 3s per slide
     return () => clearInterval(interval);
   }, []);
 
