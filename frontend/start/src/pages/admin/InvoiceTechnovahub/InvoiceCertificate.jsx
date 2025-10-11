@@ -270,8 +270,8 @@ export default function InvoiceCertificate() {
           </select>
         </div>
 <Link to="/admin/invoiceEdit">
-<button className="bg-green-200 p-3 rounded-md font-bold">
-          Edit/ADD/DELETE
+<button className="bg-yellow-300 p-3 px-6 text-white cursor-pointer rounded-md">
+          Modify
         </button>
 </Link>
         
@@ -311,11 +311,11 @@ export default function InvoiceCertificate() {
             }}
           >
             {/* HEADER */}
-            <div className="flex justify-center mb-4">
+            <div className="flex justify-center mb-3">
               <img
                 src={qr}
                 alt="logo"
-                className="md:w-[300px] md:h-[200px] rounded-full w-[120px] h-[120px]"
+                className="md:w-[240px] md:h-[200px] rounded-full w-[120px] h-[120px]"
               />
             </div>
             <div className="flex justify-center text-xl mb-5">
