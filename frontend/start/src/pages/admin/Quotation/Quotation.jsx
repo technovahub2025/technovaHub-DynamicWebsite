@@ -168,7 +168,7 @@ export default function QuotationUI() {
     );
 
   return (
-    <div className="w-full min-h-screen bg-white flex flex-col items-center py-8 px-2 md:px-4">
+    <div className="w-full min-h-screen bg-blue-100 flex flex-col items-center py-8 px-2 md:px-4">
 
 <div className="flex flex-col md:flex-row w-full justify-center items-start md:items-center gap-4 mb-6 px-2 md:px-0">
 
@@ -211,12 +211,12 @@ export default function QuotationUI() {
      
 
       {/* Scrollable container */}
-      <div className="flex justify-center items-start w-full overflow-x-auto overflow-y-auto">
+      <div className="flex justify-center items-start   w-full overflow-x-auto overflow-y-hidden">
         <div className="origin-top w-[1000px] h-[400px] scale-[0.40] sm:w-[1000px] sm:h-[900px] sm:scale-[0.20] md:w-[190mm] md:scale-[0.95] lg:w-[210mm] lg:scale-[1]" style={{ transition: "transform 0.3s ease-in-out" }}>
-          <div ref={quotationRef} className="relative bg-white text-black shadow-lg border p-4 sm:p-6 overflow-hidden" style={{ width: "210mm", minHeight: "297mm", maxWidth: "100%", transformOrigin: "top center" }}>
+          <div ref={quotationRef} className="relative bg-white text-black shadow-3xl border border-white p-4 sm:p-6 overflow-hidden" style={{ width: "210mm", minHeight: "297mm", maxWidth: "100%", transformOrigin: "top center" }}>
             {/* --- HEADER --- */}
             <div className="flex justify-between items-center border-b pb-4 gap-10 mb-4">
-              <div><img src={qr} alt="logo" className="md:w-[430px] md:h-[60px]" /></div>
+              <div><img src={qr} alt="logo" className="md:w-[300px] md:h-[60px]" /></div>
               <div>
                 <h1 className="text-sm sm:text-lg font-bold">Aroun Systems & Safety Equipments</h1>
                 <p className="text-[13px]">Manufacturer & Wholesalers For Fire & Safety Equipments</p>
@@ -235,7 +235,7 @@ export default function QuotationUI() {
             {/* Buyer & Voucher Info */}
             <div className="grid grid-cols-2 gap-6 mb-6">
 
-           <div className="p-4 border border-border rounded">
+           <div className="p-4 border border-gray-300 shadow-lg rounded-md">
   <h3 className="font-bold text-foreground mb-3">Buyer (Bill to)</h3>
 
   {/* Static GST line */}
@@ -270,7 +270,7 @@ export default function QuotationUI() {
   ))}
 </div>
 
-              <div className="p-4 border border-border rounded">
+              <div className="p-4 border border-gray-300 shadow-lg rounded-md">
   {Object.entries(voucherInfo).map(([key, value]) => (
     <div key={key} className="flex justify-between items-center mt-2">
       <h4 className="font-bold text-sm text-foreground">
@@ -299,15 +299,15 @@ export default function QuotationUI() {
               <table className="w-full text-sm border border-border border-collapse">
                 <thead >
                   <tr className="bg-muted text-center">
-                    <th className="px-2 py-1 border border-border">Sl No.</th>
-                    <th className="px-2 py-1 border border-border text-left">Description</th>
-                    <th className="px-2 py-1 border border-border">HSN</th>
-                    <th className="px-2 py-1 border border-border">GST%</th>
-                    <th className="px-2 py-1 border border-border">Qty</th>
-                    <th className="px-2 py-1 border border-border text-right">Rate</th>
-                    <th className="px-2 py-1 border border-border text-left">Unit</th>
-                    <th className="px-2 py-1 border border-border text-right">Disc%</th>
-                    <th className="px-2 py-1 border border-border text-right">Amount</th>
+                    <th className="px-2 py-1 border border-gray-400">Sl No.</th>
+                    <th className="px-2 py-1 border border-gray-400 text-left">Description</th>
+                    <th className="px-2 py-1 border border-gray-400">HSN</th>
+                    <th className="px-2 py-1 border border-gray-400">GST%</th>
+                    <th className="px-2 py-1 border border-gray-400">Qty</th>
+                    <th className="px-2 py-1 border border-gray-400 text-right">Rate</th>
+                    <th className="px-2 py-1 border border-gray-400 text-left">Unit</th>
+                    <th className="px-2 py-1 border border-gray-400 text-right">Disc%</th>
+                    <th className="px-2 py-1 border border-gray-400 text-right">Amount</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -322,21 +322,21 @@ export default function QuotationUI() {
 
                     return (
                       <tr key={index} className="text-sm text-foreground">
-                        <td className="px-2 py-1 border border-border text-center">{index + 1}</td>
-                        <td className="px-2 py-1 border border-border text-left">{row.desc}</td>
-                        <td className="px-2 py-1 border border-border text-center">{row.hsn}</td>
-                        <td className="px-2 py-1 border border-border text-center">{gst}%</td>
-                        <td className="px-2 py-1 border border-border text-right">{qty}</td>
-                        <td className="px-2 py-1 border border-border text-right">{rate.toFixed(2)}</td>
-                        <td className="px-2 py-1 border border-border text-left">{row.unit}</td>
-                        <td className="px-2 py-1 border border-border text-right">{discount}</td>
-                        <td className="px-2 py-1 border border-border text-right">{finalAmt.toFixed(2)}</td>
+                        <td className="px-2 py-1 border border-gray-400 text-center">{index + 1}</td>
+                        <td className="px-2 py-1 border border-gray-400 text-left">{row.desc}</td>
+                        <td className="px-2 py-1 border border-gray-400 text-center">{row.hsn}</td>
+                        <td className="px-2 py-1 border border-gray-400 text-center">{gst}%</td>
+                        <td className="px-2 py-1 border border-gray-400 text-right">{qty}</td>
+                        <td className="px-2 py-1 border border-gray-400 text-right">{rate.toFixed(2)}</td>
+                        <td className="px-2 py-1 border border-gray-400 text-left">{row.unit}</td>
+                        <td className="px-2 py-1 border border-gray-400 text-right">{discount}</td>
+                        <td className="px-2 py-1 border border-gray-400 text-right">{finalAmt.toFixed(2)}</td>
                       </tr>
                     );
                   })}
-                  <tr className="font-bold text-right bg-muted">
-                    <td colSpan={8} className="px-2 py-1 border border-border text-right">Total</td>
-                    <td className="px-2 py-1 border border-border text-right">{total.toFixed(2)}</td>
+                  <tr className=" text-right bg-muted">
+                    <td colSpan={8} className="px-2 py-1 border border-gray-400 font-bold text-right">Total</td>
+                    <td className="px-2 py-1 border border-gray-400 text-red-500 text-right ">{total.toFixed(2)}</td>
                   </tr>
                 </tbody>
               </table>
@@ -344,14 +344,14 @@ export default function QuotationUI() {
 
             {/* Declaration + Bank */}
             <div className="grid grid-cols-2 gap-4">
-              <div className="border border-border rounded p-4">
+              <div className="border border-gray-400 shadow-lg rounded p-4">
                 <strong className="text-foreground">Amount Chargeable (in words):</strong>
-                <div className="mt-2 text-sm text-foreground">{amountWords}</div>
+                <div className="mt-2 text-sm text-red-500">{amountWords}</div>
                 <h4 className="font-bold mt-6 text-foreground">Declaration</h4>
                 <p className="mt-2 text-xs text-muted-foreground" contentEditable suppressContentEditableWarning={true} onInput={(e) => setDeclarationInfo({ ...declarationInfo, declarationText: e.currentTarget.textContent || "" })}>{declarationInfo.declarationText}</p>
               </div>
 
-              <div className="border border-border rounded p-4">
+              <div className="border border-gray-400 shadow-lg rounded p-4">
                 <h4 className="font-bold text-foreground mb-3">Company's Bank Details</h4>
                 {["bankName", "accountNo", "branchIfsc"].map((key) => (
                   <div key={key} className="flex justify-between items-center mt-2">
