@@ -309,7 +309,7 @@ if (loading)
       
       </div>
 
-      <div className="flex justify-center items-start w-full overflow-x-auto overflow-y-auto">
+      <div className="flex justify-center items-start w-full overflow-x-auto overflow-y-auto overflow-y-hidden">
         <div
           className="origin-top w-[1000px] h-[400px] scale-[0.40] sm:w-[1000px] sm:h-[900px] sm:scale-[0.20] md:w-[190mm] md:scale-[0.95] lg:w-[210mm] lg:scale-[1]"
           style={{ transition: "transform 0.3s ease-in-out" }}
