@@ -61,7 +61,7 @@ export default function QuotationUI() {
       });
       setVoucherInfo({
         voucherNo: selectedQuotation.voucherNo,
-        dated: selectedQuotation.date ? new Date(selectedQuotation.date).toLocaleDateString() : "",
+        dated: selectedQuotation.date ? new Date(selectedQuotation.date).toLocaleDateString("en-GB") : "",
         paymentMode: selectedQuotation.paymentMode,
         dispatchedThrough: selectedQuotation.dispatchedThrough,
         destination: selectedQuotation.destination,
@@ -211,7 +211,7 @@ export default function QuotationUI() {
      
 
       {/* Scrollable container */}
-      <div className="flex justify-center items-start   w-full overflow-x-auto overflow-y-hidden">
+      <div className="flex justify-center items-start   w-full overflow-x-auto ">
         <div className="origin-top w-[1000px] h-[400px] scale-[0.40] sm:w-[1000px] sm:h-[900px] sm:scale-[0.20] md:w-[190mm] md:scale-[0.95] lg:w-[210mm] lg:scale-[1]" style={{ transition: "transform 0.3s ease-in-out" }}>
           <div ref={quotationRef} className="relative bg-white text-black shadow-3xl border border-white p-4 sm:p-6 overflow-hidden" style={{ width: "210mm", minHeight: "297mm", maxWidth: "100%", transformOrigin: "top center" }}>
             {/* --- HEADER --- */}

@@ -189,8 +189,8 @@ const InvoiceTable = ({ invoices, onEdit, onRefresh }) => {
                     <td className="py-2 px-3">{row.desc}</td>
                     <td className="py-2 px-3">{row.hsn}</td>
                     <td className="py-2 px-3">{gst}%</td>
-                    <td className="py-2 px-3">{row.date ? new Date(row.date).toLocaleDateString() : "-"}</td>
-                    <td className="py-2 px-3">{row.dueDate ? new Date(row.dueDate).toLocaleDateString() : "-"}</td>
+                    <td className="py-2 px-3">{row.date ? new Date(row.date).toLocaleDateString("en-GB") : "-"}</td>
+                    <td className="py-2 px-3">{row.dueDate ? new Date(row.dueDate).toLocaleDateString("en-GB") : "-"}</td>
                     <td className="py-2 px-3">{qty}</td>
                     <td className="py-2 px-3">{rate.toFixed(2)}</td>
                     <td className="py-2 px-3">{discount}%</td>

@@ -268,7 +268,7 @@ if (loading)
     );
 
   return (
-    <div className="w-full min-h-screen bg-white flex flex-col items-center py-8 px-2 md:px-4">
+    <div className="w-full min-h-screen bg-blue-100 flex flex-col items-center py-8 px-2 md:px-4">
       <div className="mb-6 w-full flex flex-col md:flex-row justify-center md:justify-center items-center gap-4 px-2 md:px-0 print:hidden">
           <div className="w-full md:w-[300px]">
           <select
@@ -284,15 +284,15 @@ if (loading)
           </select>
         </div>
 <Link to="/admin/invoiceEdit">
-<button className="bg-yellow-500 p-3 px-6 text-white cursor-pointer rounded-md">
-          Modify
+<button className="bg-yellow-500 p-3 px-6 font-bold text-white cursor-pointer rounded-md">
+          Modify Changes
         </button>
 </Link>
         
 
         <button
           onClick={handleDownload}
-          className="shadow-lg px-4 py-2 md:px-6 md:py-3 rounded-md bg-[#60a5fa] text-white flex items-center gap-2 text-sm md:text-base hover:bg-[#3b82f6] transition-colors"
+          className="shadow-lg px-4 py-2 md:px-6 md:py-3 rounded-md bg-green-600 text-white flex items-center gap-2 text-sm md:text-base font-bold  transition-colors"
         >
           <FaDownload />
           <span>Download Invoice</span>
@@ -309,7 +309,7 @@ if (loading)
       
       </div>
 
-      <div className="flex justify-center items-start w-full overflow-x-auto overflow-y-auto overflow-y-hidden">
+      <div className="flex justify-center items-start w-full overflow-x-auto overflow-y-auto">
         <div
           className="origin-top w-[1000px] h-[400px] scale-[0.40] sm:w-[1000px] sm:h-[900px] sm:scale-[0.20] md:w-[190mm] md:scale-[0.95] lg:w-[210mm] lg:scale-[1]"
           style={{ transition: "transform 0.3s ease-in-out" }}
@@ -398,50 +398,53 @@ if (loading)
                   }}
                 >
                   <tbody>
-                    {[
-                      {
-                        label: "Invoice #",
-                        value: tableItems[0]?.invoiceId || "-",
-                      },
-                      { label: "Date", value: new Date().toLocaleDateString() },
-                      {
-                        label: "Due Date",
-                        value: new Date(
-                          new Date().setDate(new Date().getDate() + 14)
-                        ).toLocaleDateString(),
-                      },
-                    ].map((row, index) => (
-                      <tr
-                        key={index}
-                        style={{
-                          backgroundColor:
-                            index % 2 === 0 ? "#e0f2fe" : "#f8fafc",
-                        }}
-                      >
-                        <td
-                          style={{
-                            padding: "8px 10px",
-                            fontWeight: "600",
-                            color: "#1e3a8a",
-                            border: "1px solid #d1d5db",
-                            width: "40%",
-                          }}
-                        >
-                          {row.label}
-                        </td>
-                        <td
-                          style={{
-                            padding: "8px 10px",
-                            color: "#111827",
-                            border: "1px solid #d1d5db",
-                            width: "60%",
-                          }}
-                        >
-                          {row.value}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
+  {[
+    {
+      label: "Invoice #",
+      value: tableItems[0]?.invoiceId || "-",
+    },
+    {
+      label: "Date",
+      value: new Date().toLocaleDateString("en-GB"), // DD/MM/YYYY
+    },
+    {
+      label: "Due Date",
+      value: new Date(
+        new Date().setDate(new Date().getDate() + 14)
+      ).toLocaleDateString("en-GB"), // DD/MM/YYYY
+    },
+  ].map((row, index) => (
+    <tr
+      key={index}
+      style={{
+        backgroundColor: index % 2 === 0 ? "#e0f2fe" : "#f8fafc",
+      }}
+    >
+      <td
+        style={{
+          padding: "8px 10px",
+          fontWeight: "600",
+          color: "#1e3a8a",
+          border: "1px solid #d1d5db",
+          width: "40%",
+        }}
+      >
+        {row.label}
+      </td>
+      <td
+        style={{
+          padding: "8px 10px",
+          color: "#111827",
+          border: "1px solid #d1d5db",
+          width: "60%",
+        }}
+      >
+        {row.value}
+      </td>
+    </tr>
+  ))}
+</tbody>
+
                 </table>
               </div>
             </div>
