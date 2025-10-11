@@ -5,16 +5,26 @@ import toast from "react-hot-toast";
 import { X } from "lucide-react";
 
 const QuotationForm = ({ editData, onClose, onUpdateComplete }) => {
-  const [formData, setFormData] = useState({
-    desc: "",
-    hsn: "",
-    gst: "",
-    dueOn: "",
-    batch: "",
-    qty: "",
-    rate: "",
-    unit: "",
-    discount: "",
+  const [quotationData, setQuotationData] = useState({
+    date: new Date().toISOString().slice(0, 10),
+    contactName: "",
+    mobile: "",
+    address: "",
+    paymentMode: "0 Days",
+    dispatchedThrough: "By Hand",
+    destination: "Free Door Delivery",
+    immediateDated: "Immediate",
+    items: [
+      {
+        desc: "",
+        hsn: "",
+        gst: 0,
+        qty: 0,
+        rate: 0,
+        discount: 0,
+        unit: "",
+      },
+    ],
   });
 
   const [isEdit, setIsEdit] = useState(false);
@@ -22,31 +32,17 @@ const QuotationForm = ({ editData, onClose, onUpdateComplete }) => {
 
   useEffect(() => {
     if (editData) {
-      setFormData({
-        desc: editData.desc || "",
-        hsn: editData.hsn || "",
-        gst: editData.gst || "",
-        dueOn: editData.dueOn ? editData.dueOn.slice(0, 10) : "",
-        batch: editData.batch || "",
-        qty: editData.qty || "",
-        rate: editData.rate || "",
-        unit: editData.unit || "",
-        discount: editData.discount || "",
+      setQuotationData({
+        ...editData,
+        date: editData.date ? editData.date.slice(0, 10) : new Date().toISOString().slice(0, 10),
       });
       setIsEdit(true);
       setEditId(editData._id);
     } else {
-      setFormData({
-        desc: "",
-        hsn: "",
-        gst: "",
-        dueOn: "",
-        batch: "",
-        qty: "",
-        rate: "",
-        unit: "",
-        discount: "",
-      });
+      setQuotationData((prev) => ({
+        ...prev,
+        date: new Date().toISOString().slice(0, 10),
+      }));
       setIsEdit(false);
       setEditId(null);
     }
@@ -54,28 +50,54 @@ const QuotationForm = ({ editData, onClose, onUpdateComplete }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setQuotationData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const displayAmount = (() => {
-    const qty = parseFloat(formData.qty) || 0;
-    const rate = parseFloat(formData.rate) || 0;
-    const discount = parseFloat(formData.discount) || 0;
-    const gst = parseFloat(formData.gst) || 0;
-    const amountBeforeGST = qty * rate * (1 - discount / 100);
-    const amountWithGST = amountBeforeGST * (1 + gst / 100);
-    return amountWithGST.toFixed(2);
-  })();
+  const handleItemChange = (index, e) => {
+    const { name, value } = e.target;
+    const updatedItems = [...quotationData.items];
+    updatedItems[index][name] =
+      name === "desc" || name === "hsn" || name === "unit"
+        ? value
+        : parseFloat(value) || 0;
+    setQuotationData((prev) => ({ ...prev, items: updatedItems }));
+  };
+
+  const addNewItem = () => {
+    setQuotationData((prev) => ({
+      ...prev,
+      items: [
+        ...prev.items,
+        { desc: "", hsn: "", gst: 0, qty: 0, rate: 0, discount: 0, unit: "" },
+      ],
+    }));
+  };
+
+  const removeItem = (index) => {
+    const updatedItems = quotationData.items.filter((_, idx) => idx !== index);
+    setQuotationData((prev) => ({ ...prev, items: updatedItems }));
+  };
+
+  const calculateItemTotal = (item) => {
+    const amount = item.qty * item.rate;
+    const discountAmount = (amount * item.discount) / 100;
+    const gstAmount = ((amount - discountAmount) * item.gst) / 100;
+    return amount - discountAmount + gstAmount;
+  };
+
+  const subtotal = quotationData.items.reduce(
+    (acc, item) => acc + calculateItemTotal(item),
+    0
+  );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const dataToSend = { ...formData };
       if (isEdit && editId) {
-        await updateQuotation(editId, dataToSend);
+        await updateQuotation(editId, quotationData);
         toast.success("Quotation updated successfully!");
       } else {
-        await addQuotation(dataToSend);
+        await addQuotation(quotationData);
         toast.success("Quotation added successfully!");
       }
       onUpdateComplete();
@@ -94,13 +116,12 @@ const QuotationForm = ({ editData, onClose, onUpdateComplete }) => {
         exit={{ opacity: 0 }}
       >
         <motion.div
-          className="bg-white/90 backdrop-blur-md rounded-2xl shadow-2xl w-full max-w-2xl p-6 relative border border-gray-100"
+          className="bg-white/90 backdrop-blur-md rounded-2xl shadow-2xl w-full max-w-5xl p-6 relative border border-gray-100 overflow-y-auto max-h-[90vh]"
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.8, opacity: 0 }}
           transition={{ duration: 0.25 }}
         >
-          {/* Close Button */}
           <button
             onClick={onClose}
             className="absolute top-4 right-4 text-gray-600 hover:text-red-500 transition"
@@ -113,92 +134,100 @@ const QuotationForm = ({ editData, onClose, onUpdateComplete }) => {
           </h2>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid grid-cols-2 gap-3">
-              <input
-                name="desc"
-                placeholder="Product Description"
-                value={formData.desc}
-                onChange={handleChange}
-                className="input-field"
-                required
-              />
-              <input
-                name="hsn"
-                placeholder="HSN Code"
-                value={formData.hsn}
-                onChange={handleChange}
-                 className="input-field"
-                required
-              />
+            {/* Header Fields */}
+            <div className="grid grid-cols-2 gap-4">
+              {[
+                { label: "Date", name: "date", type: "date" },
+                { label: "Contact Name", name: "contactName", type: "text" },
+                { label: "Mobile", name: "mobile", type: "text" },
+                { label: "Address", name: "address", type: "text" },
+                { label: "Payment Mode", name: "paymentMode", type: "text" },
+                { label: "Dispatched Through", name: "dispatchedThrough", type: "text" },
+                { label: "Destination", name: "destination", type: "text" },
+                { label: "Immediate Dated", name: "immediateDated", type: "text" },
+              ].map((field, idx) => (
+                <div className="flex flex-col" key={idx}>
+                  <label className="font-medium text-gray-700">{field.label}</label>
+                  <input
+                    type={field.type}
+                    name={field.name}
+                    value={quotationData[field.name]}
+                    onChange={handleChange}
+                    className="input-field border p-2 rounded"
+                    required={field.name === "date" || field.name === "contactName"}
+                  />
+                </div>
+              ))}
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
-              <input
-                name="gst"
-                type="number"
-                placeholder="GST %"
-                value={formData.gst}
-                onChange={handleChange}
-                className="input-field"
-              />
-              <input
-                name="batch"
-                placeholder="Batch Number"
-                value={formData.batch}
-                onChange={handleChange}
-                 className="input-field"
-              />
+            {/* Items Section */}
+            <div className="space-y-3">
+              {quotationData.items.map((item, idx) => (
+                <div
+                  key={idx}
+                  className="grid grid-cols-9 gap-3 border p-3 rounded-lg bg-gray-50"
+                >
+                  {[
+                    { label: "Description", name: "desc", colSpan: 2 },
+                    { label: "HSN", name: "hsn" },
+                    { label: "Qty", name: "qty", type: "number" },
+                    { label: "Rate", name: "rate", type: "number" },
+                    { label: "Discount %", name: "discount", type: "number" },
+                    { label: "GST %", name: "gst", type: "number" },
+                  ].map((field, i) => (
+                    <div
+                      className={`flex flex-col ${field.colSpan ? `col-span-${field.colSpan}` : ""}`}
+                      key={i}
+                    >
+                      <label className="text-gray-600 text-sm">{field.label}</label>
+                      <input
+                        type={field.type || "text"}
+                        name={field.name}
+                        placeholder={field.label}
+                        value={item[field.name]}
+                        onChange={(e) => handleItemChange(idx, e)}
+                        className="input-field border p-1 rounded"
+                        required={field.name === "desc"}
+                      />
+                    </div>
+                  ))}
+
+                  {/* Item Total */}
+                  <div className="flex flex-col">
+                    <label className="text-gray-600 text-sm">Total</label>
+                    <input
+                      type="text"
+                      value={calculateItemTotal(item).toFixed(2)}
+                      className="input-field border p-1 rounded bg-gray-100"
+                      readOnly
+                    />
+                  </div>
+
+                  {/* Remove Button */}
+                  <div className="flex flex-col items-center justify-end">
+                    <label className="text-gray-600 text-sm invisible">Remove</label>
+                    <button
+                      type="button"
+                      onClick={() => removeItem(idx)}
+                      className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 mt-1"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={addNewItem}
+                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+              >
+                + Add Item
+              </button>
             </div>
 
-            <div className="grid grid-cols-3 gap-3">
-              <input
-                name="qty"
-                type="number"
-                placeholder="Quantity"
-                value={formData.qty}
-                onChange={handleChange}
-                className="input-field"
-              />
-              <input
-                name="rate"
-                type="number"
-                placeholder="Rate per unit"
-                value={formData.rate}
-                onChange={handleChange}
-                className="input-field"
-              />
-              <input
-                name="discount"
-                type="number"
-                placeholder="Discount %"
-                value={formData.discount}
-                onChange={handleChange}
-                 className="input-field"
-              />
-            </div>
-
-            <div className="grid grid-cols-3 gap-3">
-              <input
-                name="dueOn"
-                type="date"
-                value={formData.dueOn}
-                onChange={handleChange}
-                className="input-field"
-              />
-              <input
-                name="unit"
-                placeholder="Unit (pcs, kg)"
-                value={formData.unit}
-                onChange={handleChange}
-               className="input-field"
-              />
-              <input
-                name="amount"
-                placeholder="Total (incl. GST & Discount)"
-                value={displayAmount}
-                disabled
-                className="input-box p-6 bg-green-300"
-              />
+            {/* Subtotal */}
+            <div className="flex justify-end mt-3 text-lg font-semibold">
+              Subtotal: ₹ {subtotal.toFixed(2)}
             </div>
 
             <div className="flex justify-end mt-5 gap-3">
@@ -213,7 +242,7 @@ const QuotationForm = ({ editData, onClose, onUpdateComplete }) => {
                 type="submit"
                 className="px-6 py-2 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold shadow-lg hover:from-indigo-600 hover:to-blue-500 transition-all"
               >
-                {isEdit ? "Update" : "Add"}
+                {isEdit ? "Update Quotation" : "Add Quotation"}
               </button>
             </div>
           </form>

@@ -207,15 +207,20 @@ export default function InvoiceCertificate() {
 // const handlePrint = () => {
 //   if (!quotationRef.current) return;
 
-//   // Open new window
-//   const printWindow = window.open("", "_blank", "width=800,height=600");
+//   // Clone the element to avoid changing original UI
+//   const clone = quotationRef.current.cloneNode(true);
+//   clone.style.transform = "none"; // remove scaling
+//   clone.style.width = "210mm";
+//   clone.style.minHeight = "297mm";
+//   clone.style.margin = "0 auto";
+//   clone.style.maxWidth = "100%";
 
-//   // Get all CSS links
+//   const printWindow = window.open("", "_blank", "width=1200,height=900");
+
 //   const styles = Array.from(document.querySelectorAll("link, style"))
 //     .map((node) => node.outerHTML)
 //     .join("\n");
 
-//   // Write content with styles into new window
 //   printWindow.document.open();
 //   printWindow.document.write(`
 //     <html>
@@ -224,20 +229,30 @@ export default function InvoiceCertificate() {
 //         ${styles}
 //         <style>
 //           @media print {
-//             body { -webkit-print-color-adjust: exact; }
+//             body {
+//               -webkit-print-color-adjust: exact;
+//               margin: 0;
+//             }
+//             .quotation-print {
+//               transform: none !important;
+//               width: 210mm;
+//               min-height: 297mm;
+//               margin: 0 auto;
+//             }
 //           }
 //         </style>
 //       </head>
 //       <body>
-//         ${quotationRef.current.outerHTML}
+//         <div class="quotation-print">
+//           ${clone.outerHTML}
+//         </div>
 //       </body>
 //     </html>
 //   `);
 //   printWindow.document.close();
 
-//   // Wait for content to load then print
-//   printWindow.focus();
 //   printWindow.onload = () => {
+//     printWindow.focus();
 //     printWindow.print();
 //     printWindow.close();
 //   };
@@ -245,11 +260,10 @@ export default function InvoiceCertificate() {
 
 
   
-
-  if (loading)
+if (loading)
     return (
-      <div className="flex items-center justify-center h-[50vh]">
-        Loading...
+      <div className="flex items-center justify-center h-[50vh] ">
+        <div className="loader"></div>
       </div>
     );
 
@@ -270,7 +284,7 @@ export default function InvoiceCertificate() {
           </select>
         </div>
 <Link to="/admin/invoiceEdit">
-<button className="bg-yellow-300 p-3 px-6 text-white cursor-pointer rounded-md">
+<button className="bg-yellow-500 p-3 px-6 text-white cursor-pointer rounded-md">
           Modify
         </button>
 </Link>

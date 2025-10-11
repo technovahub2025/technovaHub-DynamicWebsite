@@ -10,8 +10,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
     { name: "Gallery", icon: <Images />, path: "/admin/gallery" },
     { name: "Courses", icon: <BookOpen />, path: "/admin/courses" },
     { name: "Certificate", icon: <Award />, path: "/admin/certificate" },
-    { name: "Aroun Quotation", icon: <Award />, path: "/admin/quotation" },
-    { name: "Aroun Quotation Edit", icon: <Award />, path: "/admin/quotationEdit" },
+    { name: "Aroun Quotation", icon: <Award />, path: "/admin/quotation" }, 
     { name: "TechnovaHub Invoice", icon: <Award />, path: "/admin/invoice" },
    
 
