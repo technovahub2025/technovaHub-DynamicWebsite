@@ -5,6 +5,7 @@ import banner3 from "../assets/images/akshaya.jpg";
 import banner4 from "../assets/images/4.jpg";
 import logo from "../assets/images/logoremove.png";
 
+
 const Banner = () => {
   const images = [banner2, banner3, banner4, banner1];
   const [current, setCurrent] = useState(0);
@@ -36,11 +37,13 @@ const Banner = () => {
 
       {/* Content */}
       <div className="relative z-20 max-w-7xl px-5">
-       <div className="w-[200px] h-[200px] md:w-[500px]  md:h-[500px] mt-3 rounded-lg flex items-center justify-center ">
+       <div className="w-[200px] h-[200px] md:w-[500px]  md:h-[400px] mt-3 rounded-lg flex items-center justify-center ">
                         <img src={logo} alt="logo" className="object-contain w-full h-full" />
                         
                       </div>
        
+
+      
       
         <a
           href="https://docs.google.com/forms/d/e/1FAIpQLSesAnC00FPStzrs3z22PtnItYt24iHvaXPLIABUTe8WMWJC7A/viewform?usp=sharing&ouid=101727743134439473534"
@@ -50,6 +53,22 @@ const Banner = () => {
         >
           Click to Connect
         </a>
+
+         <a href="#footer">
+      <div className="fixed left-1/2 top-190 -translate-x-1/2 z-50 flex flex-col items-center">
+        {/* Mouse */}
+        <div className="h-5 w-3 rounded-full border-2 border-white relative overflow-hidden">
+          <div className="h-1 w-0.5 bg-white mx-auto mt-1 animate-mouse-bounce"></div>
+        </div>
+
+        {/* Down arrows */}
+        <div className="flex flex-col mt-2 gap-1">
+          <span className="block w-1 h-1 rotate-45 border-r-2 border-b-2 border-white animate-arrow-1"></span>
+          <span className="block w-1 h-1 rotate-45 border-r-2 border-b-2 border-white animate-arrow-2"></span>
+          <span className="block w-1 h-1 rotate-45 border-r-2 border-b-2 border-white animate-arrow-3"></span>
+        </div>
+      </div>
+    </a>
       </div>
     </header>
   );

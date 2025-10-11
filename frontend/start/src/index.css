@@ -7,8 +7,13 @@ body, html {
     font-family: 'Poppins', sans-serif; /* Apply Poppins globally */
     scroll-behavior: smooth;
     background-color: #f8fafc;
+
     overflow-x: hidden; 
+     scroll-behavior: auto; /* Overrides smooth scrolling */
+ 
 }
+
+
 
 /* Popup Bounce Animation */
 @keyframes popupBounce {
@@ -64,3 +69,6 @@ body, html {
 .input-field {
   @apply w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none transition;
 }
+
+
+

@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { Home, Images, BookOpen, Award } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
+import { FaFileInvoiceDollar } from "react-icons/fa6";
 
 const Sidebar = ({ isOpen, setIsOpen }) => {
   const location = useLocation();
@@ -10,8 +12,8 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
     { name: "Gallery", icon: <Images />, path: "/admin/gallery" },
     { name: "Courses", icon: <BookOpen />, path: "/admin/courses" },
     { name: "Certificate", icon: <Award />, path: "/admin/certificate" },
-    { name: "Aroun Quotation", icon: <Award />, path: "/admin/quotation" }, 
-    { name: "TechnovaHub Invoice", icon: <Award />, path: "/admin/invoice" },
+    { name: "Aroun Quotation", icon: <LiaFileInvoiceDollarSolid />, path: "/admin/quotation" }, 
+    { name: "TechnovaHub Invoice", icon: <FaFileInvoiceDollar />, path: "/admin/invoice" },
    
 
 

@@ -4,7 +4,9 @@ import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/f
 
 const Footer = () => {
   return (
-    <footer className="relative bg-gradient-to-r from-gray-100 via-white to-slate-50 text-gray-700 shadow-lg border-4 border-t border-blue-500 pt-16 pb-8">
+
+    <section id="footer">
+ <footer className="relative bg-gradient-to-r from-gray-100 via-white to-slate-50 text-gray-700 shadow-lg border-4 border-t border-blue-500 pt-16 pb-8">
       {/* Decorative top curve */}
       <div className="absolute -top-8 left-0 w-full h-16 bg-white/30 rounded-b-full"></div>
 
@@ -50,6 +52,8 @@ const Footer = () => {
         © {new Date().getFullYear()} TechnovaHub. All Rights Reserved.
       </div>
     </footer>
+    </section>
+   
   );
 };
 
