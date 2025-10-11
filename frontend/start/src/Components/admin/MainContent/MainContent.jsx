@@ -9,16 +9,19 @@ import QuotationUI from "../../../pages/admin/Quotation/Quotation";
 import QuotationManager from "../../../pages/admin/Quotation/QuotationManager";
 import InvoiceCertificate from "../../../pages/admin/InvoiceTechnovahub/InvoiceCertificate";
 import InvoiceMangar from "../../../pages/admin/InvoiceTechnovahub/InvoiceMangar";
+import Banner from "../../Banner";
 
 const HomePage = () => (
-  <div className="p-4 flex flex-col  justify-center items-center h-[60vh] ">
-    <img src={logo} alt="" className="w-[200px] md:w-[400px]" />
+  <div>
+
+    <Banner/>
+    {/* <img src={logo} alt="" className="w-[200px] md:w-[400px]" />
     <h1 className="md:text-4xl text-blue-900 font-bold">
       Welcome to Technova Hub
     </h1>
     <Link to="/" className="mt-10 bg-blue-500 md:p-5 md:px-5 p-3 text-white rounded-md border-1 border-white ">
          Go to Website
-    </Link>
+    </Link> */}
   </div>
 );
 const Gallery = () => (

@@ -33,11 +33,12 @@ const DashboardHeader = ({ toggleSidebar }) => {
           <Menu size={24} />
         </button>
 
-        <h2 className="text-xl font-semibold text-blue-600">TechnovaHub</h2>
+        <h2 className="text-sm md:text-xl font-bold text-blue-600"> Welcome to TechnovaHub</h2>
       </div>
 
-      <div className="flex items-center gap-4">
-        <span className="text-blue-700 text-sm uppercase">{userName}</span>
+      <div className="flex items-center justify-center gap-4">
+       
+        <span className="text-blue-700 font-bold text-sm uppercase">{userName}</span>
         <button
           onClick={handleLogout}
           className="p-2 bg-red-600 text-white rounded-full shadow-md"
