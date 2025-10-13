@@ -405,13 +405,15 @@ if (loading)
     },
     {
       label: "Date",
-      value: new Date().toLocaleDateString("en-GB"), // DD/MM/YYYY
+    value: selectedInvoice?.date
+        ? new Date(selectedInvoice.date).toLocaleDateString("en-GB")
+        : "-",
     },
     {
       label: "Due Date",
-      value: new Date(
-        new Date().setDate(new Date().getDate() + 14)
-      ).toLocaleDateString("en-GB"), // DD/MM/YYYY
+     value: selectedInvoice?.dueDate
+        ? new Date(selectedInvoice.dueDate).toLocaleDateString("en-GB")
+        : "-",
     },
   ].map((row, index) => (
     <tr
