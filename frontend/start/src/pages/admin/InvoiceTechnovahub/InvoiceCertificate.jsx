@@ -207,17 +207,19 @@ export default function InvoiceCertificate() {
 // const handlePrint = () => {
 //   if (!quotationRef.current) return;
 
-//   // Clone the element to avoid changing original UI
+//   // Clone original element for printing
 //   const clone = quotationRef.current.cloneNode(true);
-//   clone.style.transform = "none"; // remove scaling
+//   clone.style.transform = "none";
 //   clone.style.width = "210mm";
 //   clone.style.minHeight = "297mm";
 //   clone.style.margin = "0 auto";
-//   clone.style.maxWidth = "100%";
+//   clone.style.boxSizing = "border-box";
 
+//   // Create new print window
 //   const printWindow = window.open("", "_blank", "width=1200,height=900");
 
-//   const styles = Array.from(document.querySelectorAll("link, style"))
+//   // Copy current styles from the main document
+//   const styles = Array.from(document.querySelectorAll("link[rel='stylesheet'], style"))
 //     .map((node) => node.outerHTML)
 //     .join("\n");
 
@@ -228,35 +230,67 @@ export default function InvoiceCertificate() {
 //         <title>Invoice</title>
 //         ${styles}
 //         <style>
+//           @page {
+//             size: A4 portrait;
+//             margin: 15mm;
+//           }
+
+//           html, body {
+//             width: 210mm;
+//             min-height: 297mm;
+//             margin: 0 auto;
+//             background: white;
+//             color: black;
+//             font-family: 'Poppins', 'Segoe UI', sans-serif;
+//             -webkit-print-color-adjust: exact !important;
+//             print-color-adjust: exact !important;
+//           }
+
+//           .quotation-print {
+//             width: 100%;
+//             box-sizing: border-box;
+//           }
+
+//           /* Ensure all borders and shadows print cleanly */
+//           * {
+//             box-shadow: none !important;
+//           }
+
+//           /* Prevent page breaks inside important blocks */
+//           .no-break {
+//             page-break-inside: avoid;
+//           }
+
+//           /* Prevent elements from shrinking in print */
+//           img, table {
+//             max-width: 100%;
+//           }
+
 //           @media print {
 //             body {
-//               -webkit-print-color-adjust: exact;
-//               margin: 0;
-//             }
-//             .quotation-print {
-//               transform: none !important;
-//               width: 210mm;
-//               min-height: 297mm;
-//               margin: 0 auto;
+//               -webkit-print-color-adjust: exact !important;
+//               print-color-adjust: exact !important;
 //             }
 //           }
 //         </style>
 //       </head>
 //       <body>
-//         <div class="quotation-print">
-//           ${clone.outerHTML}
-//         </div>
+//         <div class="quotation-print">${clone.outerHTML}</div>
 //       </body>
 //     </html>
 //   `);
 //   printWindow.document.close();
 
+//   // Wait for assets (fonts, images) to load before printing
 //   printWindow.onload = () => {
 //     printWindow.focus();
-//     printWindow.print();
-//     printWindow.close();
+//     setTimeout(() => {
+//       printWindow.print();
+//       printWindow.close();
+//     }, 500);
 //   };
 // };
+
 
 
   
