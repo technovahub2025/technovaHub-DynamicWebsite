@@ -34,7 +34,9 @@ const QuotationForm = ({ editData, onClose, onUpdateComplete }) => {
     if (editData) {
       setQuotationData({
         ...editData,
-        date: editData.date ? editData.date.slice(0, 10) : new Date().toISOString().slice(0, 10),
+        date: editData.date
+          ? editData.date.slice(0, 10)
+          : new Date().toISOString().slice(0, 10),
       });
       setIsEdit(true);
       setEditId(editData._id);
@@ -110,51 +112,61 @@ const QuotationForm = ({ editData, onClose, onUpdateComplete }) => {
   return (
     <AnimatePresence>
       <motion.div
-        className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50"
+        className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-2 sm:p-4"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
         <motion.div
-          className="bg-white/90 backdrop-blur-md rounded-2xl shadow-2xl w-full max-w-5xl p-6 relative border border-gray-100 overflow-y-auto max-h-[90vh]"
-          initial={{ scale: 0.8, opacity: 0 }}
+          className="bg-white/90 backdrop-blur-md rounded-2xl shadow-2xl w-full max-w-5xl p-4 sm:p-6 relative border border-gray-100 overflow-y-auto max-h-[90vh]"
+          initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          exit={{ scale: 0.8, opacity: 0 }}
+          exit={{ scale: 0.9, opacity: 0 }}
           transition={{ duration: 0.25 }}
         >
+          {/* Close Button */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 text-gray-600 hover:text-red-500 transition"
+            className="absolute top-3 right-3 text-gray-600 hover:text-red-500 transition"
           >
             <X size={22} />
           </button>
 
-          <h2 className="text-2xl font-bold mb-5 text-center text-blue-700">
+          {/* Title */}
+          <h2 className="text-xl sm:text-2xl font-bold mb-5 text-center text-blue-700">
             {isEdit ? "Edit Quotation" : "Add New Quotation"}
           </h2>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Header Fields */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {[
                 { label: "Date", name: "date", type: "date" },
                 { label: "Contact Name", name: "contactName", type: "text" },
                 { label: "Mobile", name: "mobile", type: "text" },
                 { label: "Address", name: "address", type: "text" },
                 { label: "Payment Mode", name: "paymentMode", type: "text" },
-                { label: "Dispatched Through", name: "dispatchedThrough", type: "text" },
+                {
+                  label: "Dispatched Through",
+                  name: "dispatchedThrough",
+                  type: "text",
+                },
                 { label: "Destination", name: "destination", type: "text" },
                 { label: "Immediate Dated", name: "immediateDated", type: "text" },
               ].map((field, idx) => (
                 <div className="flex flex-col" key={idx}>
-                  <label className="font-medium text-gray-700">{field.label}</label>
+                  <label className="font-medium text-gray-700 text-sm sm:text-base">
+                    {field.label}
+                  </label>
                   <input
                     type={field.type}
                     name={field.name}
                     value={quotationData[field.name]}
                     onChange={handleChange}
-                    className="input-field border p-2 rounded"
-                    required={field.name === "date" || field.name === "contactName"}
+                    className="border p-2 rounded text-sm sm:text-base focus:ring-2 focus:ring-blue-400 outline-none"
+                    required={
+                      field.name === "date" || field.name === "contactName"
+                    }
                   />
                 </div>
               ))}
@@ -165,7 +177,7 @@ const QuotationForm = ({ editData, onClose, onUpdateComplete }) => {
               {quotationData.items.map((item, idx) => (
                 <div
                   key={idx}
-                  className="grid grid-cols-9 gap-3 border p-3 rounded-lg bg-gray-50"
+                  className="grid grid-cols-1 sm:grid-cols-9 gap-3 border p-3 rounded-lg bg-gray-50"
                 >
                   {[
                     { label: "Description", name: "desc", colSpan: 2 },
@@ -176,17 +188,21 @@ const QuotationForm = ({ editData, onClose, onUpdateComplete }) => {
                     { label: "GST %", name: "gst", type: "number" },
                   ].map((field, i) => (
                     <div
-                      className={`flex flex-col ${field.colSpan ? `col-span-${field.colSpan}` : ""}`}
+                      className={`flex flex-col ${
+                        field.colSpan ? `sm:col-span-${field.colSpan}` : ""
+                      }`}
                       key={i}
                     >
-                      <label className="text-gray-600 text-sm">{field.label}</label>
+                      <label className="text-gray-600 text-xs sm:text-sm">
+                        {field.label}
+                      </label>
                       <input
                         type={field.type || "text"}
                         name={field.name}
                         placeholder={field.label}
                         value={item[field.name]}
                         onChange={(e) => handleItemChange(idx, e)}
-                        className="input-field border p-1 rounded"
+                        className="border p-1.5 rounded text-sm focus:ring-2 focus:ring-blue-400 outline-none"
                         required={field.name === "desc"}
                       />
                     </div>
@@ -194,22 +210,26 @@ const QuotationForm = ({ editData, onClose, onUpdateComplete }) => {
 
                   {/* Item Total */}
                   <div className="flex flex-col">
-                    <label className="text-gray-600 text-sm">Total</label>
+                    <label className="text-gray-600 text-xs sm:text-sm">
+                      Total
+                    </label>
                     <input
                       type="text"
                       value={calculateItemTotal(item).toFixed(2)}
-                      className="input-field border p-1 rounded bg-gray-100"
+                      className="border p-1.5 rounded bg-gray-100 text-sm"
                       readOnly
                     />
                   </div>
 
                   {/* Remove Button */}
                   <div className="flex flex-col items-center justify-end">
-                    <label className="text-gray-600 text-sm invisible">Remove</label>
+                    <label className="text-gray-600 text-xs invisible">
+                      Remove
+                    </label>
                     <button
                       type="button"
                       onClick={() => removeItem(idx)}
-                      className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 mt-1"
+                      className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm mt-1"
                     >
                       Remove
                     </button>
@@ -219,28 +239,29 @@ const QuotationForm = ({ editData, onClose, onUpdateComplete }) => {
               <button
                 type="button"
                 onClick={addNewItem}
-                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                className="w-full sm:w-auto px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
               >
                 + Add Item
               </button>
             </div>
 
             {/* Subtotal */}
-            <div className="flex justify-end mt-3 text-lg font-semibold">
+            <div className="flex justify-end mt-3 text-base sm:text-lg font-semibold">
               Subtotal: ₹ {subtotal.toFixed(2)}
             </div>
 
-            <div className="flex justify-end mt-5 gap-3">
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row justify-end mt-5 gap-3">
               <button
                 type="button"
                 onClick={onClose}
-                className="px-5 py-2 rounded-xl bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium transition"
+                className="px-5 py-2 rounded-xl bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium transition text-sm sm:text-base"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="px-6 py-2 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold shadow-lg hover:from-indigo-600 hover:to-blue-500 transition-all"
+                className="px-6 py-2 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold shadow-lg hover:from-indigo-600 hover:to-blue-500 transition-all text-sm sm:text-base"
               >
                 {isEdit ? "Update Quotation" : "Add Quotation"}
               </button>

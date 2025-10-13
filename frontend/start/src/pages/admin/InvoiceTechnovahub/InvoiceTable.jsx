@@ -125,13 +125,13 @@ const InvoiceTable = ({ invoices, onEdit, onRefresh }) => {
         <div className="flex justify-between items-end w-full ">
           <button
             onClick={clearFilters}
-            className="px-4 py-2 bg-gradient-to-r from-red-400 to-pink-500 text-white rounded-lg shadow w-full sm:w-auto"
+            className="md:px-4 md:py-2 cursor-pointer bg-gradient-to-r from-red-400 to-pink-500 text-white rounded-lg shadow px-3 py-2"
           >
             Clear Filters
           </button>
 
           <Link to="/admin/invoice">
-            <button className="text-blue-600">Go to Invoice page </button>
+            <button className="text-blue-600 text-[10px] md:text-xl cursor-pointer">Go to Invoice page </button>
           </Link>
         </div>
       </div>

@@ -325,21 +325,21 @@ if (loading)
             }}
           >
             {/* HEADER */}
-            <div className="flex justify-center mb-3">
+            <div className="flex justify-center ">
               <img
                 src={qr}
                 alt="logo"
-                className="md:w-[240px] md:h-[200px] rounded-full w-[120px] h-[120px]"
+                className="md:w-[200px] md:h-[150px] rounded-full w-[120px] h-[120px]"
               />
             </div>
             <div className="flex justify-center text-xl mb-5">
-              <h1 style={{ color: "#0c5cbdff", fontWeight: "bold"  }}>INVOICE</h1>
+              <h1 style={{ color: "#05499bff", fontWeight: "bold"  }}>INVOICE</h1>
             </div>
 
             {/* Buyer Info & Invoice Details */}
             <div className="flex flex-row justify-between items-center gap-[10px] mb-4">
               <div>
-                <h2 style={{ fontSize: "11px",  color: "#48494bff", }}>
+                <h2 style={{ fontSize: "11px",  color: "#060608ff", }}>
                   No.48, First Floor,
                   <br />
                   Lawspet Main Road, Puducherry - 605008
@@ -349,7 +349,7 @@ if (loading)
                 style={{
                   fontSize: "11px",
                   textAlign: "right",
-                  color: "#48494bff",
+                  color: "#090a0cff",
                 }}
               >
                 <p>Phone: 9360962810 | Email: technovahubcareer@gmail.com</p>
@@ -359,27 +359,27 @@ if (loading)
             <hr style={{ borderColor: "#d1d5db" }} />
 
             {/* Invoice To & Details */}
-            <div className="w-full flex flex-col gap-10 mt-5 md:flex-row justify-between mb-6">
+            <div className="w-full flex flex-col gap-3 mt-5 md:flex-row justify-between mb-3">
               <div className="md:w-1/2 mb-4 md:mb-0">
-                <p style={{ color: "#0a56b3ff", fontWeight:"bold",  marginBottom: "10px" ,fontSize:"13px"}}>
+                <p style={{ color: "#05438fff", fontWeight:"bold",  marginBottom: "10px" ,fontSize:"13px"}}>
                   Invoice To: <br />{" "}
-                  <span style={{ color: "#797474ff", fontWeight: "200" }}>
+                  <span style={{ color: "#040202ff", fontWeight: "500" }}>
                     {tableItems[0]?.invoiceTo || "N/A"}
                   </span>
                 </p>
                 <hr style={{ borderColor: "#d1d5db" }} />
-               <p style={{ color: "#0a56b3ff", fontWeight:"bold",  marginBottom: "10px" , fontSize:"13px" }}>
+               <p style={{ color: "#05438fff", fontWeight:"bold",  marginBottom: "10px" , fontSize:"13px" }}>
                   GST IN: <br />{" "}
-                  <span style={{ color: "#797474ff", fontWeight: "200" }}>
+                  <span style={{ color: "#040202ff", fontWeight: "500" }}>
                     34ADXPA0879K1Z3
                   </span>{" "}
                 </p>
                 <hr style={{ borderColor: "#d1d5db" }} />
                 <div
-                  style={{ color: "#0a56b3ff", fontWeight:"bold",  marginBottom: "2px", fontSize:"13px" }}
+                  style={{ color: "#05438fff", fontWeight:"bold",  marginBottom: "0px", fontSize:"13px" }}
                 >
                   Address: <br />
-                  <p style={{ color: "#716c6cff", fontWeight: "200" }}>
+                  <p style={{ color: "#040202ff", fontWeight: "500" }}>
                     {tableItems[0]?.address || "N/A"}
                   </p>
                 </div>
@@ -391,7 +391,7 @@ if (loading)
                   style={{
                     width: "100%",
                     borderCollapse: "collapse",
-                    fontSize: "13px",
+                    fontSize: "11px",
                     boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
                     borderRadius: "6px",
                     overflow: "hidden",
