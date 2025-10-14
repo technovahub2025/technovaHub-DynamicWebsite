@@ -4,7 +4,7 @@ import GalleryList from './adminlogin/GalleryList'
 
 const GalleryImage = () => {
   return (
-    <div>
+    <div className='bg-blue-50'>
         <AddGalleryImage/>
         <GalleryList/>
     </div>

@@ -6,7 +6,7 @@ import qr from "../../../assets/images/qrlogo.jpeg";
 import qr2 from "../../../assets/images/iso.jpg";
 import qr3 from "../../../assets/images/fsai.png";
 import qr4 from "../../../assets/images/gmp.jpg";
-import { FaDownload } from "react-icons/fa";
+import { FaDownload,  FaPrint } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 export default function QuotationUI() {
@@ -165,6 +165,111 @@ export default function QuotationUI() {
     }
   };
 
+
+
+
+
+
+
+const handlePrint = () => {
+  if (!quotationRef.current) return;
+
+  // Clone original element for printing
+  const clone = quotationRef.current.cloneNode(true);
+  clone.style.transform = "none";
+  clone.style.width = "210mm";
+  clone.style.minHeight = "297mm";
+  clone.style.margin = "0 auto";
+  clone.style.boxSizing = "border-box";
+
+  // Create new print window
+  const printWindow = window.open("", "_blank", "width=1200,height=900");
+
+  // Copy current styles from the main document
+  const styles = Array.from(document.querySelectorAll("link[rel='stylesheet'], style"))
+    .map((node) => node.outerHTML)
+    .join("\n");
+
+  printWindow.document.open();
+  printWindow.document.write(`
+    <html>
+      <head>
+        <title>Invoice</title>
+        ${styles}
+        <style>
+          @page {
+            size: A4 portrait;
+            margin: 15mm;
+          }
+
+          html, body {
+            width: 210mm;
+            min-height: 297mm;
+            margin: 0 auto;
+            background: white;
+            color: black;
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+          }
+
+          .quotation-print {
+            width: 100%;
+            box-sizing: border-box;
+          }
+
+          /* Ensure all borders and shadows print cleanly */
+          * {
+            box-shadow: none !important;
+          }
+
+          /* Prevent page breaks inside important blocks */
+          .no-break {
+            page-break-inside: avoid;
+          }
+
+          /* Prevent elements from shrinking in print */
+          img, table {
+            max-width: 100%;
+          }
+
+          @media print {
+            body {
+              -webkit-print-color-adjust: exact !important;
+              print-color-adjust: exact !important;
+            }
+          }
+        </style>
+      </head>
+      <body>
+        <div class="quotation-print">${clone.outerHTML}</div>
+      </body>
+    </html>
+  `);
+  printWindow.document.close();
+
+  // Wait for assets (fonts, images) to load before printing
+  printWindow.onload = () => {
+    printWindow.focus();
+    setTimeout(() => {
+      printWindow.print();
+      printWindow.close();
+    }, 500);
+  };
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
   if (loading)
     return (
       <div className="flex items-center justify-center h-[50vh] ">
@@ -192,6 +297,15 @@ export default function QuotationUI() {
         Modify Quotation
       </button>
     </Link>
+
+
+     <button
+              onClick={handlePrint}
+              className="shadow-lg px-4 py-2 md:px-6 md:py-3 rounded-md bg-green-500 text-white flex items-center gap-2 text-sm md:text-base hover:bg-green-600 transition-colors"
+            >
+              <FaPrint />
+              <span>Print Invoice</span>
+            </button>
   </div>
 
   {/* Right Section: Voucher Dropdown */}

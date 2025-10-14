@@ -58,8 +58,9 @@ const GalleryList = () => {
   const totalPages = Math.ceil(galleryData.length / itemsPerPage);
 
   return (
-    <div className="md:p-6  ">
+    <div className="md:p-6   ">
       <h2 className="text-xl md:text-3xl  mb-6 text-blue-600">Gallery List</h2>
+      <p className="text-sm  mb-3 text-blue-600" > <em>Number of images: {galleryData.length}</em> </p>
 
       <div className="overflow-x-auto rounded-lg shadow-lg">
         <table className="min-w-full bg-white border border-gray-200">
