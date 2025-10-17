@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { getCourseApi, deleteCourseApi } from "../../../api/CourseApi";
 import toast from "react-hot-toast";
 
-
 const CourseList = ({ onEdit, refresh }) => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -38,11 +37,12 @@ const CourseList = ({ onEdit, refresh }) => {
     }
   };
 
-  if (loading) return (
-<div className="flex items-center justify-center h-[50vh] ">
-      <div className="loader"></div>
-    </div>
-  ) 
+  if (loading)
+    return (
+      <div className="flex items-center justify-center h-[50vh] ">
+        <div className="loader"></div>
+      </div>
+    );
 
   // Pagination logic
   const totalPages = Math.ceil(courses.length / itemsPerPage);
@@ -66,6 +66,7 @@ const CourseList = ({ onEdit, refresh }) => {
               <th className="md:py-3 md:px-4 py-2 px-2 text-left">Sl. No</th>
               <th className="py-3 px-2 text-left">Title</th>
               <th className="py-3 px-2 text-left">Description</th>
+              <th className="py-3 px-2 text-left">Image</th> {/* New column */}
               <th className="py-3 px-2 text-left">Actions</th>
             </tr>
           </thead>
@@ -83,6 +84,17 @@ const CourseList = ({ onEdit, refresh }) => {
                 </td>
                 <td className="py-2 px-2 md:px-4 text-gray-600 text-xs md:text-sm break-words max-w-[200px] md:max-w-full">
                   {course.description}
+                </td>
+                <td className="py-2 px-2 md:px-4">
+                  {course.image ? (
+                    <img
+                      src={course.image}
+                      alt={course.title}
+                      className="h-16 w-16 object-cover rounded"
+                    />
+                  ) : (
+                    <span className="text-gray-400 text-xs">No Image</span>
+                  )}
                 </td>
                 <td className="py-2 px-2 md:px-4 flex gap-2 flex-wrap">
                   <button
