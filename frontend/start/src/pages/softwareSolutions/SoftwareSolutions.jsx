@@ -34,7 +34,7 @@ const SoftwareSolutions = () => {
         <Title text="Software Solutions" />
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 mt-6 lg:grid-cols-3 max-w-7xl mx-auto mt-3">
+      <div className="grid gap-6 md:grid-cols-2 mt-6 lg:grid-cols-3 max-w-7xl mx-auto mb-10 mt-3">
         {solutions.length > 0 ? (
           solutions.map((item, index) => (
             <div
@@ -50,7 +50,7 @@ const SoftwareSolutions = () => {
             </div>
           ))
         ) : (
-          <div className="text-gray-500 col-span-full text-center flex justify-center items-center">
+          <div className="text-gray-500 col-span-full text-center flex justify-center mb-10 items-center">
             No software solutions available.
           </div>
         )}

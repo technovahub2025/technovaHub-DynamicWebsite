@@ -2,10 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 
+
 const Footer = () => {
   return (
     <section id="footer">
-      <footer className="relative bg-gradient-to-br from-white via-blue-50 to-blue-100 text-gray-700 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] border-t border-blue-300 pt-16 pb-8 overflow-hidden">
+      <footer className="relative bg-blue-200 text-gray-700 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] border-t border-blue-300 pt-16 pb-8 overflow-hidden">
 
         {/* Decorative top wave */}
         <div className="absolute -top-8 left-0 w-full h-16 bg-gradient-to-r from-blue-200/40 to-blue-50/40 rounded-b-full blur-sm"></div>
@@ -14,6 +15,8 @@ const Footer = () => {
 
           {/* Brand & Description */}
           <div className="md:w-1/3">
+
+
             <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 bg-gradient-to-r from-blue-600 to-blue-400 text-transparent bg-clip-text">
               TechnovaHub
             </h1>
