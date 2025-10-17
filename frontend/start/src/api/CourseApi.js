@@ -1,18 +1,18 @@
 import apiClient from "./apiClient";
 
-// Get all courses
+//get all gallary images
+
 export const getCourseApi = async () => {
-  const res = await apiClient.get("/courses");
+    const res = await apiClient.get("/courses")
+    return res.data;
+}
+
+// Add a new course
+export const addCourseApi = async (course) => {
+  const res = await apiClient.post("/courses", course);
   return res.data;
 };
 
-// Add a new course (with optional image/GIF)
-export const addCourseApi = async (courseFormData) => {
-  const res = await apiClient.post("/courses", courseFormData, {
-    headers: { "Content-Type": "multipart/form-data" },
-  });
-  return res.data;
-};
 
 // Delete a course by ID
 export const deleteCourseApi = async (id) => {
@@ -20,10 +20,9 @@ export const deleteCourseApi = async (id) => {
   return res.data;
 };
 
-// Update a course by ID (with optional image/GIF)
-export const updateCourseApi = async (id, courseFormData) => {
-  const res = await apiClient.put(`/courses/${id}`, courseFormData, {
-    headers: { "Content-Type": "multipart/form-data" },
-  });
+
+// Update a course by ID
+export const updateCourseApi = async (id, course) => {
+  const res = await apiClient.put(`/courses/${id}`, course);
   return res.data;
 };

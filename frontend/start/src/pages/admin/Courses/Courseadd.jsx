@@ -5,18 +5,15 @@ import toast from "react-hot-toast";
 const Courseadd = ({ editingCourse, onDone }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [file, setFile] = useState(null); // new file state
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (editingCourse) {
       setTitle(editingCourse.title);
       setDescription(editingCourse.description);
-      setFile(null); // reset file on edit
     } else {
       setTitle("");
       setDescription("");
-      setFile(null);
     }
   }, [editingCourse]);
 
@@ -27,24 +24,19 @@ const Courseadd = ({ editingCourse, onDone }) => {
       return;
     }
 
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("description", description);
-    if (file) formData.append("image", file); // append image if selected
-
     setLoading(true);
     try {
       if (editingCourse) {
-        await updateCourseApi(editingCourse._id, formData);
+        await updateCourseApi(editingCourse._id, { title, description });
         toast.success("Course updated successfully!");
       } else {
-        await addCourseApi(formData);
+        await addCourseApi({ title, description });
         toast.success("Course added successfully!");
       }
       if (onDone) onDone();
     } catch (err) {
-      console.error(err);
       toast.error("Operation failed");
+      console.error(err);
     } finally {
       setLoading(false);
     }
@@ -69,11 +61,6 @@ const Courseadd = ({ editingCourse, onDone }) => {
           placeholder="Course description"
           rows={5}
           className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
-        />
-        <input
-          type="file"
-          accept="image/*,image/gif"
-          onChange={(e) => setFile(e.target.files[0])}
         />
         <div className="flex gap-4 justify-end">
           {editingCourse && (
