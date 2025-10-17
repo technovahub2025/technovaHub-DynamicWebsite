@@ -60,9 +60,10 @@ const CourseCard = () => {
               />
             ))
           ) : (
-            <p className="text-gray-500 col-span-full text-center">
-              No courses available.
-            </p>
+            <div className="text-gray-500 col-span-full text-center flex justify-center items-center">
+             
+                 No courses available.
+            </div>
           )}
         </div>
       </div>

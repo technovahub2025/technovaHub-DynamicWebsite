@@ -50,9 +50,9 @@ const SoftwareSolutions = () => {
             </div>
           ))
         ) : (
-          <p className="text-gray-500 col-span-full text-center">
+          <div className="text-gray-500 col-span-full text-center flex justify-center items-center">
             No software solutions available.
-          </p>
+          </div>
         )}
       </div>
     </div>
