@@ -424,7 +424,7 @@ const handlePrint = () => {
                     <th className="px-2 py-1 border border-border">GST%</th>
                     <th className="px-2 py-1 border border-border">Qty</th>
                     <th className="px-2 py-1 border border-border text-right">Rate</th>
-                    <th className="px-2 py-1 border border-border text-left">Unit</th>
+                   
                     <th className="px-2 py-1 border border-border text-right">Disc%</th>
                     <th className="px-2 py-1 border border-border text-right">Amount</th>
                   </tr>
@@ -447,14 +447,14 @@ const handlePrint = () => {
                         <td className="px-2 py-1 border border-border text-center">{gst}%</td>
                         <td className="px-2 py-1 border border-border text-right">{qty}</td>
                         <td className="px-2 py-1 border border-border text-right">{rate.toFixed(2)}</td>
-                        <td className="px-2 py-1 border border-border text-left">{row.unit}</td>
+                      
                         <td className="px-2 py-1 border border-border text-right">{discount}</td>
                         <td className="px-2 py-1 border border-border text-right">{finalAmt.toFixed(2)}</td>
                       </tr>
                     );
                   })}
                   <tr className=" text-right bg-muted">
-                    <td colSpan={8} className="px-2 py-1 border border-border font-bold text-right">Total</td>
+                    <td colSpan={7} className="px-2 py-1 border border-border font-bold text-right">Total</td>
                     <td className="px-2 py-1 border border-border text-right ">{total.toFixed(2)}</td>
                   </tr>
                 </tbody>
