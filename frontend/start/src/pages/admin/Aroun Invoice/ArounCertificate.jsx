@@ -1,10 +1,10 @@
 import React, { useRef, useState, useEffect } from "react";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-import { getInvoice } from "../../../api/invoiceApi";
+import { getAInvoice } from "../../../api/arounInvoiceApi";
 import { FaDownload, FaPrint } from "react-icons/fa";
 import qr from "../../../assets/images/qrlogo.jpeg";
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom";
 
 export default function ArounCertificate() {
   const quotationRef = useRef(null);
@@ -16,16 +16,16 @@ export default function ArounCertificate() {
   const [declarationInfo, setDeclarationInfo] = useState({
     declarationText:
       "Product Quality: Tested by QMS, EMS, OHSAS. No Sales Involved. Payments will be received only in company name through Cheque. Goods once sold cannot be taken back in any circumstances.",
-    bankName: "STATE BANK OF INDIA, VILLIYANUR",
-    accountNo: "41331089375",
-    branchIfsc: "SBIN0016854",
-    AccountName: "TECHNOVAHUB",
+    bankName: "HDFC BANK",
+    accountNo: "502 000 643 155 83",
+    branchIfsc: "HDFC0000407",
+    AccountName: "AROUN SYSTEMS AND SAFETY EQUIPMENTS",
   });
 
   useEffect(() => {
     async function fetchItems() {
       try {
-        const data = await getInvoice();
+        const data = await getAInvoice();
         setItems(data || []);
         if (data?.length) setInvoiceIdFilter(data[0].invoiceId);
       } catch (error) {
@@ -203,28 +203,29 @@ export default function ArounCertificate() {
     }
   };
 
+  const handlePrint = () => {
+    if (!quotationRef.current) return;
 
-const handlePrint = () => {
-  if (!quotationRef.current) return;
+    // Clone original element for printing
+    const clone = quotationRef.current.cloneNode(true);
+    clone.style.transform = "none";
+    clone.style.width = "210mm";
+    clone.style.minHeight = "297mm";
+    clone.style.margin = "0 auto";
+    clone.style.boxSizing = "border-box";
 
-  // Clone original element for printing
-  const clone = quotationRef.current.cloneNode(true);
-  clone.style.transform = "none";
-  clone.style.width = "210mm";
-  clone.style.minHeight = "297mm";
-  clone.style.margin = "0 auto";
-  clone.style.boxSizing = "border-box";
+    // Create new print window
+    const printWindow = window.open("", "_blank", "width=1200,height=900");
 
-  // Create new print window
-  const printWindow = window.open("", "_blank", "width=1200,height=900");
+    // Copy current styles from the main document
+    const styles = Array.from(
+      document.querySelectorAll("link[rel='stylesheet'], style")
+    )
+      .map((node) => node.outerHTML)
+      .join("\n");
 
-  // Copy current styles from the main document
-  const styles = Array.from(document.querySelectorAll("link[rel='stylesheet'], style"))
-    .map((node) => node.outerHTML)
-    .join("\n");
-
-  printWindow.document.open();
-  printWindow.document.write(`
+    printWindow.document.open();
+    printWindow.document.write(`
     <html>
       <head>
         <title>Invoice</title>
@@ -279,22 +280,50 @@ const handlePrint = () => {
       </body>
     </html>
   `);
-  printWindow.document.close();
+    printWindow.document.close();
 
-  // Wait for assets (fonts, images) to load before printing
-  printWindow.onload = () => {
-    printWindow.focus();
-    setTimeout(() => {
-      printWindow.print();
-      printWindow.close();
-    }, 500);
+    // Wait for assets (fonts, images) to load before printing
+    printWindow.onload = () => {
+      printWindow.focus();
+      setTimeout(() => {
+        printWindow.print();
+        printWindow.close();
+      }, 500);
+    };
   };
-};
 
+  // ===== Calculation =====
+  const subtotal = tableItems.reduce((acc, item) => {
+    return acc + Number(item.qty) * Number(item.rate);
+  }, 0);
 
+  // Total discount amount
+  const totalDiscount = tableItems.reduce((acc, item) => {
+    const amount = Number(item.qty) * Number(item.rate);
+    const discount = Number(item.discount) || 0;
+    return acc + (amount * discount) / 100;
+  }, 0);
 
-  
-if (loading)
+  // Total GST amount
+  const totalGst = tableItems.reduce((acc, item) => {
+    const amount = Number(item.qty) * Number(item.rate);
+    const discount = Number(item.discount) || 0;
+    const afterDiscount = amount - (amount * discount) / 100;
+    const gst = Number(item.gst) || 0;
+    return acc + (afterDiscount * gst) / 100;
+  }, 0);
+
+  // CGST and SGST (assuming 50%-50%)
+  const cgst = totalGst / 2;
+  const sgst = totalGst / 2;
+
+  // Grand total
+  const grandTotal = subtotal - totalDiscount + totalGst;
+
+  // Saved/Evolo logic
+  const savedAmount = totalDiscount; // show how much customer saved
+
+  if (loading)
     return (
       <div className="flex items-center justify-center h-[50vh] ">
         <div className="loader"></div>
@@ -304,27 +333,7 @@ if (loading)
   return (
     <div className="w-full min-h-screen bg-blue-100 flex flex-col items-center py-8 px-2 md:px-4">
       <div className="mb-6 w-full flex flex-col md:flex-row justify-center md:justify-center items-center gap-4 px-2 md:px-0 print:hidden">
-          <div className="w-full md:w-[300px]">
-          <select
-            value={invoiceIdFilter}
-            onChange={(e) => setInvoiceIdFilter(e.target.value)}
-            className="border border-[#3b82f6] outline-none p-2 rounded w-full text-sm md:text-base"
-          >
-            {invoiceIdOptions.map((id) => (
-              <option key={id} value={id}>
-                {id}
-              </option>
-            ))}
-          </select>
-        </div>
-<Link to="/admin/arouninvoiceedit">
-<button className="bg-yellow-500 p-3 px-6 font-bold text-white cursor-pointer rounded-md">
-          Modify Changes
-        </button>
-</Link>
-        
-
-        <button
+         <button
           onClick={handleDownload}
           className="shadow-lg px-4 py-2 md:px-6 md:py-3 rounded-md bg-green-600 text-white flex items-center gap-2 text-sm md:text-base font-bold  transition-colors"
         >
@@ -339,8 +348,27 @@ if (loading)
           <FaPrint />
           <span>Print Invoice</span>
         </button>
+        <Link to="/admin/arouninvoiceedit">
+          <button className="bg-yellow-500 p-3 px-6 font-bold text-white cursor-pointer rounded-md">
+            Modify Changes
+          </button>
+        </Link>
+        <div className="w-full md:w-[300px]">
+          <select
+            value={invoiceIdFilter}
+            onChange={(e) => setInvoiceIdFilter(e.target.value)}
+            className="border border-[#3b82f6] outline-none p-2 rounded w-full text-sm md:text-base"
+          >
+            {invoiceIdOptions.map((id) => (
+              <option key={id} value={id}>
+                {id}
+              </option>
+            ))}
+          </select>
+        </div>
+        
 
-      
+       
       </div>
 
       <div className="flex justify-center items-start w-full overflow-x-auto overflow-y-auto">
@@ -368,31 +396,49 @@ if (loading)
             </div>
 
             <div className="flex flex-col justify-center items-center mb-10 ">
-                <h1>No.38,39,2nd Cross Street, Green Garden Lawspet Post, Pondicherry-605 008</h1>
-                <h1>Phone no.: 843 843 4000/843 843 5000 | Email: arounsystems@gmail.com</h1>
-                <h1>GSTIN: 34ADXPA0879K123 | State: 34-Puducherry</h1>
-
-
+              <h1>
+                No.38,39,2nd Cross Street, Green Garden Lawspet Post,
+                Pondicherry-605 008
+              </h1>
+              <h1>
+                Phone no.: 843 843 4000/843 843 5000 | Email:
+                arounsystems@gmail.com
+              </h1>
+              <h1>GSTIN: 34ADXPA0879K123 | State: 34-Puducherry</h1>
             </div>
             <div className="flex justify-center text-xl mb-5">
-              <h1 style={{ color: "#05499bff", fontWeight: "bold"  }}>INVOICE</h1>
+              <h1 style={{ color: "#05499bff", fontWeight: "bold" }}>
+                INVOICE
+              </h1>
             </div>
 
-       
-           
             <hr style={{ borderColor: "#d1d5db" }} />
 
             {/* Invoice To & Details */}
             <div className="w-full flex flex-col gap-3 mt-5 md:flex-row justify-between mb-3">
               <div className="md:w-1/2 mb-4 md:mb-0">
-                <p style={{ color: "#05438fff", fontWeight:"bold",  marginBottom: "10px" ,fontSize:"13px"}}>
+                <p
+                  style={{
+                    color: "#05438fff",
+                    fontWeight: "bold",
+                    marginBottom: "10px",
+                    fontSize: "13px",
+                  }}
+                >
                   Invoice To: <br />{" "}
                   <span style={{ color: "#040202ff", fontWeight: "500" }}>
                     {tableItems[0]?.invoiceTo || "N/A"}
                   </span>
                 </p>
                 <hr style={{ borderColor: "#d1d5db" }} />
-               <p style={{ color: "#05438fff", fontWeight:"bold",  marginBottom: "10px" , fontSize:"13px" }}>
+                <p
+                  style={{
+                    color: "#05438fff",
+                    fontWeight: "bold",
+                    marginBottom: "10px",
+                    fontSize: "13px",
+                  }}
+                >
                   GST IN: <br />{" "}
                   <span style={{ color: "#040202ff", fontWeight: "500" }}>
                     34ADXPA0879K1Z3
@@ -400,7 +446,12 @@ if (loading)
                 </p>
                 <hr style={{ borderColor: "#d1d5db" }} />
                 <div
-                  style={{ color: "#05438fff", fontWeight:"bold",  marginBottom: "0px", fontSize:"13px" }}
+                  style={{
+                    color: "#05438fff",
+                    fontWeight: "bold",
+                    marginBottom: "0px",
+                    fontSize: "13px",
+                  }}
                 >
                   Address: <br />
                   <p style={{ color: "#040202ff", fontWeight: "500" }}>
@@ -417,60 +468,65 @@ if (loading)
                     borderCollapse: "collapse",
                     fontSize: "11px",
                     boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+                
                     borderRadius: "6px",
                     overflow: "hidden",
                   }}
                 >
                   <tbody>
-  {[
-    {
-      label: "Invoice #",
-      value: tableItems[0]?.invoiceId || "-",
-    },
-    {
-      label: "Date",
-    value: selectedInvoice?.date
-        ? new Date(selectedInvoice.date).toLocaleDateString("en-GB")
-        : "-",
-    },
-    {
-      label: "Due Date",
-     value: selectedInvoice?.dueDate
-        ? new Date(selectedInvoice.dueDate).toLocaleDateString("en-GB")
-        : "-",
-    },
-  ].map((row, index) => (
-    <tr
-      key={index}
-      style={{
-        backgroundColor: index % 2 === 0 ? "#e0f2fe" : "#f8fafc",
-      }}
-    >
-      <td
-        style={{
-          padding: "8px 10px",
-          fontWeight: "600",
-          color: "#1e3a8a",
-          border: "1px solid #d1d5db",
-          width: "40%",
-        }}
-      >
-        {row.label}
-      </td>
-      <td
-        style={{
-          padding: "8px 10px",
-          color: "#111827",
-          border: "1px solid #d1d5db",
-          width: "60%",
-        }}
-      >
-        {row.value}
-      </td>
-    </tr>
-  ))}
-</tbody>
-
+                    {[
+                      {
+                        label: "Invoice #",
+                        value: tableItems[0]?.invoiceId || "-",
+                      },
+                      {
+                        label: "Date",
+                        value: selectedInvoice?.date
+                          ? new Date(selectedInvoice.date).toLocaleDateString(
+                              "en-GB"
+                            )
+                          : "-",
+                      },
+                      {
+                        label: "Due Date",
+                        value: selectedInvoice?.dueDate
+                          ? new Date(
+                              selectedInvoice.dueDate
+                            ).toLocaleDateString("en-GB")
+                          : "-",
+                      },
+                    ].map((row, index) => (
+                      <tr
+                        key={index}
+                        style={{
+                          backgroundColor:
+                            index % 2 === 0 ? "#e0f2fe" : "#f8fafc",
+                        }}
+                      >
+                        <td
+                          style={{
+                            padding: "8px 10px",
+                            fontWeight: "600",
+                            color: "#1e3a8a",
+                            border: "1px solid #d1d5db",
+                            width: "40%",
+                          }}
+                        >
+                          {row.label}
+                        </td>
+                        <td
+                          style={{
+                            padding: "8px 10px",
+                            color: "#111827",
+                            border: "1px solid #d1d5db",
+                            width: "60%",
+                          }}
+                        >
+                          {row.value}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
                 </table>
               </div>
             </div>
@@ -496,7 +552,7 @@ if (loading)
                       backgroundColor: "#0c5cbdff", // Tailwind blue-600
                       color: "#ffffff",
                       textTransform: "uppercase",
-                      fontSize: "14px", 
+                      fontSize: "14px",
                     }}
                   >
                     <th className="px-3 py-2">Sl No.</th>
@@ -537,49 +593,129 @@ if (loading)
                         }
                       >
                         <td className="px-3 py-2 text-center">{index + 1}</td>
-                        <td className="px-3 py-2 text-left text-[12px]">{row.desc}</td>
-                        <td className="px-3 py-2 text-center  text-[12px]">{row.hsn}</td>
-                        <td className="px-3 py-2 text-right  text-[12px]">{qty}</td>
+                        <td className="px-3 py-2 text-left text-[12px]">
+                          {row.desc}
+                        </td>
+                        <td className="px-3 py-2 text-center  text-[12px]">
+                          {row.hsn}
+                        </td>
+                        <td className="px-3 py-2 text-right  text-[12px]">
+                          {qty}
+                        </td>
                         <td className="px-3 py-2 text-right  text-[12px]">
                           {rate.toFixed(2)}
                         </td>
-                        <td className="px-3 py-2 text-right  text-[12px]">{discount}%</td>
-                        <td className="px-3 py-2 text-center  text-[12px]">{gst}%</td>
+                        <td className="px-3 py-2 text-right  text-[12px]">
+                          {discount}%
+                        </td>
+                        <td className="px-3 py-2 text-center  text-[12px]">
+                          {gst}%
+                        </td>
                         <td className="px-3 py-2 text-right  text-[12px]">
                           {finalAmt.toFixed(2)}
                         </td>
                       </tr>
                     );
                   })}
-                  <tr
-                    style={{
-                      fontWeight: "medium",
-                      backgroundColor: "#e5e7eb", // Tailwind gray-200
-                      fontSize: "15px",
-                    }}
-                  >
-                    <td colSpan={7} className="px-3 py-2 text-right">
-                      Total
+                  <tr>
+                    <td
+                      colSpan={7}
+                      className="px-3 py-2 text-right  text-sm font-bold"
+                    >
+                      Sub Total
                     </td>
-                    <td className="px-3 py-2 text-right">{total.toFixed(2)}</td>
+                    <td className=" text-right text-sm font-medium">
+                      {subtotal.toFixed(2)}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      colSpan={7}
+                      className="px-3 py-2 text-sm text-right font-bold"
+                    >
+                      Total Discount
+                    </td>
+                    <td className=" text-right text-sm font-medium">
+                      {totalDiscount.toFixed(2)}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      colSpan={7}
+                      className="px-3 py-2 text-sm text-right font-bold"
+                    >
+                      CGST (9%)
+                    </td>
+                    <td className="px-3 py-2 text-right text-sm font-medium">
+                      {cgst.toFixed(2)}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      colSpan={7}
+                      className="px-3 py-2 text-sm text-right font-bold"
+                    >
+                      SGST (9%)
+                    </td>
+                    <td className=" text-right text-sm font-medium">
+                      {sgst.toFixed(2)}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      colSpan={7}
+                      className="px-3 py-2 text-sm text-right  font-bold"
+                    >
+                      Grand Total
+                    </td>
+                    <td className=" text-right text-sm   font-medium">
+                      {grandTotal.toFixed(2)}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      colSpan={7}
+                      className="px-3 text-sm py-2  text-right font-bold"
+                    >
+                      You Saved
+                    </td>
+                    <td className="text-right text-sm font-medium">
+                      {savedAmount.toFixed(2)}
+                    </td>
                   </tr>
                 </tbody>
               </table>
             </div>
 
             <div
-              className="flex justify-end mt-2 text-[10px] mb-10"
-              style={{ color: "#1774b7ff" }}
+              className="flex flex-col justify-start mt-2  mb-10"
+              style={{
+                color: "#000000ff",
+                background: "#71c5ecff",
+                padding: "5px",
+              }}
             >
-              {amountWords}
+              <h1 className="text-md font-bold"> Amount in Words:</h1>
+
+              <em>{amountWords}</em>
             </div>
 
-             <hr style={{ borderColor: "#d1d5db" }} />
+            <div>
+              <h1 className="text-blue-800 font-bold mb-2">
+                Terms and Conditions
+              </h1>
+              <ul className="mb-3">
+                <li>* This is a computer generated invoice</li>
+                <li>* Please pay within the due date mentioned above</li>
+              </ul>
+            </div>
+
+            <hr style={{ borderColor: "#d1d5db" }} />
 
             {/* Declaration + Bank */}
             <div className="grid grid-cols-2 gap-10 mt-6">
               <div className="p-4">
-                <h4 style={{ color: "#60a5fa" }}>Bank Details</h4>
+                <h4 style={{ color: "#055bc4ff" }}>Bank Details</h4>
                 {[
                   { key: "bankName", label: "Bank Name:" },
                   { key: "accountNo", label: "A/c No.:" },
@@ -613,7 +749,7 @@ if (loading)
               </div>
               <div className="p-4">
                 <div className="flex justify-end text-[#60a5fa] text-sm mt-8">
-                  <h5>For TECHNOVAHUB</h5>
+                
                 </div>
                 <div className="flex justify-end text-sm">
                   <h5>Authorized Signatory</h5>

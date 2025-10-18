@@ -293,6 +293,38 @@ const handlePrint = () => {
 
 
 
+ // ===== Calculation =====
+  const subtotal = tableItems.reduce((acc, item) => {
+    return acc + Number(item.qty) * Number(item.rate);
+  }, 0);
+
+  // Total discount amount
+  const totalDiscount = tableItems.reduce((acc, item) => {
+    const amount = Number(item.qty) * Number(item.rate);
+    const discount = Number(item.discount) || 0;
+    return acc + (amount * discount) / 100;
+  }, 0);
+
+  // Total GST amount
+  const totalGst = tableItems.reduce((acc, item) => {
+    const amount = Number(item.qty) * Number(item.rate);
+    const discount = Number(item.discount) || 0;
+    const afterDiscount = amount - (amount * discount) / 100;
+    const gst = Number(item.gst) || 0;
+    return acc + (afterDiscount * gst) / 100;
+  }, 0);
+
+  // CGST and SGST (assuming 50%-50%)
+  const cgst = totalGst / 2;
+  const sgst = totalGst / 2;
+
+  // Grand total
+  const grandTotal = subtotal - totalDiscount + totalGst;
+
+  // Saved/Evolo logic
+  const savedAmount = totalDiscount; // show how much customer saved
+
+
   
 if (loading)
     return (
@@ -559,19 +591,78 @@ if (loading)
                           {finalAmt.toFixed(2)}
                         </td>
                       </tr>
+
                     );
+                  
                   })}
-                  <tr
-                    style={{
-                      fontWeight: "medium",
-                      backgroundColor: "#e5e7eb", // Tailwind gray-200
-                      fontSize: "15px",
-                    }}
-                  >
-                    <td colSpan={7} className="px-3 py-2 text-right">
-                      Total
+                 
+                  
+                   <br />
+                   <tr>
+                    <td
+                      colSpan={7}
+                      className="px-3 py-2 text-right   text-sm font-bold"
+                    >
+                      Sub Total
                     </td>
-                    <td className="px-3 py-2 text-right">{total.toFixed(2)}</td>
+                    <td className=" text-right text-sm font-medium">
+                      {subtotal.toFixed(2)}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      colSpan={7}
+                      className="px-3 py-2 text-sm text-right font-bold"
+                    >
+                      Total Discount
+                    </td>
+                    <td className=" text-right text-sm font-medium">
+                      {totalDiscount.toFixed(2)}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      colSpan={7}
+                      className="px-3 py-2 text-sm text-right font-bold"
+                    >
+                      CGST (9%)
+                    </td>
+                    <td className="px-3 py-2 text-right text-sm font-medium">
+                      {cgst.toFixed(2)}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      colSpan={7}
+                      className="px-3 py-2 text-sm text-right font-bold"
+                    >
+                      SGST (9%)
+                    </td>
+                    <td className=" text-right text-sm font-medium">
+                      {sgst.toFixed(2)}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      colSpan={7}
+                      className="px-3 py-2 text-sm text-right  font-bold"
+                    >
+                      Grand Total
+                    </td>
+                    <td className=" text-right text-sm   font-medium">
+                      {grandTotal.toFixed(2)}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      colSpan={7}
+                      className="px-3 text-sm py-2  text-right font-bold"
+                    >
+                      You Saved
+                    </td>
+                    <td className="text-right text-sm font-medium">
+                      {savedAmount.toFixed(2)}
+                    </td>
                   </tr>
                 </tbody>
               </table>
