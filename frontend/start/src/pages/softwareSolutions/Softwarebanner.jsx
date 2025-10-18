@@ -32,12 +32,12 @@ const Softwarebanner = () => {
       ))}
 
       {/* Overlay */}
-      <div className="absolute inset-0 bg-white/50 z-10" />
+      <div className="absolute inset-0 bg-white/70 z-10" />
  <div className="relative z-20 max-w-7xl px-5">
       
        
       
-        <h1 className="text-blue-900  text-xl md:text-6xl font-bold">Software Solutions</h1>
+        <h1 className="text-blue-900  text-xl md:text-4xl font-medium">Software Solutions</h1>
       </div>
       
     

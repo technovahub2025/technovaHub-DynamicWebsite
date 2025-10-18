@@ -7,11 +7,11 @@ const navItems = [
   { name: "Home", path: "/" },
   { name: "Courses Offered", path: "/courses" },
   { name: "Software Solutions", path: "/softwaresolutions" },
-  { name: "About Us", path: "/about" },
-  { name: "Contact Us", path: "/contact" },
+  { name: "About", path: "/about" },
+  { name: "Contact", path: "/contact" },
   { name: "Gallery", path: "/gallery" },
   { name: "Verify Certificate", path: "/verifyCertificate" },
-  { name: "Terms and Conditions", path: "/termsandCondition" },
+  { name: "Terms & Conditions", path: "/termsandCondition" },
 ];
 
 const Navbar = () => {
@@ -37,21 +37,22 @@ const Navbar = () => {
   return (
     <nav className="fixed  w-full z-50 top-0 overflow-x-hidden overflow-y-hidden">
       <div
-        className={`transition-all md:px-10  duration-300 ${
+        className={`transition-all md:px-0  duration-300 ${
           isScrolled ? "backdrop-blur-md bg-white/30 shadow-md" : "bg-transparent "
         }`}
       >
-        <div className="max-w-8xl mx-auto  p-3 md:p-5 ">
+        <div className="max-w-9xl mx-auto  p-3 md:p-5 ">
           <div className="flex justify-between items-center  h-16">
             {/* Logo */}
-            <div className="flex-shrink-0 flex items-center">
+            <div className="flex-shrink-0 flex  items-center">
               <Link to="/">
-                <div className="w-[130px] h-[130px] md:w-[180px]  md:h-[180px] mt-3 p-4 rounded-lg flex items-center justify-center ">
+                <div className="w-[130px] h-[130px] md:w-[150px]  md:h-[180px] mt-3 p-4 rounded-lg flex items-center justify-center ">
                   <img src={logo} alt="logo" className="object-contain w-full h-full" />
                   
                 </div>
-                
+              
               </Link>
+                <span className="text-blue-900 md:text-[20px] hidden md:block font-bold">Technova HUB</span>
             </div>
             
 
