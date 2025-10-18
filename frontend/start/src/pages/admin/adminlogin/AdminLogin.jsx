@@ -48,7 +48,7 @@ const AdminLogin = () => {
       style={{ backgroundImage: `url(${bgImage})` }}>
          
 
-      <div className="w-full   max-w-xl md:p-10 p-8 bg-white/10  backdrop-blur-md md:shadow-lg shadow-xl mt-6 rounded-[50px] ">
+      <div className="w-full    max-w-xl md:p-10 p-8 bg-white/10   backdrop-blur-md md:shadow-lg shadow-xl mt-6 rounded-[50px] ">
         <div className="flex justify-center ">
           <img src={logo} alt="Logo" className="rounded-full w-[200px] h-[150px] md:w-[290px] md:h-[250px]" />
         </div>
