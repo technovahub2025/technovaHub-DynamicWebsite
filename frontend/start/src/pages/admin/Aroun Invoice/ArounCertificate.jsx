@@ -701,7 +701,7 @@ export default function ArounCertificate() {
             </div>
 
             <div>
-              <h1 className="text-blue-800 font-bold mb-2">
+              <h1 className=" font-bold mb-2">
                 Terms and Conditions
               </h1>
               <ul className="mb-3">
