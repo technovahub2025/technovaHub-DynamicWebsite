@@ -10,6 +10,8 @@ import QuotationManager from "../../../pages/admin/Quotation/QuotationManager";
 import InvoiceCertificate from "../../../pages/admin/InvoiceTechnovahub/InvoiceCertificate";
 import InvoiceMangar from "../../../pages/admin/InvoiceTechnovahub/InvoiceMangar";
 import Banner from "../../Banner";
+import ArounCertificate from "../../../pages/admin/Aroun Invoice/ArounCertificate";
+import ArounManagar from "../../../pages/admin/Aroun Invoice/ArounManagar";
 
 const HomePage = () => (
   <div>
@@ -72,6 +74,21 @@ const InvoiceEdit = () => (
 );
 
 
+const ArounVoice = () => (
+  <div className="">
+  <ArounCertificate/>
+  </div>
+);
+
+const ArounVoiceEdit = () => (
+  <div className="">
+<ArounManagar/>
+  </div>
+);
+
+
+
+
 const MainContent = () => {
   return (
     <main className="flex-1 overflow-auto bg-gray-100 ">
@@ -82,6 +99,10 @@ const MainContent = () => {
         <Route path="courses" element={<Course />} />
         <Route path="quotation" element={<Quotation />} />
         <Route path="quotationEdit" element={<QuotationEdit />} />
+        <Route path="arouninvoice" element={<ArounVoice />} />
+        <Route path="arouninvoiceedit" element={<ArounVoiceEdit />} />
+
+
         <Route path="invoice" element={<Invoice />} />
         <Route path="invoiceEdit" element={<InvoiceEdit />} />
 

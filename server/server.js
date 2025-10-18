@@ -12,6 +12,8 @@ import certificateRoutes from "./routers/certificateRoutes.js";
 import softwareRoutes from "./routers/softwareRoutes.js";
 import quatation from "./routers/quoatitionRoutes.js"
 import invoice from "./routers/invoiceRoutes.js"
+import Arinvoice from "./routers/arounInvoiceRoutes.js"
+
 
 
 // Load environment variables based on NODE_ENV
@@ -67,6 +69,8 @@ app.use("/api/certificate", certificateRoutes);
 app.use("/api/softwareSolution", softwareRoutes);
 app.use("/api/quatation", quatation);
 app.use("/api/invoice", invoice);
+app.use("/api/arouninvoice", Arinvoice);
+
 
 
 
