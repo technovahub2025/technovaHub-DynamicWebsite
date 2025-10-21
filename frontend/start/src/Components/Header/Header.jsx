@@ -52,7 +52,7 @@ const Navbar = () => {
                 </div>
               
               </Link>
-                <span className="text-blue-900 md:text-[20px] hidden md:block font-bold">Technova HUB</span>
+                
             </div>
             
 

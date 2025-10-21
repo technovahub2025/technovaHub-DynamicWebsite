@@ -583,12 +583,12 @@ if (loading)
                         <td className="px-3 py-2 text-center  text-[12px]">{row.hsn}</td>
                         <td className="px-3 py-2 text-right  text-[12px]">{qty}</td>
                         <td className="px-3 py-2 text-right  text-[12px]">
-                          {rate.toFixed(2)}
+                          ₹ {rate.toFixed(2)}
                         </td>
                         <td className="px-3 py-2 text-right  text-[12px]">{discount}%</td>
                         <td className="px-3 py-2 text-center  text-[12px]">{gst}%</td>
                         <td className="px-3 py-2 text-right  text-[12px]">
-                          {finalAmt.toFixed(2)}
+                           ₹{finalAmt.toFixed(2)}
                         </td>
                       </tr>
 
@@ -598,72 +598,60 @@ if (loading)
                  
                   
                    <br />
-                   <tr>
-                    <td
-                      colSpan={7}
-                      className="px-3 py-2 text-right   text-sm font-bold"
-                    >
-                      Sub Total
-                    </td>
-                    <td className=" text-right text-sm font-medium">
-                      {subtotal.toFixed(2)}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td
-                      colSpan={7}
-                      className="px-3 py-2 text-sm text-right font-bold"
-                    >
-                      Total Discount
-                    </td>
-                    <td className=" text-right text-sm font-medium">
-                      {totalDiscount.toFixed(2)}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td
-                      colSpan={7}
-                      className="px-3 py-2 text-sm text-right font-bold"
-                    >
-                      CGST (9%)
-                    </td>
-                    <td className="px-3 py-2 text-right text-sm font-medium">
-                      {cgst.toFixed(2)}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td
-                      colSpan={7}
-                      className="px-3 py-2 text-sm text-right font-bold"
-                    >
-                      SGST (9%)
-                    </td>
-                    <td className=" text-right text-sm font-medium">
-                      {sgst.toFixed(2)}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td
-                      colSpan={7}
-                      className="px-3 py-2 text-sm text-right  font-bold"
-                    >
-                      Grand Total
-                    </td>
-                    <td className=" text-right text-sm   font-medium">
-                      {grandTotal.toFixed(2)}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td
-                      colSpan={7}
-                      className="px-3 text-sm py-2  text-right font-bold"
-                    >
-                      You Saved
-                    </td>
-                    <td className="text-right text-sm font-medium">
-                      {savedAmount.toFixed(2)}
-                    </td>
-                  </tr>
+                  <tr style={{ borderTop: "1px solid #ddd" }}>
+  <td colSpan={7} style={{ padding: "8px", textAlign: "right", fontSize: "14px", fontWeight: "600", color: "#444" }}>
+    Sub Total
+  </td>
+  <td style={{ padding: "8px", textAlign: "right", fontSize: "14px", fontWeight: "500", color: "#222" }}>
+    ₹ {subtotal.toFixed(2)}
+  </td>
+</tr>
+
+<tr>
+  <td colSpan={7} style={{ padding: "8px", textAlign: "right", fontSize: "14px", fontWeight: "600", color: "#444" }}>
+    Total Discount
+  </td>
+  <td style={{ padding: "8px", textAlign: "right", fontSize: "14px", fontWeight: "500", color: "#198754" }}>
+    ₹ {totalDiscount.toFixed(2)}
+  </td>
+</tr>
+
+<tr style={{ backgroundColor: "#f9f9f9" }}>
+  <td colSpan={7} style={{ padding: "8px", textAlign: "right", fontSize: "14px", fontWeight: "600", color: "#444" }}>
+    CGST (9%)
+  </td>
+  <td style={{ padding: "8px", textAlign: "right", fontSize: "14px", fontWeight: "500", color: "#222" }}>
+    ₹ {cgst.toFixed(2)}
+  </td>
+</tr>
+
+<tr style={{ backgroundColor: "#f9f9f9" }}>
+  <td colSpan={7} style={{ padding: "8px", textAlign: "right", fontSize: "14px", fontWeight: "600", color: "#444" }}>
+    SGST (9%)
+  </td>
+  <td style={{ padding: "8px", textAlign: "right", fontSize: "14px", fontWeight: "500", color: "#222" }}>
+    ₹ {sgst.toFixed(2)}
+  </td>
+</tr>
+
+<tr style={{ borderTop: "2px solid #999", backgroundColor: "#f1f1f1" }}>
+  <td colSpan={7} style={{ padding: "8px", textAlign: "right", fontSize: "15px", fontWeight: "700", color: "#111" }}>
+    Grand Total
+  </td>
+  <td style={{ padding: "8px", textAlign: "right", fontSize: "15px", fontWeight: "700", color: "#111" }}>
+    ₹ {grandTotal.toFixed(2)}
+  </td>
+</tr>
+
+<tr>
+  <td colSpan={7} style={{ padding: "8px", textAlign: "right", fontSize: "14px", fontWeight: "600", color: "#444" }}>
+    You Saved
+  </td>
+  <td style={{ padding: "8px", textAlign: "right", fontSize: "14px", fontWeight: "500", color: "#198754" }}>
+    ₹ {savedAmount.toFixed(2)}
+  </td>
+</tr>
+
                 </tbody>
               </table>
             </div>
