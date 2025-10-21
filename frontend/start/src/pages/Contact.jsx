@@ -5,61 +5,154 @@ import Title from "../Components/Title";
 const Contact = () => {
   const contactCards = [
     {
-      icon: <MapPin className="text-blue-400 w-6 h-6" />,
+      icon: <MapPin style={{ color: "#2563eb", width: 26, height: 26 }} />,
       title: "Address",
       info: "48, Lawspet Main Road, Puducherry",
-      bg: "bg-gradient-to-r from-blue-400/20 to-blue-100/20",
+      bg: "linear-gradient(135deg, rgba(219,234,254,0.8), rgba(191,219,254,0.5))",
     },
     {
-      icon: <Phone className="text-green-400 w-6 h-6" />,
+      icon: <Phone style={{ color: "#1e40af", width: 26, height: 26 }} />,
       title: "Phone",
-      info: "9360962810",
-      bg: "bg-gradient-to-r from-green-400/20 to-green-100/20",
+      info: "+91 9360962810",
+      bg: "linear-gradient(135deg, rgba(191,219,254,0.8), rgba(147,197,253,0.5))",
     },
     {
-      icon: <Mail className="text-red-400 w-6 h-6" />,
+      icon: <Mail style={{ color: "#3b82f6", width: 26, height: 26 }} />,
       title: "Email",
       info: "technovahubcareer@gmail.com",
-      bg: "bg-gradient-to-r from-red-400/20 to-red-100/20",
+      bg: "linear-gradient(135deg, rgba(219,234,254,0.9), rgba(147,197,253,0.6))",
     },
     {
-      icon: <Clock className="text-yellow-400 w-6 h-6" />,
+      icon: <Clock style={{ color: "#1d4ed8", width: 26, height: 26 }} />,
       title: "Working Hours",
       info: "9:00 AM - 9:00 PM",
-      bg: "bg-gradient-to-r from-yellow-400/20 to-yellow-100/20",
+      bg: "linear-gradient(135deg, rgba(191,219,254,0.9), rgba(147,197,253,0.6))",
     },
   ];
 
   return (
-    <div className="relative mb-12 mt-[130px] px-4 md:px-20">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-100/40 via-purple-100/30 to-pink-100/30 -z-10 rounded-xl"></div>
+    <div
+      style={{
+        position: "relative",
+        marginBottom: "80px",
+        marginTop: "120px",
+        padding: "0 20px",
+      }}
+    >
+      {/* Light Background Gradient */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          background:
+            "linear-gradient(135deg, rgba(240,249,255,1), rgba(219,234,254,0.6))",
+          zIndex: -1,
+          borderRadius: "20px",
+        }}
+      ></div>
 
       <Title text="Contact Us" />
 
-      <div className="flex flex-col md:flex-row gap-12 mt-10">
-        {/* Left Side: Contact Cards */}
-        <div className="md:w-1/2 flex flex-col gap-6">
+      {/* Flex Container */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          gap: "2.5rem",
+          justifyContent: "space-between",
+          marginTop: "3rem",
+        }}
+      >
+        {/* Left: Contact Info */}
+        <div
+          style={{
+            flex: "1 1 450px",
+            display: "flex",
+            flexDirection: "column",
+            gap: "1.5rem",
+          }}
+        >
           {contactCards.map((card, index) => (
             <div
               key={index}
-              className={`
-                flex items-start gap-4 p-6 rounded-xl backdrop-blur-md shadow-lg hover:shadow-xl transition-all duration-300 ${card.bg}
-              `}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "1rem",
+                padding: "1.5rem",
+                borderRadius: "14px",
+                background: card.bg,
+                backdropFilter: "blur(10px)",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+                transition: "transform 0.3s ease, box-shadow 0.3s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-5px)";
+                e.currentTarget.style.boxShadow =
+                  "0 8px 20px rgba(37,99,235,0.25)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0px)";
+                e.currentTarget.style.boxShadow =
+                  "0 4px 12px rgba(0,0,0,0.08)";
+              }}
             >
-              <div className="p-3 bg-white/30 rounded-full flex items-center justify-center shadow-md">
+              <div
+                style={{
+                  padding: "14px",
+                  background: "#fff",
+                  borderRadius: "50%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  boxShadow: "0 3px 8px rgba(37,99,235,0.2)",
+                }}
+              >
                 {card.icon}
               </div>
               <div>
-                <h3 className="font-bold text-lg text-gray-800">{card.title}</h3>
-                <p className="text-gray-600 mt-1">{card.info}</p>
+                <h3
+                  style={{
+                    fontWeight: "700",
+                    fontSize: "1.1rem",
+                    color: "#1e3a8a",
+                  }}
+                >
+                  {card.title}
+                </h3>
+                <p
+                  style={{
+                    marginTop: "5px",
+                    color: "#334155",
+                    fontSize: "0.96rem",
+                  }}
+                >
+                  {card.info}
+                </p>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Right Side: Map */}
-        <div className="md:w-1/2 h-96 md:h-[500px] rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 border-2 border-white/30 backdrop-blur-md">
+        {/* Right: Google Map */}
+        <div
+          style={{
+            flex: "1 1 450px",
+            height: "480px",
+            borderRadius: "18px",
+            overflow: "hidden",
+            boxShadow: "0 8px 25px rgba(37,99,235,0.25)",
+            border: "2px solid rgba(219,234,254,0.9)",
+            transition: "transform 0.5s ease",
+          }}
+          onMouseEnter={(e) =>
+            (e.currentTarget.style.transform = "scale(1.02)")
+          }
+          onMouseLeave={(e) =>
+            (e.currentTarget.style.transform = "scale(1)")
+          }
+        >
           <iframe
             title="Technovahub Location"
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.5204113856966!2d79.8105151147982!3d11.928178391930036!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5361f3c6c00001%3A0x1234567890abcdef!2s48%20Lawspet%20Main%20Rd%2C%20Puducherry%2C%20India!5e0!3m2!1sen!2sin!4v1695792000000!5m2!1sen!2sin"
@@ -69,7 +162,6 @@ const Contact = () => {
             allowFullScreen=""
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
-            className="hover:scale-105 transition-transform duration-500"
           ></iframe>
         </div>
       </div>
