@@ -12,6 +12,8 @@ import InvoiceMangar from "../../../pages/admin/InvoiceTechnovahub/InvoiceMangar
 import Banner from "../../Banner";
 import ArounCertificate from "../../../pages/admin/Aroun Invoice/ArounCertificate";
 import ArounManagar from "../../../pages/admin/Aroun Invoice/ArounManagar";
+import Productivitytools from "../../../pages/admin/ProductivityTools/Productivitytools";
+import SalarySlip from "../../../pages/admin/SalarySlipgenerator/SalarySlip";
 
 const HomePage = () => (
   <div>
@@ -87,7 +89,19 @@ const ArounVoiceEdit = () => (
 );
 
 
+const Productivity = () => (
+  <div className="">
+<Productivitytools/>
+  </div>
+);
 
+
+
+const Salarylol = () => (
+  <div className="">
+<SalarySlip/>
+  </div>
+);
 
 const MainContent = () => {
   return (
@@ -105,6 +119,10 @@ const MainContent = () => {
 
         <Route path="invoice" element={<Invoice />} />
         <Route path="invoiceEdit" element={<InvoiceEdit />} />
+        <Route path="ERP" element={<Productivity />} />
+        <Route path="salaryslip" element={<Salarylol />} />
+
+
 
 
 

@@ -13,6 +13,7 @@ import softwareRoutes from "./routers/softwareRoutes.js";
 import quatation from "./routers/quoatitionRoutes.js"
 import invoice from "./routers/invoiceRoutes.js"
 import Arinvoice from "./routers/arounInvoiceRoutes.js"
+import salaryRoutes from "./routers/salaryRoutes.js";
 
 
 
@@ -27,7 +28,10 @@ const app = express();
 
 // Allowed frontend URLs
 const allowedOrigins = [
+  "http://localhost:5174",
   "http://localhost:5173",
+
+  
   "https://technova-hub-dynamic-website.vercel.app",
 
 ];
@@ -70,6 +74,7 @@ app.use("/api/softwareSolution", softwareRoutes);
 app.use("/api/quatation", quatation);
 app.use("/api/invoice", invoice);
 app.use("/api/arouninvoice", Arinvoice);
+app.use("/api/salary", salaryRoutes);
 
 
 

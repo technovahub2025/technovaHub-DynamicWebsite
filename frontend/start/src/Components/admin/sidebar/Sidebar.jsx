@@ -9,12 +9,16 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
 
   const menuItems = [
     { name: "Home", icon: <Home />, path: "/admin" },
+     { name: "Productivity Tools", icon: <FaFileInvoiceDollar />, path: "/admin/ERP" },
     { name: "Gallery", icon: <Images />, path: "/admin/gallery" },
     { name: "Courses", icon: <BookOpen />, path: "/admin/courses" },
     { name: "Certificate", icon: <Award />, path: "/admin/certificate" },
     { name: "Aroun Quotation", icon: <LiaFileInvoiceDollarSolid />, path: "/admin/quotation" }, 
       { name: "Aroun Invoice", icon: <LiaFileInvoiceDollarSolid />, path: "/admin/arouninvoice" }, 
     { name: "TechnovaHub Invoice", icon: <FaFileInvoiceDollar />, path: "/admin/invoice" },
+    { name: "Salary Slip Generator", icon: <FaFileInvoiceDollar />, path: "/admin/salaryslip" },
+   
+
    
 
 
