@@ -10,12 +10,10 @@ import courseRoutes from "./routers/courseRoutes.js";
 import authRoutes from "./routers/authRoutes.js";
 import certificateRoutes from "./routers/certificateRoutes.js";
 import softwareRoutes from "./routers/softwareRoutes.js";
-import quatation from "./routers/quoatitionRoutes.js"
-import invoice from "./routers/invoiceRoutes.js"
-import Arinvoice from "./routers/arounInvoiceRoutes.js"
+import quatation from "./routers/quoatitionRoutes.js";
+import invoice from "./routers/invoiceRoutes.js";
+import Arinvoice from "./routers/arounInvoiceRoutes.js";
 import salaryRoutes from "./routers/salaryRoutes.js";
-
-
 
 // Load environment variables based on NODE_ENV
 if (process.env.NODE_ENV === "production") {
@@ -26,28 +24,10 @@ if (process.env.NODE_ENV === "production") {
 
 const app = express();
 
-// Allowed frontend URLs
-const allowedOrigins = [
-  "http://localhost:5174",
-  "http://localhost:5173",
-
-  
-  "https://technova-hub-dynamic-website.vercel.app",
-  "https://www.technovahub.in"
-
-];
-
-// CORS setup
+// ✅ Enable CORS for all origins
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true,
+    origin: "*", // Allow all origins
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
@@ -77,16 +57,10 @@ app.use("/api/invoice", invoice);
 app.use("/api/arouninvoice", Arinvoice);
 app.use("/api/salary", salaryRoutes);
 
-
-
-
-// Global error handler for CORS
+// Global error handler (optional)
 app.use((err, req, res, next) => {
-  if (err instanceof Error && err.message === "Not allowed by CORS") {
-    res.status(403).json({ message: err.message });
-  } else {
-    next(err);
-  }
+  console.error(err.stack);
+  res.status(500).json({ message: "Something went wrong!" });
 });
 
 app.listen(PORT, () => {
