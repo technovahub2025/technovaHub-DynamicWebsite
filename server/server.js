@@ -33,7 +33,7 @@ const allowedOrigins = [
 
   
   "https://technova-hub-dynamic-website.vercel.app",
-  "https://www.technovahub.in/"
+  "https://www.technovahub.in"
 
 ];
 
