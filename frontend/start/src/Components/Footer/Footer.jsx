@@ -9,24 +9,27 @@ import {
 
 const Footer = () => {
   return (
-    <section id="footer" className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-blue-100">
+    <section
+      id="footer"
+      className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-blue-100"
+    >
       {/* Decorative Top Glow */}
-      <div className="absolute -top-10 left-0 w-full h-20 bg-gradient-to-r from-blue-300/40 via-blue-200/40 to-transparent blur-2xl"></div>
+      <div className="absolute -top-10 left-0 w-full h-20 bg-gradient-to-r from-blue-300/40 via-blue-200/40 to-transparent blur-2xl" />
 
-      <footer className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 items-start">
-
+      <footer className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12 items-start text-center md:text-left">
           {/* Brand Section */}
-          <div className="text-center md:text-left">
-            <h1 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-blue-700 via-blue-500 to-cyan-400 text-transparent bg-clip-text mb-4 drop-shadow-md">
+          <div>
+            <h1 className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-blue-700 via-blue-500 to-cyan-400 text-transparent bg-clip-text mb-4 drop-shadow-md">
               TechnovaHub
             </h1>
             <p className="text-gray-600 leading-relaxed max-w-sm mx-auto md:mx-0">
-              Empowering your digital journey with innovative solutions, cutting-edge courses, and modern tech services.
+              Empowering your digital journey with innovative solutions,
+              cutting-edge courses, and modern tech services.
             </p>
 
             {/* Social Icons */}
-            <div className="flex justify-center md:justify-start space-x-5 mt-6">
+            <div className="flex justify-center md:justify-start space-x-4 mt-6">
               {[
                 { icon: <FaFacebookF />, color: "hover:text-blue-600" },
                 { icon: <FaTwitter />, color: "hover:text-sky-500" },
@@ -36,9 +39,9 @@ const Footer = () => {
                 <a
                   key={i}
                   href="#"
-                  className={`text-gray-500 ${item.color} transform hover:scale-125 transition-all duration-300`}
+                  className={`text-gray-600 ${item.color} transform hover:scale-110 transition-all duration-300`}
                 >
-                  <div className="p-3 rounded-full bg-white/50 backdrop-blur-md shadow-md hover:shadow-lg">
+                  <div className="p-3 rounded-full bg-white/60 backdrop-blur-md shadow-md hover:shadow-lg">
                     {item.icon}
                   </div>
                 </a>
@@ -47,64 +50,56 @@ const Footer = () => {
           </div>
 
           {/* Quick Links */}
-          <div className="text-center md:text-left">
-            <h2 className="text-xl font-semibold text-blue-600 mb-4">
+          <div>
+            <h2 className="text-xl font-semibold text-blue-700 mb-5">
               Quick Links
             </h2>
-            <ul className="flex flex-col space-y-3 text-gray-700 font-medium">
-              <li>
-                <Link to="/" className="hover:text-blue-600 transition">
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link to="/about" className="hover:text-blue-600 transition">
-                  About
-                </Link>
-              </li>
-              <li>
-                <Link to="/courses" className="hover:text-blue-600 transition">
-                  Courses
-                </Link>
-              </li>
-              <li>
-                <Link to="/contact" className="hover:text-blue-600 transition">
-                  Contact
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/adminlogin"
-                  className="text-blue-700 font-semibold hover:text-blue-800 transition"
-                >
-                  Admin
-                </Link>
-              </li>
+            <ul className="space-y-3 text-gray-700 font-medium">
+              {[
+                { name: "Home", link: "/" },
+                { name: "About", link: "/about" },
+                { name: "Courses", link: "/courses" },
+                { name: "Contact", link: "/contact" },
+                { name: "Admin", link: "/adminlogin", special: true },
+              ].map((item, i) => (
+                <li key={i}>
+                  <Link
+                    to={item.link}
+                    className={`transition ${
+                      item.special
+                        ? "text-blue-700 font-semibold hover:text-blue-800"
+                        : "hover:text-blue-600"
+                    }`}
+                  >
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Newsletter / Extra Info */}
-          <div className="text-center md:text-left">
-            <h2 className="text-xl font-semibold text-blue-600 mb-4">
+          {/* Newsletter Section */}
+          <div>
+            <h2 className="text-xl font-semibold text-blue-700 mb-5">
               Stay Updated
             </h2>
-            <p className="text-gray-600 mb-4">
-              Subscribe to our newsletter for updates on the latest courses and tech trends.
+            <p className="text-gray-600 mb-5">
+              Subscribe for updates on new courses, innovations, and trends.
             </p>
-            <div className="flex justify-center md:justify-start items-center bg-white shadow-inner rounded-full p-1 border border-blue-100 max-w-sm mx-auto md:mx-0">
+            <div className="flex flex-col sm:flex-row justify-center md:justify-start items-center bg-white shadow-inner rounded-full p-1 border border-blue-100 max-w-sm mx-auto md:mx-0">
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="flex-grow px-4 py-2 outline-none text-gray-700 bg-transparent"
+                className="flex-grow px-4 py-2 text-gray-700 outline-none bg-transparent placeholder-gray-400 text-sm"
               />
-              <button className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white px-5 py-2 rounded-full font-medium hover:shadow-md hover:scale-105 transition">
+              <button className="mt-2 sm:mt-0 sm:ml-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white px-5 py-2 rounded-full font-medium hover:shadow-md hover:scale-105 transition-all duration-300 w-full sm:w-auto">
                 Subscribe
               </button>
             </div>
           </div>
         </div>
 
-        {/* Bottom Line */}
+        {/* Divider Line */}
         <div className="relative mt-12 border-t border-blue-200 pt-6 text-center text-gray-600 text-sm">
           © {new Date().getFullYear()}{" "}
           <span className="font-semibold text-blue-600">TechnovaHub</span>. All
@@ -113,7 +108,7 @@ const Footer = () => {
       </footer>
 
       {/* Bottom Glow Effect */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[90%] h-32 bg-gradient-to-t from-blue-200/40 to-transparent blur-3xl rounded-full"></div>
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[90%] h-32 bg-gradient-to-t from-blue-200/40 to-transparent blur-3xl rounded-full" />
     </section>
   );
 };
