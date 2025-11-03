@@ -12,35 +12,68 @@ const Coursebanner = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrent((prev) => (prev + 1) % images.length);
-    }, 3000); // 3s per slide
+    }, 4000);
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <header className="relative md:h-[50vh] h-[30vh] flex items-center justify-center text-center text-[#002f6c] overflow-hidden">
-      {/* Background slides */}
+    <header className="relative h-[50vh] md:h-[70vh] flex items-center justify-center overflow-hidden">
+      {/* === Background Slideshow === */}
       {images.map((img, index) => (
         <div
           key={index}
-          className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out`}
+          className={`absolute inset-0 bg-cover bg-center transition-opacity duration-[1500ms] ease-in-out`}
           style={{
             backgroundImage: `url(${img})`,
             opacity: index === current ? 1 : 0,
-            backgroundBlendMode: "multiply",
+            transform: index === current ? "scale(1.05)" : "scale(1)",
+            transition: "opacity 1.5s ease, transform 4s ease",
           }}
         />
       ))}
 
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-white/70 z-10" />
- <div className="relative z-20 max-w-7xl px-5">
-      
-       
-      
-        <h1 className="text-blue-900  text-xl md:text-4xl font-medium">Course Offered</h1>
+      {/* === Gradient Overlay === */}
+      <div className="absolute inset-0 bg-white/70" />
+
+      {/* === Subtle Particles / Glow === */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(191, 182, 182, 0.08)_0%,transparent_70%)]" />
+
+      {/* === Content === */}
+      <div className="relative z-20 text-center px-6">
+        <div className="mx-auto mb-6 flex justify-center">
+          <img
+            src={logo}
+            alt="Technovahub Logo"
+            className="w-24 md:w-32 drop-shadow-lg animate-pulse"
+          />
+        </div>
+
+        <div className="backdrop-blur-md bg-white/40 p-6 rounded-2xl inline-block shadow-xl border border-white/20">
+          <h1 className="text-3xl md:text-6xl font-extrabold text-white tracking-tight drop-shadow-lg animate-fadeInUp">
+            Course <span className="text-blue-400">Offered</span>
+          </h1>
+          <p className="mt-3 text-blue-100 text-sm md:text-lg font-light text-blue-400 animate-fadeInUp delay-200">
+            Empowering innovation through hands-on training and real-world learning.
+          </p>
+        </div>
       </div>
-      
-    
+
+      {/* === Custom Animations === */}
+      <style jsx>{`
+        @keyframes fadeInUp {
+          0% {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .animate-fadeInUp {
+          animation: fadeInUp 1s ease-out forwards;
+        }
+      `}</style>
     </header>
   );
 };

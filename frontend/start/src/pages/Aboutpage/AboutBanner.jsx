@@ -33,7 +33,7 @@ export default function AboutUsSection() {
 
         {/* Text Sections */}
         <h1
-          className="text-sm sm:text-2xl md:text-3xl font-thin text-gray-900 leading-snug max-w-3xl"
+          className="text-sm  md:text-2xl   leading-snug max-w-3xl"
           data-aos="zoom-in"
           data-aos-delay="200"
         >
@@ -47,7 +47,7 @@ export default function AboutUsSection() {
         </h1>
 
         <h1
-          className="text-sm sm:text-2xl md:text-3xl font-thin text-gray-900 leading-snug max-w-3xl"
+          className="text-sm sm:text-2xl md:text-2xl leading-snug max-w-3xl"
           data-aos="zoom-in"
           data-aos-delay="400"
         >

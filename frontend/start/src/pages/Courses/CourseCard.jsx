@@ -3,23 +3,23 @@ import { getCourseApi } from "../../api/CourseApi";
 import Title from "../../Components/Title";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { BookOpen, Code, Cpu, Globe, Zap } from "lucide-react"; // sample icons
 
 const CourseCard = () => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // ✅ Initialize AOS
     AOS.init({
-      duration: 1000, // animation duration
-      offset: 100,    // how far from viewport the animation triggers
-      once: true,     // animate only once
+      duration: 900,
+      offset: 100,
+      once: true,
     });
 
     const fetchData = async () => {
       try {
         const response = await getCourseApi();
-        setCourses(response.data || []); // API returns { data: [...] }
+        setCourses(response.data || []);
       } catch (err) {
         console.error("Error fetching courses:", err);
         setCourses([]);
@@ -32,56 +32,89 @@ const CourseCard = () => {
   }, []);
 
   return (
-    <div className="py-3 md:px-5 px-2">
-      {/* Title */}
-      <div data-aos="fade-up">
-        <Title text="Courses Offered" />
-      </div>
+    <section className="relative py-20 bg-gradient-to-br from-blue-50 via-white to-cyan-50 overflow-hidden">
+      {/* Floating background glow */}
+      <div className="absolute -top-20 left-10 w-80 h-80 bg-blue-200/40 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-cyan-200/40 rounded-full blur-3xl animate-pulse"></div>
 
-      <div className="flex justify-center mt-5 px-4">
-        <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3  gap-5 max-w-7xl w-full py-2">
-          {/* Loading State */}
+      <div className="relative z-10 max-w-7xl mx-auto px-5 md:px-8">
+        <div data-aos="fade-up">
+          <Title text="Courses Offered" />
+        </div>
+
+        {/* Courses Grid */}
+        <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {loading ? (
-            <>
-              {[1, 2, 3].map((i) => (
-                <div
-                  key={i}
-                  className="w-full h-64 bg-gray-200 animate-pulse rounded-lg"
-                />
-              ))}
-            </>
+            Array.from({ length: 3 }).map((_, i) => <SkeletonCard key={i} />)
           ) : courses.length > 0 ? (
             courses.map((course, index) => (
-              <SimpleCard
+              <FancyCard
                 key={course._id}
                 title={course.title}
                 description={course.description}
-                aosDelay={index * 200} // stagger effect
+                aosDelay={index * 200}
+                icon={getCourseIcon(course.title, index)}
               />
             ))
           ) : (
-            <div className="text-gray-500 col-span-full text-center flex justify-center items-center">
-             
-                 No courses available.
+            <div className="col-span-full text-center py-10 text-gray-500">
+              No courses available.
             </div>
           )}
         </div>
+      </div>
+    </section>
+  );
+};
+
+/* 🌀 Modern shimmer skeleton */
+const SkeletonCard = () => (
+  <div className="w-full h-72 bg-white/60 rounded-2xl shadow-md border border-white/40 backdrop-blur-md relative overflow-hidden">
+    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent animate-shimmer" />
+    <div className="absolute inset-0 flex flex-col justify-center items-center gap-4">
+      <div className="w-3/4 h-6 bg-gray-200 rounded"></div>
+      <div className="w-2/3 h-4 bg-gray-200 rounded"></div>
+      <div className="w-1/2 h-4 bg-gray-200 rounded"></div>
+    </div>
+  </div>
+);
+
+/* 💎 New Beautiful Course Card */
+const FancyCard = ({ title, description, icon, aosDelay }) => {
+  return (
+    <div
+      className="relative p-8 rounded-3xl bg-white/70 backdrop-blur-lg border border-white/40 shadow-xl hover:shadow-2xl hover:scale-[1.03] transition-all duration-500 group"
+      data-aos="fade-up"
+      data-aos-delay={aosDelay}
+    >
+      {/* Hover border gradient glow */}
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-400/10 via-cyan-400/10 to-transparent opacity-0 group-hover:opacity-100 rounded-3xl transition-all duration-500"></div>
+
+      <div className="relative z-10 flex flex-col items-center text-center">
+        <div className="p-4 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl shadow-md shadow-blue-200 mb-5">
+          {icon}
+        </div>
+        <h2 className="text-2xl font-semibold text-blue-700 mb-3">
+          {title}
+        </h2>
+        <p className="text-gray-700 text-sm md:text-lg leading-relaxed">
+          {description}
+        </p>
       </div>
     </div>
   );
 };
 
-const SimpleCard = ({ title, description, aosDelay }) => {
-  return (
-    <div
-      className="w-full h-64 bg-white rounded-xl shadow-md   hover:shadow-xl hover:shadow-blue-300 transition duration-300 p-6 flex flex-col items-center justify-center text-center"
-      data-aos="fade-up"
-      data-aos-delay={aosDelay} // staggered animation
-    >
-      <h2 className="text-blue-500 text-md lg:text-lg font-bold mb-5">{title}</h2>
-      <p className="text-gray-600 text-sm md:text-md  lg:text-lg">{description}</p>
-    </div>
-  );
+/* 🧠 Icon selector based on title (optional) */
+const getCourseIcon = (title, index) => {
+  const icons = [
+    <BookOpen className="w-7 h-7 text-white" />,
+    <Code className="w-7 h-7 text-white" />,
+    <Cpu className="w-7 h-7 text-white" />,
+    <Globe className="w-7 h-7 text-white" />,
+    <Zap className="w-7 h-7 text-white" />,
+  ];
+  return icons[index % icons.length];
 };
 
 export default CourseCard;
