@@ -1,6 +1,6 @@
 import React from 'react'
 
-import WhatYouWillGain from '../components/WhatYouWillGain'
+
 import Takeaways from '../components/Takeaways'
 import PricingCard from '../components/PricingCard'
 import Eligibility from '../components/Eligibility'
@@ -13,7 +13,7 @@ const Landingpage = () => {
        <Contact/>
         <PricingCard/>
           <Eligibility/>
-           <WhatYouWillGain/>
+       
         <Takeaways/>
        
         
