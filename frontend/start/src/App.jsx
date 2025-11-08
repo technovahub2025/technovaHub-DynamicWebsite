@@ -20,8 +20,9 @@ import ProtectedRoute from "./Components/protectRoutes/ProtectedRoute";
 import Backtop from "./Components/Backtop/Backtop";
 import Softwaresol from "./pages/softwareSolutions/Softwaresol";
 import ScrollToTop from "./Components/ScrollToTop";
-import Cursor from "./Components/Cursor";
-import NeonCursor from "./Components/NeonCursor";
+import Homeseven from "./pages/Homeseven";
+import Sevenhome from "./pages/Sevenhome";
+
 
 
 
@@ -57,6 +58,11 @@ const App = () => {
           <Route path="/gallery" element={<GalleryPages />} />
           <Route path="/courses" element={<Courses />} />
           <Route path="/softwaresolutions" element={<Softwaresol />} />
+          <Route path="/7Days-AI-innovation" element={<Homeseven />} />
+    
+          <Route path="/7Days-AI-innovation/welcome" element={<Sevenhome />} />
+
+
 
           <Route path="/termsandCondition" element={<TermsAndCondition />} />
           <Route path="/contact" element={<Contact />} />

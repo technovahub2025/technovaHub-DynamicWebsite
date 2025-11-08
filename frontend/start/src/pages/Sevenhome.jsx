@@ -7,7 +7,7 @@ import Eligibility from '../components/Eligibility'
 import ContactForm from '../Components/ContactForm'
 
 
-const Landingpage = () => {
+const Sevenhome = () => {
   return (
     <div className='max-w-7xl mx-auto'>
        <ContactForm/>
@@ -27,4 +27,4 @@ const Landingpage = () => {
   )
 }
 
-export default Landingpage
+export default Sevenhome

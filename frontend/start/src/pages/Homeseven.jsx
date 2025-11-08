@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const MotionLink = motion(Link); // ✅ wrap Link for animation
 
-const HomeAI = () => {
+const Homeseven = () => {
   return (
     <section className="relative flex flex-col items-center max-w-7xl mx-auto justify-center min-h-screen overflow-hidden px-4">
       {/* Decorative gradient glow */}
@@ -44,4 +44,4 @@ const HomeAI = () => {
   );
 };
 
-export default HomeAI;
+export default Homeseven;
