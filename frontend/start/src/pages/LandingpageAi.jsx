@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-import Takeaways from '../components/Takeaways'
+// import Takeaways from '../components/Takeaways'
 import PricingCard from '../components/PricingCard'
 import Eligibility from '../components/Eligibility'
 import Contact from '../components/Contact'
@@ -14,7 +14,7 @@ const Landingpage = () => {
         <PricingCard/>
           <Eligibility/>
        
-        <Takeaways/>
+        {/* <Takeaways/> */}
        
         
        
