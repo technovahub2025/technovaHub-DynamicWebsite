@@ -14,7 +14,7 @@ import Contact from './Contact'
 
 const LandingPage = () => {
   return (
-    <div> 
+    <div>
       <HeroBanner/>
       <VisionMission/>
       

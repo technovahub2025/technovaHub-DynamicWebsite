@@ -20,9 +20,8 @@ import ProtectedRoute from "./Components/protectRoutes/ProtectedRoute";
 import Backtop from "./Components/Backtop/Backtop";
 import Softwaresol from "./pages/softwareSolutions/Softwaresol";
 import ScrollToTop from "./Components/ScrollToTop";
-
-import LandingpageAi from "./pages/LandingpageAi";
-import HomeAI from "./pages/HomeAI";
+import Cursor from "./Components/Cursor";
+import NeonCursor from "./Components/NeonCursor";
 
 
 
@@ -58,9 +57,6 @@ const App = () => {
           <Route path="/gallery" element={<GalleryPages />} />
           <Route path="/courses" element={<Courses />} />
           <Route path="/softwaresolutions" element={<Softwaresol />} />
-          <Route path="/7Days-AI-innovation" element={<HomeAI />} /> 
-        
-          <Route path="/7Days-AI-innovation/welcome" element={<LandingpageAi />} /> 
 
           <Route path="/termsandCondition" element={<TermsAndCondition />} />
           <Route path="/contact" element={<Contact />} />
@@ -69,7 +65,7 @@ const App = () => {
           <Route path="/adminlogin" element={<AdminLogin />} />
 
           <Route
-            path="/admin/*" 
+            path="/admin/*"
             element={
               <ProtectedRoute>
                 <LayoutDashboard />

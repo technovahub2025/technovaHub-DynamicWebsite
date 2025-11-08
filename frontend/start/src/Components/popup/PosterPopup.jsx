@@ -42,7 +42,7 @@ const PosterPopup = () => {
         {/* Enroll Now Button */}
         <div className="mt-4 flex justify-center">
           <a
-            href="7Days-AI-innovation"
+            href="https://7days-ai-innovation-landingpage.vercel.app"
             target="_blank"
             rel="noopener noreferrer"
             className="px-6 py-2 bg-gradient-to-r from-blue-400 to-blue-600 text-white font-semibold rounded-full shadow-md hover:shadow-lg hover:scale-105 transition-transform duration-300"
