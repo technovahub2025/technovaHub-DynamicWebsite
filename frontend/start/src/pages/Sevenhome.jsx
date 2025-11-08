@@ -1,9 +1,9 @@
 import React from 'react'
 
-import WhatYouWillGain from '../components/WhatYouWillGain'
-import Takeaways from '../components/Takeaways'
-import PricingCard from '../components/PricingCard'
-import Eligibility from '../components/Eligibility'
+import WhatYouWillGain from '../Components/WhatYouWillGain'
+import Takeaways from '../Components/Takeaways'
+import PricingCard from '../Components/PricingCard'
+import Eligibility from '../Components/Eligibility'
 import ContactForm from '../Components/ContactForm'
 
 
