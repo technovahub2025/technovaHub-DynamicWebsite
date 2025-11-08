@@ -26,7 +26,7 @@ const VisionMission = () => {
         </div>
 
         {/* Cards Grid */}
-        <div className="mt-14 grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div className=" grid grid-cols-1 md:grid-cols-2 gap-10">
           {/* Vision */}
           <div
             className="relative p-8 md:p-10 rounded-3xl backdrop-blur-lg bg-white/70 border border-white/40 shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all duration-500 text-left"
@@ -42,7 +42,7 @@ const VisionMission = () => {
               </h2>
             </div>
 
-            <p className="text-gray-700 text-sm md:text-lg leading-relaxed">
+            <p className="text-gray-700 text-sm md:text-lg  leading-relaxed">
               Our vision is to become a nationally recognized hub of excellence
               in <span className="text-blue-600 font-medium">technology education</span>, IT services,
               and automation-driven innovation. We aim to nurture

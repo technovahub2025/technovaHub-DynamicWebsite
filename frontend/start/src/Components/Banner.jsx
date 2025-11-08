@@ -27,7 +27,7 @@ const Banner = () => {
   }, []);
 
   return (
-    <header className="relative md:min-h-screen h-[42vh] flex items-center justify-center text-center text-[#002f6c] overflow-hidden">
+    <header className="relative md:min-h-screen h-[50vh] flex items-center justify-center text-center text-[#002f6c] overflow-hidden">
       {/* Background slides */}
       {images.map((img, index) => (
         <div
@@ -48,22 +48,36 @@ const Banner = () => {
       <div className="relative z-20 max-w-7xl px-5">
         {/* Logo */}
         <div
-          className="w-[180px] h-[200px] md:w-[480px] md:h-[400px] mt-3 rounded-lg flex items-center justify-center"
+          className="w-[240px] h-[200px] md:w-[480px] md:h-[400px] mt-3 rounded-lg flex items-center justify-center"
           data-aos="zoom-in"
         >
           <img src={logo} alt="logo" className="object-contain w-full h-full" />
         </div>
 
-        {/* Connect Button */}
+
+<div className="flex  gap-2 justify-center ">
+ {/* Connect Button */}
         <a
           href="https://docs.google.com/forms/d/e/1FAIpQLSesAnC00FPStzrs3z22PtnItYt24iHvaXPLIABUTe8WMWJC7A/viewform?usp=sharing&ouid=101727743134439473534"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-block bg-blue-500 border-2 border-white p-2 md:py-3 md:px-10 px-6 font-medium text-white text-[10px] md:text-[15px] rounded-md hover:bg-blue-600 transition-colors "
+          data-aos="fade-up"
+        >
+         Enquiry Now
+        </a>
+
+         <a
+          href=""
           target="_blank"
           rel="noopener noreferrer"
           className="inline-block bg-blue-500 border-2 border-white p-2 md:py-3 md:px-6 font-medium text-white text-[10px] md:text-[15px] rounded-md hover:bg-blue-600 transition-colors "
           data-aos="fade-up"
         >
-          Click to Connect
+          7 Days AI Workshop
         </a>
+</div>
+       
       </div>
     </header>
   );
