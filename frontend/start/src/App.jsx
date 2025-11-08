@@ -69,7 +69,7 @@ const App = () => {
           <Route path="/adminlogin" element={<AdminLogin />} />
 
           <Route
-            path="/admin/*"
+            path="/admin/*" 
             element={
               <ProtectedRoute>
                 <LayoutDashboard />
