@@ -1,20 +1,20 @@
 import React from 'react'
 
-
-// import Takeaways from '../components/Takeaways'
+import WhatYouWillGain from '../components/WhatYouWillGain'
+import Takeaways from '../components/Takeaways'
 import PricingCard from '../components/PricingCard'
 import Eligibility from '../components/Eligibility'
-import Contact from '../components/Contact'
+import ContactForm from '../Components/ContactForm'
 
 
 const Landingpage = () => {
   return (
     <div className='max-w-7xl mx-auto'>
-       <Contact/>
+       <ContactForm/>
         <PricingCard/>
           <Eligibility/>
-       
-        {/* <Takeaways/> */}
+           <WhatYouWillGain/>
+        <Takeaways/>
        
         
        
