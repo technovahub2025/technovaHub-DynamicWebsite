@@ -7,7 +7,7 @@ const navItems = [
   { name: "Home", path: "/" },
   { name: "Courses Offered", path: "/courses" },
   { name: "Software Solutions", path: "/softwaresolutions" },
-  { name: "aichallange", path: "/7Days-AI-innovation" },
+  { name: "7Days-Ai-challange", path: "/7Days-AI-innovation" },
 
   { name: "About", path: "/about" },
   { name: "Contact", path: "/contact" },

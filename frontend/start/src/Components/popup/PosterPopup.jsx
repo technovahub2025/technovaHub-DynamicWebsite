@@ -43,7 +43,7 @@ const PosterPopup = () => {
         <div className="mt-4 flex justify-center">
           <a
             href="/7Days-AI-innovation"
-            target="_blank"
+           
             rel="noopener noreferrer"
             className="px-6 py-2 bg-gradient-to-r from-blue-400 to-blue-600 text-white font-semibold rounded-full shadow-md hover:shadow-lg hover:scale-105 transition-transform duration-300"
           >

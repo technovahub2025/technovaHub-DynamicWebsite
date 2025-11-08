@@ -82,7 +82,7 @@ const Banner = () => {
             data-aos="fade-up"
             aria-label="Open 7 Days AI Workshop page"
           >
-            7 Days AI Workshop
+            7 Days AI Challanges
           </Link>
         </div>
       </div>
