@@ -1,5 +1,5 @@
 import React from 'react'
-import VideoBanner from '../components/VideoBanner'
+
 import WhatYouWillGain from '../components/WhatYouWillGain'
 import Takeaways from '../components/Takeaways'
 import PricingCard from '../components/PricingCard'
@@ -15,7 +15,7 @@ const Landingpage = () => {
           <Eligibility/>
            <WhatYouWillGain/>
         <Takeaways/>
-        <VideoBanner/>
+       
         
        
        

@@ -28,12 +28,7 @@ const HomeAI = () => {
 
         {/* Text & CTA */}
         <div className="mt-8 space-y-4">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800">
-            Discover What’s New!
-          </h1>
-          <p className="text-gray-600 text-base sm:text-lg max-w-xl mx-auto">
-            Experience our latest offer and make your everyday moments extraordinary.
-          </p>
+          
 
           <MotionLink
             to="/7Days-AI-innovation/welcome" 
