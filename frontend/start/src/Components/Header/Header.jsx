@@ -7,6 +7,8 @@ const navItems = [
   { name: "Home", path: "/" },
   { name: "Courses Offered", path: "/courses" },
   { name: "Software Solutions", path: "/softwaresolutions" },
+  { name: "aichallange", path: "https://7days-ai-innovation-landingpage.vercel.app/" },
+
   { name: "About", path: "/about" },
   { name: "Contact", path: "/contact" },
   { name: "Gallery", path: "/gallery" },
