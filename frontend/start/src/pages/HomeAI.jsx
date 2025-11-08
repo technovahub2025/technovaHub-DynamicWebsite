@@ -18,15 +18,6 @@ const HomeAI = () => {
         transition={{ duration: 1 }}
         className="max-w-2xl w-full text-center"
       >
-
-          <MotionLink
-            to="/" 
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="inline-block mt-[40px] mb-10 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition-all"
-          >
-          Visit website 
-          </MotionLink>
         <div className="mx-auto rounded-2xl overflow-hidden shadow-2xl w-[85%] sm:w-[80%] md:w-[70%] lg:w-[60%]">
           <img
             src={adsImg}
@@ -37,8 +28,12 @@ const HomeAI = () => {
 
         {/* Text & CTA */}
         <div className="mt-8 space-y-4">
-         
-          
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800">
+            Discover What’s New!
+          </h1>
+          <p className="text-gray-600 text-base sm:text-lg max-w-xl mx-auto">
+            Experience our latest offer and make your everyday moments extraordinary.
+          </p>
 
           <MotionLink
             to="/7Days-AI-innovation/welcome" 
