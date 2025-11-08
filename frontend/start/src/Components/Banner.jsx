@@ -68,7 +68,7 @@ const Banner = () => {
         </a>
 
          <a
-          href=""
+          href="https://7days-ai-innovation-landingpage.vercel.app"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-block bg-blue-500 border-2 border-white p-2 md:py-3 md:px-6 font-medium text-white text-[10px] md:text-[15px] rounded-md hover:bg-blue-600 transition-colors "
